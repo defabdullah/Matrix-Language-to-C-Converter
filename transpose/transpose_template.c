@@ -48,9 +48,10 @@ int main() {
 
     printMatrix(row,column,firstMatrix);
     printf("----------------\n");
+
     //call matrix transpose func
     double **secondMatrix=matrixTranspose(row,column,firstMatrix);
-    //call print matrix function (reverse row-column)
+    // print matrix function (reverse row-column)
     printMatrix(column,row,secondMatrix);
     
    return 0;
