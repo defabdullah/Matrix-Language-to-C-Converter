@@ -1,34 +1,60 @@
 #include <stdio.h>
 #include <stdlib.h>
-int main() {
-    double scalarMultiplication(double num1,double num2){
-        return num1*num2;
+
+double scalarMultiplication(double num1,double num2){
+    return num1*num2;
+}
+
+double **scalarMatrixMultiplication(double scalar, double **matrix, int row, int column){
+    double **newMatrix;
+    newMatrix=(double**)calloc(column,sizeof(double*));
+    for(int i=0;i<column;i++){
+        newMatrix[i]=(double*)calloc(row,sizeof(double));
     }
 
-    double *scalarMatrixMultiplication(double scalar, double *matrix, int row, int column){
-        double* newMatrix;
-        newMatrix=malloc(sizeof(double*)*row*column);
-        for(int i=0;i<row;i++){
-            for(int j=0;j<column;j++){
-                *((newMatrix+i*column) + j) = *((matrix+i*column) + j)*scalar;
-            }
-        }
-        return newMatrix;
-    }
-    void printMatrix(double *matrix,int row,int column){
-        for(int i=0;i<row*column;i++){
-            printf("%f\n",*(matrix+i));
+    for(int i=0;i<column;i++){
+        for(int j=0;j<row;j++){
+            newMatrix[i][j]=(scalar*matrix[i][j]);
         }
     }
+
+    return newMatrix;
+}
+
+void printMatrix(int row,int column,double **matrix){
+    for(int i=0;i<row;i++){
+        for(int j=0;j<column;j++){
+            printf("%f\n",matrix[i][j]);
+        }
+    }
+}
+
+int main() {
+
     int row=2;
     int column=2;
+    int scalar=3;
 
-    double array[2][2]={2,1,3,5};
+    //matrix definition with pointer
+    double **firstMatrix;
+    firstMatrix=(double**) calloc(row,sizeof(double*));
+    for(int i=0;i<row;i++){
+        firstMatrix[i]=(double*)calloc(column,sizeof(double*));
+    }
 
-    double *newmatrix=malloc(sizeof(double*)*row*column);
-    newmatrix=scalarMatrixMultiplication(3,(&array)[0][0],row,column);
+    double array[2][2]={{1.0,2.0},{3.0,4.0}};
+    for(int i=0;i<row;i++){
+        for(int j=0;j<column;j++){
+            firstMatrix[i][j]=array[i][j];
+        }
+    }
 
-    printMatrix(newmatrix,row,column);
+    printMatrix(row,column,firstMatrix);
+    printf("----------------\n");
+
+    double **secondMatrix=scalarMatrixMultiplication(scalar,firstMatrix,row,column);
+
+    printMatrix(row,column,secondMatrix);
 
    return 0;
 }
