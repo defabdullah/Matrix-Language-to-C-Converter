@@ -1,4 +1,4 @@
-#include <main.h>
+#include "main.h"
 
 
 void print_usual(){
@@ -8,6 +8,14 @@ void print_usual(){
 
 }
 
+
+void printScalarMultiplication(){
+    fprintf(pOutputFile,"%s","double scalarMultiplication(double num1,double num2){\n\treturn num1*num2");
+}
+
+void printScalarMatrixMultiplication(){
+    fprintf(pOutputFile,"%s","double **scalarMatrixMultiplication(double scalar, double **matrix, int row, int column){\ndouble **newMatrix;\n\tnewMatrix=(double**)calloc(column,sizeof(double*));\n\tfor(int i=0;i<column;i++){\n\t\tnewMatrix[i]=(double*)calloc(row,sizeof(double));\n\t}\n\n\tfor(int i=0;i<column;i++){\n\t\tfor(int j=0;j<row;j++){\n\t\t\tnewMatrix[i][j]=(scalar*matrix[i][j]);\n\t}\t\n\t}\n\n\treturn newMatrix;\n\t}");
+}
 
 void scalar_line(char* line){
     char * token;
