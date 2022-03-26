@@ -1,48 +1,46 @@
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
+#include <main.h>
 
-enum types{scalar,vector,matrix};
 
-void print_usual(FILE *pfnew){
-    fprintf(pfnew, "%s","#include <stdio.h>\n#include <string.h>\n#include <ctype.h>\n\n");
-    fprintf(pfnew,"%s","\nvoid printsep(){ \n\tprintf(\"----------\\n\"); \n}");
-    fprintf(pfnew,"%s","\n\nint main(){\n\n");
+void print_usual(){
+    fprintf(pOutputFile, "%s","#include <stdio.h>\n#include <string.h>\n#include <ctype.h>\n\n");
+    fprintf(pOutputFile,"%s","\nvoid printsep(){ \n\tprintf(\"----------\\n\"); \n}");
+    fprintf(pOutputFile,"%s","\n\nint main(){\n\n");
 
 }
 
-void scalar_line(FILE* pfnew,char* line, int linenumber){
+
+void scalar_line(char* line){
     char * token;
     while ((token=strsep(&line," "))!=NULL ){
         if(strcmp(token,"")==0){
                 continue;
         }
-        fprintf(pfnew,"%s %s %s","\tdouble",token,";\n");
+        fprintf(pOutputFile,"%s %s %s","\tdouble",token,";\n");
 
     }
 }
 
-void matrix_line(FILE* pfnew,char* line, int linenumber){
+void matrix_line(char* line){
     char * token;
     while ((token=strsep(&line," "))!=NULL ){
         if(strcmp(token,"")==0){
                 continue;
         }
-        fprintf(pfnew,"%s %s %s","\tdouble",token,";\n");
+        fprintf(pOutputFile,"%s %s %s","\tdouble",token,";\n");
     }
 }
 
 
-void vector_line(FILE* pfnew,char* line, int linenumber){
-    fprintf(pfnew,"%s","\tdouble ");
+void vector_line(char* line){
+    fprintf(pOutputFile,"%s","\tdouble ");
     char * token;
     while ((token=strsep(&line," "))!=NULL ){
         if(strcmp(token,"")==0){
                 continue;
         }
-        fprintf(pfnew,"%s", token);
+        fprintf(pOutputFile,"%s", token);
     }
-    fprintf(pfnew,"%s","[1] ;\n");
+    fprintf(pOutputFile,"%s","[1] ;\n");
 
 }
 
@@ -78,32 +76,29 @@ char *trim(char *s)
 
 
 int main(int argc,char *argv[]){
-    FILE *pfnew;
-    FILE *fp;
 
     char line[256];
-    pfnew=fopen("file.c","w");
-    print_usual(pfnew);
+    pOutputFile=fopen("file.c","w");
+    print_usual();
     if (argc != 2) {
     printf("Give filename as command line argument\n") ;
-        fp = fopen(argv[1], "r");
+        pInputFile = fopen(argv[1], "r");
         return 1;
     }
-    fp = fopen(argv[1], "r");
-    if(fp == NULL) {
+    pInputFile = fopen(argv[1], "r");
+    if(pInputFile == NULL) {
         printf("Cannot open %s\n",argv[1]);
         return 1;
     }
 
-    int linenumber=0;
     //char extended[512];
     char * token;
     int is_declaratiion=1;
     int is_infor=0;
     char * for_state;
-    while( fgets(line,256,fp) != NULL ) {
-        linenumber++;
-        
+
+    while( fgets(line,256,pInputFile) != NULL ) {
+        lineNumber++;
         // checks if line starts with '#' or line is an empty line, if so continues with next line
         if(line[0]=='#' || line[0]== '\n'){
             continue;
@@ -142,13 +137,13 @@ int main(int argc,char *argv[]){
                 continue;
             }
             if (strcmp("scalar",token)==0){
-                scalar_line(pfnew,pextended,linenumber);
+                scalar_line(pextended);
                 break;
             }else if(strcmp("vector",token)==0){
-                vector_line(pfnew,pextended,linenumber);
+                vector_line(pextended);
                 break;
             }else if(strcmp("matrix",token)==0){
-                /*matrix_line(pfnew,pextended,linenumber);*/
+                /*matrix_line(pextended);*/
                 break;
             }else{
                 is_declaratiion=0;
@@ -192,8 +187,8 @@ int main(int argc,char *argv[]){
 
 
 
+    fclose(pOutputFile);
+    fclose(pInputFile);
 
-    fclose(fp);
-
-    return(1);
+    return(0);
 }
