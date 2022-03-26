@@ -1,67 +1,25 @@
 #include "main.h"
-
-
-void print_usual(){
-    fprintf(pOutputFile, "%s","#include <stdio.h>\n#include <string.h>\n#include <ctype.h>\n\n");
-    fprintf(pOutputFile,"%s","\nvoid printsep(){ \n\tprintf(\"----------\\n\"); \n}");
-    fprintf(pOutputFile,"%s","\n\nint main(){\n\n");
-
+void exit_program(int lineNumber){
+    printf("Error (Line %d)",lineNumber);
+    exit(1);
 }
 
-
 void printScalarMultiplication(){
-    fprintf(pOutputFile,"%s","double scalarMultiplication(double num1,double num2){\n\treturn num1*num2");
+    fprintf(pOutputFile,"%s","double scalarMultiplication(double num1,double num2){\n\treturn num1*num2;\n}\n");
 }
 
 void printScalarMatrixMultiplication(){
-    fprintf(pOutputFile,"%s","double **scalarMatrixMultiplication(double scalar, double **matrix, int row, int column){\ndouble **newMatrix;\n\tnewMatrix=(double**)calloc(column,sizeof(double*));\n\tfor(int i=0;i<column;i++){\n\t\tnewMatrix[i]=(double*)calloc(row,sizeof(double));\n\t}\n\n\tfor(int i=0;i<column;i++){\n\t\tfor(int j=0;j<row;j++){\n\t\t\tnewMatrix[i][j]=(scalar*matrix[i][j]);\n\t}\t\n\t}\n\n\treturn newMatrix;\n\t}");
+    fprintf(pOutputFile,"%s","double **scalarMatrixMultiplication(double scalar, double **matrix, int row, int column){\n\tdouble **newMatrix;\n\tnewMatrix=(double**)calloc(column,sizeof(double*));\n\tfor(int i=0;i<column;i++){\n\t\tnewMatrix[i]=(double*)calloc(row,sizeof(double));\n\t}\n\n\tfor(int i=0;i<column;i++){\n\t\tfor(int j=0;j<row;j++){\n\t\t\tnewMatrix[i][j]=(scalar*matrix[i][j]);\n\t\t}\n\t}\n\n\treturn newMatrix;\n}\n");
 }
 
-void scalar_line(char* line){
-    char * token;
-    while ((token=strsep(&line," "))!=NULL ){
-        if(strcmp(token,"")==0){
-                continue;
-        }
-        fprintf(pOutputFile,"%s %s %s","\tdouble",token,";\n");
-
-    }
-}
-
-void matrix_line(char* line){
-    char * token;
-    while ((token=strsep(&line," "))!=NULL ){
-        if(strcmp(token,"")==0){
-                continue;
-        }
-        fprintf(pOutputFile,"%s %s %s","\tdouble",token,";\n");
-    }
-}
-
-
-void vector_line(char* line){
-    fprintf(pOutputFile,"%s","\tdouble ");
-    char * token;
-    while ((token=strsep(&line," "))!=NULL ){
-        if(strcmp(token,"")==0){
-                continue;
-        }
-        fprintf(pOutputFile,"%s", token);
-    }
-    fprintf(pOutputFile,"%s","[1] ;\n");
+void print_usual(){
+    fprintf(pOutputFile, "%s","#include <stdio.h>\n#include <string.h>\n#include <ctype.h>\n\n");
+    fprintf(pOutputFile,"%s","\nvoid printsep(){ \n\tprintf(\"----------\\n\"); \n}\n");
+    printScalarMultiplication();
+    printScalarMatrixMultiplication();
+    fprintf(pOutputFile,"%s","\n\nint main(){\n\n");
 
 }
-
-
-int is_alphanumeric(char* s){
-
-    if((*s>='A' && *s<='Z') || (*s>='0' && *s <= '9') || (*s>='a' && *s<='z')){
-        return 1;
-    }
-    else
-        return 0;
-}
-
 char *ltrim(char *s)
 {
     while(isspace(*s)) s++;
@@ -80,7 +38,141 @@ char *trim(char *s)
 {
     return rtrim(ltrim(s)); 
 }
+int is_alphanumeric(char* s){
 
+    if((*s>='A' && *s<='Z') || (*s>='0' && *s <= '9') || (*s>='a' && *s<='z')){
+        return 1;
+    }
+    else
+        return 0;
+}
+int is_alphanumeric_string(char* s){
+    for(int i =0; i<strlen(s);i++){
+        if(!is_alphanumeric(&s[i])){
+            return 0;
+        }
+    }
+    return 1;
+}
+int has_new_line(char* s){
+    for(int i =0; i<strlen(s);i++){
+        if((*s>=0 && *s<=32)){
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int is_numeric_string(char *s){
+    for(int i =0; i<strlen(s);i++){
+        if(!isdigit(s[i])){
+            return 0;
+        }
+    }
+    return 1;
+}
+
+void scalar_line(char* line){
+    char * token;
+    while ((token=strsep(&line," "))!=NULL ){
+        if(strcmp(token,"")==0){
+                continue;
+        }
+        fprintf(pOutputFile,"%s %s %s","\tdouble",token,";\n");
+
+    }
+}
+
+
+void vector_line(char* line){
+    fprintf(pOutputFile,"%s","\tdouble ");
+    char * token;
+    int token_number=1;
+    while ((token=strsep(&line," "))!=NULL ){
+        if(strcmp(token,"")==0 ){
+                continue;
+        }
+        if(token_number==1){
+            if(is_alphanumeric(token)==0){
+                exit_program(lineNumber);
+            }
+        }else if(token_number==2){
+            if(!strcmp(token,"[")==0){
+                exit_program(lineNumber);
+            }
+        }else if(token_number==3){
+            if(is_numeric_string(token)==0){
+                exit_program(lineNumber);
+            }
+        }else if(token_number==4){
+            if(!strcmp(token,"]")==0){
+                exit_program(lineNumber);
+            }
+        }
+        token_number++;
+        
+        fprintf(pOutputFile,"%s", token);
+    }
+    if(token_number!=5){
+        exit_program(lineNumber);
+    }
+    fprintf(pOutputFile,"%s","[1] ;\n");
+}
+void matrix_line(char* line){
+    fprintf(pOutputFile,"%s","\tdouble ");
+    char * token;
+    int token_number=1;
+    while ((token=strsep(&line," "))!=NULL ){
+        if(strcmp(token,"")==0 ||  has_new_line(token)){
+                continue;
+        }
+        if(token_number==1){
+            if(is_alphanumeric(token)==0){
+                exit_program(lineNumber);
+            }else{
+                fprintf(pOutputFile,"%s", token);
+            } 
+        }else if(token_number==2){
+            if(!strcmp(token,"[")==0){
+                exit_program(lineNumber);
+            }else{
+                fprintf(pOutputFile,"%s", token);
+            }
+        }else if(token_number==3){
+            if(is_numeric_string(token)==0){
+                exit_program(lineNumber);
+            }else{
+                fprintf(pOutputFile,"%s", token);
+            }
+        }else if(token_number==4){
+            if(!strcmp(token,",")==0){
+                exit_program(lineNumber);
+            }else{
+                fprintf(pOutputFile,"%s", "]");
+                fprintf(pOutputFile,"%s", "[");
+            }
+        }else if(token_number==5){
+            if(is_numeric_string(token)==0){
+                exit_program(lineNumber);
+            }else{
+                fprintf(pOutputFile,"%s", token);
+            }
+        }else if(token_number==6){
+            if(!strcmp(token,"]")==0){
+                exit_program(lineNumber);
+            }else{
+                fprintf(pOutputFile,"%s %s", token,";");
+            }
+        }
+        token_number++;
+        printf("%s %d\n",token,*token);
+    }
+    if(token_number!=7){
+        printf("%d",token_number);
+        exit_program(lineNumber);
+    }
+    fprintf(pOutputFile,"%s","\n");
+}
 
 
 int main(int argc,char *argv[]){
@@ -111,7 +203,6 @@ int main(int argc,char *argv[]){
         if(line[0]=='#' || line[0]== '\n'){
             continue;
         }
-
         int cur=0;
         char extended[512];
         for(int i =0; i<strlen(line);i++){
@@ -125,13 +216,12 @@ int main(int argc,char *argv[]){
             if(!is_alphanumeric(ps)){
                 extended[cur]=' ';
                 cur++;
-                if(line[i+1]!=' '){
-                    extended[cur]=line[i];
-                    cur++;
-                    extended[cur]=' ';
-                    cur++;
-                    continue;
-                }
+                extended[cur]=as;
+                cur++;
+                extended[cur]=' ';
+                cur++;
+                continue;
+                
             }
             extended[cur]=line[i];
             cur++;
@@ -151,7 +241,7 @@ int main(int argc,char *argv[]){
                 vector_line(pextended);
                 break;
             }else if(strcmp("matrix",token)==0){
-                /*matrix_line(pextended);*/
+                matrix_line(pextended);
                 break;
             }else{
                 is_declaratiion=0;
