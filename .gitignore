@@ -1,2 +1,12 @@
 .vscode/settings.json
 main/file.c
+.vscode/tasks.json
+.vscode/launch.json
+main/declarationFunctions.o
+main/main
+main/main.o
+paranthesisParser/a.out
+main/testprogram
+main/printFunctions.o
+.gitignore
+main/parsingFunctions.o

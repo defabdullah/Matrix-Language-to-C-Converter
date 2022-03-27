@@ -13,8 +13,21 @@ FILE *pOutputFile;
 
 int lineNumber;
 
-void printScalarMultiplication();
-void printScalarMatrixMultiplication();
-void print_usual();
+extern void printCloseBracket();
+extern void print_usual();
+extern void printsep();
+
+extern char *trim(char *s);
+
+extern int is_alphanumeric(char* s);
+extern int is_alphanumeric_string(char* s);
+extern int is_numeric_string(char *s);
+
+extern void scalar_line(char* line);
+extern void vector_line(char* line);
+extern void matrix_line(char* line);
+
+
+extern void exit_program(int lineNumber);
 
 #endif
