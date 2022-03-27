@@ -16,6 +16,10 @@ void printPrintScalar(){
     fprintf(pOutputFile,"%s","\nvoid printScalar(double value){\n\tif( (int) value ==value){\n\t\tprintf(\"%d\",(int) value);\n\t}else{\n\t\tprintf(\"%0.7f\", value);\n\t} \n}");
 }
 
+void printCloseBracket(){
+    fprintf(pOutputFile,"%s","}");
+}
+
 void print_usual(){
     fprintf(pOutputFile, "%s","#include <stdio.h>\n#include <string.h>\n#include <ctype.h>\n\n");
     fprintf(pOutputFile,"%s","\nvoid printsep(){ \n\tprintf(\"----------\\n\"); \n}\n");
@@ -244,6 +248,7 @@ int main(int argc,char *argv[]){
 
         char * pextended = strdup(trim(extended));
         char * pextendeds = strdup(trim(extended));
+        
         // declaration while
         while ( is_declaratiion==1 && (token=strsep(&pextended," "))!=NULL ){
             if(strcmp(token,"")==0){
@@ -262,7 +267,8 @@ int main(int argc,char *argv[]){
                 is_declaratiion=0;
             }
         }
-        //statement line
+
+        //statement while
         while((token=strsep(&pextendeds," "))!=NULL && is_declaratiion==0){
             if(strcmp(token,"")==0){
                 continue;
@@ -297,9 +303,7 @@ int main(int argc,char *argv[]){
 
         memset(extended, 0, 256);
     }
-
-
-
+    printCloseBracket();
     fclose(pOutputFile);
     fclose(pInputFile);
 
