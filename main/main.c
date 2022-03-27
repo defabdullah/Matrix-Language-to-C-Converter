@@ -12,11 +12,16 @@ void printScalarMatrixMultiplication(){
     fprintf(pOutputFile,"%s","double **scalarMatrixMultiplication(double scalar, double **matrix, int row, int column){\n\tdouble **newMatrix;\n\tnewMatrix=(double**)calloc(column,sizeof(double*));\n\tfor(int i=0;i<column;i++){\n\t\tnewMatrix[i]=(double*)calloc(row,sizeof(double));\n\t}\n\n\tfor(int i=0;i<column;i++){\n\t\tfor(int j=0;j<row;j++){\n\t\t\tnewMatrix[i][j]=(scalar*matrix[i][j]);\n\t\t}\n\t}\n\n\treturn newMatrix;\n}\n");
 }
 
+void printPrintScalar(){
+    fprintf(pOutputFile,"%s","\nvoid printScalar(double value){\n\tif( (int) value ==value){\n\t\tprintf(\"%d\",(int) value);\n\t}else{\n\t\tprintf(\"%0.7f\", value);\n\t} \n}");
+}
+
 void print_usual(){
     fprintf(pOutputFile, "%s","#include <stdio.h>\n#include <string.h>\n#include <ctype.h>\n\n");
     fprintf(pOutputFile,"%s","\nvoid printsep(){ \n\tprintf(\"----------\\n\"); \n}\n");
     printScalarMultiplication();
     printScalarMatrixMultiplication();
+    printPrintScalar();
     fprintf(pOutputFile,"%s","\n\nint main(){\n\n");
 
 }
@@ -74,12 +79,20 @@ int is_numeric_string(char *s){
 
 void scalar_line(char* line){
     char * token;
+    int token_number=1;
     while ((token=strsep(&line," "))!=NULL ){
         if(strcmp(token,"")==0){
                 continue;
         }
-        fprintf(pOutputFile,"%s %s %s","\tdouble",token,";\n");
-
+        if(token_number==1){
+            if(is_alphanumeric_string(token)){
+                fprintf(pOutputFile,"%s %s %s","\tdouble",token,";\n");
+            }
+        }
+        token_number++;
+    }
+    if(token_number!=2){
+        exit_program(lineNumber);
     }
 }
 
@@ -123,7 +136,7 @@ void matrix_line(char* line){
     char * token;
     int token_number=1;
     while ((token=strsep(&line," "))!=NULL ){
-        if(strcmp(token,"")==0 ||  has_new_line(token)){
+        if(strcmp(token,"")==0 /*||  has_new_line(token)*/){
                 continue;
         }
         if(token_number==1){
@@ -165,15 +178,16 @@ void matrix_line(char* line){
             }
         }
         token_number++;
-        printf("%s %d\n",token,*token);
     }
     if(token_number!=7){
-        printf("%d",token_number);
         exit_program(lineNumber);
     }
     fprintf(pOutputFile,"%s","\n");
 }
 
+void printsep(){
+    fprintf(pOutputFile,"%s","\n\tprintsep();\n");
+}
 
 int main(int argc,char *argv[]){
 
@@ -208,8 +222,8 @@ int main(int argc,char *argv[]){
         for(int i =0; i<strlen(line);i++){
             char as = line[i];
             char *ps = &as;
-            if (as == ' ') {
-                extended[cur] = as;
+            if (isspace(as)) {
+                extended[cur] = ' ';
                 cur++;
                 continue;
             }
@@ -226,6 +240,7 @@ int main(int argc,char *argv[]){
             extended[cur]=line[i];
             cur++;
         }
+        extended[cur]='\0';
 
         char * pextended = strdup(trim(extended));
         char * pextendeds = strdup(trim(extended));
@@ -267,10 +282,10 @@ int main(int argc,char *argv[]){
                 //for function;
                 break;
             }else if(strcmp(token,"print")==0){
-                // print func
+                //print_line(pextendeds);
                 break;
             }else if(strcmp(token,"printsep")==0){
-                // print func
+                printsep();
                 break;
             }else{
                 //asign statement
