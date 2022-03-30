@@ -1,4 +1,13 @@
 #include "main.h"
+
+void printSingleForOpening(char* firstInitVariable, char* firstInitAssignment, char* firstCondition, char* firstAddition){
+    fprintf(pInputFile,"int %s\nfor (%s=%s;%s<%s;%s+=%s){\n",firstInitVariable,firstInitVariable,firstInitAssignment,firstInitVariable,firstCondition,firstInitVariable,firstAddition);
+}
+
+void printDoubleForOpening(char* firstInitVariable, char* firstInitAssignment, char* firstCondition, char* firstAddition, char* secondInitVariable, char* secondInitAssignment, char* secondCondition, char* secondAddition){
+    fprintf(pOutputFile,"int %s;\nfor (%s=%s;%s<%s;%s+=%s){\n\tfor(%s=%s;%s<%s;%s+=%s){\n",firstInitVariable,firstInitVariable,firstInitAssignment,firstInitVariable,firstCondition,firstInitVariable,firstAddition,secondInitVariable,secondInitAssignment,secondInitVariable,secondCondition,secondInitVariable,secondAddition);
+}
+
 void printScalarMultiplication(){
     fprintf(pOutputFile,"%s","double scalarMultiplication(double num1,double num2){\n\treturn num1*num2;\n}\n");
 }
@@ -26,5 +35,7 @@ void print_usual(){
     printScalarMatrixMultiplication();
     printPrintScalar();
     fprintf(pOutputFile,"%s","\n\nint main(){\n\n");
+    printSingleForOpening("i","1","42","3");
+    printDoubleForOpening("j","2","58","8","i","1","42","3");
 
 }

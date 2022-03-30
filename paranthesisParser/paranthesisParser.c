@@ -55,7 +55,7 @@ char *parseParanthesis(char *str){
 }
 
 int main(){
-    char str[]="tr(2+3)*5 +(3*7+2+1)+3";
+    char str[]="tr ( 2 + 3) * 5 + ( 3 * 7 + 2 + 1 ) + 3";
     printf("%s",parseParanthesis(str));
     return 0;
 }
