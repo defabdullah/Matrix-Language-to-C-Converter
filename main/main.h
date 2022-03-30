@@ -13,6 +13,8 @@ FILE *pOutputFile;
 
 int lineNumber;
 
+char * special_functions;
+
 extern void printCloseBracket();
 extern void print_usual();
 extern void printsep();
@@ -27,6 +29,10 @@ extern void scalar_line(char* line);
 extern void vector_line(char* line);
 extern void matrix_line(char* line);
 
+char* summation(char *first,char* second);
+char* substraction(char *first,char* second);
+char* multiplication(char *first,char* second);
+char* expression_parser(char *line);
 
 extern void exit_program(int lineNumber);
 
