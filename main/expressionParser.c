@@ -2,6 +2,25 @@
 
 char special_functionss[][10] = { "tr","choose","sqrt"};
 char * special_functions= *special_functionss; 
+
+char  * matrix_initializer(char * line){
+        printf("%s\n",line);
+        char  result [200] = "{";
+        char * token;
+        token = strtok(line," ");
+        while( (token=strtok(NULL, " ")) != NULL ) {
+            char * token_copy;
+            token_copy = strdup(token);
+            strcat(result,expression_parser(token_copy));
+            strcat(result,",");
+            printf("%s \n",result);
+        }
+        return strdup(result);
+}
+
+
+
+
 int is_in_chararray(char * token){
     for(int i=0;i<3;i++){
         char *temp= strdup(special_functions);
@@ -237,8 +256,6 @@ char* substraction(char *first,char* second){
         if(is_second_in_base==1){
             return substraction(expression_parser(first_clean),second_clean);
         }else{
-            printf("%s\n",first_clean);
-            printf("%s\n",second_clean);
             char *f=  expression_parser(first_clean); 
             char *ff= strdup(f);
             char *s=  expression_parser(second_clean);
@@ -344,6 +361,12 @@ char* expression_parser(char *line){
     else if(operator_type==3){
         return  multiplication(strrev(first),strrev(second));
     }else{
+        char * token;
+        char * line_copy= strdup(line);
+        token = strtok(line_copy," "); 
+        if(strcmp(token,"{")==0){
+            matrix_initializer(line);
+        }
         return line;
     }
 

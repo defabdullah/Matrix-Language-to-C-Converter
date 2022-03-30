@@ -1,5 +1,29 @@
 #include "main.h"
 
+
+void assignment_statement(char * statement){
+    char * token;
+    int token_number=1;
+    while((token=strsep(&statement," "))!=NULL){
+        if(token_number==1){
+            if(strcmp(token,"=")!=0){
+                exit_program(lineNumber);
+            }
+            fprintf(pOutputFile,"%s",token);
+        }else{
+            fprintf(pOutputFile,"%s",expression_parser(statement));
+            fprintf(pOutputFile,"%s",";\n");      
+                break;
+        }
+        token_number++;
+    }
+
+        
+
+
+}
+
+
 int main(int argc,char *argv[]){
 
     char line[256];
@@ -100,13 +124,14 @@ int main(int argc,char *argv[]){
                 printsep();
                 break;
             }else{
-                //asign statement
+                //if variable is valid
+                fprintf(pOutputFile,"\t%s",token);
+                assignment_statement(trim(pextendeds));
                 break;
             }
 
 
         }
-
         memset(extended, 0, 256);
     }
     printCloseBracket();
