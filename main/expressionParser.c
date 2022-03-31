@@ -4,16 +4,28 @@ char special_functionss[][10] = { "tr","choose","sqrt"};
 char * special_functions= *special_functionss; 
 
 char  * matrix_initializer(char * line){
-        printf("%s\n",line);
+        char* line_copy;
+        line_copy= strdup(line);
         char  result [200] = "{";
         char * token;
-        token = strtok(line," ");
-        while( (token=strtok(NULL, " ")) != NULL ) {
-            char * token_copy;
-            token_copy = strdup(token);
-            strcat(result,expression_parser(token_copy));
-            strcat(result,",");
-            printf("%s \n",result);
+        char* last_token;
+        token=strsep(&line_copy," ");
+        token=strsep(&line_copy," ");
+        int is_first= 0;
+        while((token=strsep(&line_copy," "))!=NULL){
+            if(strcmp(token,"")==0){
+                continue;
+            }
+
+            if(strcmp(token,"}")!=0 && is_first==1){
+               strcat(result,",");
+            }
+            strcat(result,expression_parser(token));
+            last_token= token;
+            is_first=1;
+        }
+        if(strcmp(last_token,"}")!=0){
+            exit_program(lineNumber);
         }
         return strdup(result);
 }
@@ -365,7 +377,7 @@ char* expression_parser(char *line){
         char * line_copy= strdup(line);
         token = strtok(line_copy," "); 
         if(strcmp(token,"{")==0){
-            matrix_initializer(line);
+            return matrix_initializer(line);
         }
         return line;
     }

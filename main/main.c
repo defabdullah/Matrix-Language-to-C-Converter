@@ -2,6 +2,7 @@
 
 
 void assignment_statement(char * statement){
+
     char * token;
     int token_number=1;
     while((token=strsep(&statement," "))!=NULL){
@@ -17,10 +18,41 @@ void assignment_statement(char * statement){
         }
         token_number++;
     }
-
         
 
+}
 
+
+void print_line(char * line){
+    fprintf(pOutputFile,"\t%s","printScalar");
+    char * token;
+    int token_number=1;
+    while((token=strsep(&line," "))!=NULL){
+        if(token_number==1){
+            if(strcmp(token,"(")!=0){
+                exit_program(lineNumber);
+            }else{
+                fprintf(pOutputFile,"%s","(");
+            }
+        }else if(token_number==2){
+            fprintf(pOutputFile,"%s",expression_parser(token));
+
+        }else if(token_number==3) {
+            if(strcmp(token,")")!=0){
+                exit_program(lineNumber);
+            }else{
+                fprintf(pOutputFile,"%s",");\n");
+            }
+        }else{
+            exit_program(lineNumber);
+        }
+        token_number++;
+        token = strtok(NULL, " ");
+
+    }
+    if(token_number!=4){
+        exit_program(lineNumber);
+    }
 }
 
 
@@ -118,7 +150,7 @@ int main(int argc,char *argv[]){
                 //for function;
                 break;
             }else if(strcmp(token,"print")==0){
-                //print_line(pextendeds);
+                print_line(pextendeds);
                 break;
             }else if(strcmp(token,"printsep")==0){
                 printsep();
