@@ -36,10 +36,6 @@ void print_usual(){
     printPrintScalar();
     fprintf(pOutputFile,"%s","\n\nint main(){\n\n");
     //printSingleForOpening("i","1","42","3");
-<<<<<<< HEAD
-    printDoubleForOpening("i","2","58","8","j","1","42","3");
-=======
     //printDoubleForOpening("j","2","58","8","i","1","42","3");
 
->>>>>>> 81747cc4421a15bcd84b3bc39f6680db3621f4d0
 }
