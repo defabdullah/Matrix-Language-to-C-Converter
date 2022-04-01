@@ -1,4 +1,4 @@
-#include "forParser.h"
+#include "main.h"
 
 char *parseSingleFor(char *str){
     firstInitVariable=strtok(str," ");

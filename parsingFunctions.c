@@ -53,6 +53,22 @@ int is_numeric_string(char *s){
     return 1;
 }
 
+char* strrev (char *str) {
+    if (!str) { return NULL; }
+
+    int len = strnlen(str, 100);
+    char*  reverse = malloc( sizeof(char) * len );
+
+    int i;
+    for (i = 0; i < len; i++) {
+        reverse[i] = str[len - (i+1)];
+    }
+
+    reverse[i] = 0;
+
+    return reverse;
+}
+
 void exit_program(int lineNumber){
     printf("Error (Line %d)",lineNumber);
     exit(1);

@@ -1,12 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-
-void exit_program(int lineNumber){
-    printf("Error (Line %d)",lineNumber);
-    exit(1);
-}
+#include "main.h"
 
 void scalarHandler(char line[256],int lineNumber){
     FILE *fptr;

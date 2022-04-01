@@ -43,21 +43,6 @@ int is_in_chararray(char * token){
     }
     return 0;
 }
-char* strrev (char *str) {
-    if (!str) { return NULL; }
-
-    int len = strnlen(str, 100);
-    char*  reverse = malloc( sizeof(char) * len );
-
-    int i;
-    for (i = 0; i < len; i++) {
-        reverse[i] = str[len - (i+1)];
-    }
-
-    reverse[i] = 0;
-
-    return reverse;
-}
 
 int expression_divider(char* line,char *first,char *second){
     int first_index =0;

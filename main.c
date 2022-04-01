@@ -1,8 +1,6 @@
 #include "main.h"
 
-
 void assignment_statement(char * statement){
-
     char * token;
     int token_number=1;
     while((token=strsep(&statement," "))!=NULL){
@@ -21,7 +19,6 @@ void assignment_statement(char * statement){
         
 
 }
-
 
 void print_line(char * line){
     fprintf(pOutputFile,"\t%s","printScalar");
@@ -56,23 +53,22 @@ void print_line(char * line){
 }
 
 
-int main(int argc,char *argv[]){
-
+int main(){
     char line[256];
     pOutputFile=fopen("file.c","w");
     print_usual();
-    if (argc != 2) {
-    printf("Give filename as command line argument\n") ;
-        pInputFile = fopen(argv[1], "r");
+    /*if (argc != 2) {
+        printf("Give filename as command line argument\n") ;
+        pInputFile = fopen("trial.txt", "r");
         return 1;
-    }
-    pInputFile = fopen(argv[1], "r");
+    }*/
+    pInputFile = fopen("try.txt", "r");
     if(pInputFile == NULL) {
-        printf("Cannot open %s\n",argv[1]);
+        printf("Cannot open %s\n","trial.txt");
         return 1;
     }
 
-    //char extended[512];
+    char extended[512];
     char * token;
     int is_declaratiion=1;
     int is_infor=0;
@@ -169,6 +165,5 @@ int main(int argc,char *argv[]){
     printCloseBracket();
     fclose(pOutputFile);
     fclose(pInputFile);
-
     return(0);
 }

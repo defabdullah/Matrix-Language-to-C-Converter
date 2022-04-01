@@ -1,9 +1,4 @@
 #!/bin/bash
-gcc -Wall -c printFunctions.c
-gcc -Wall -c parsingFunctions.c
-gcc -Wall -c declarationFunctions.c
-gcc -Wall -c expressionParser.c
-gcc -Wall -c main.c
-gcc -Wall -c paranthesisParser.c
-gcc -o main.out printFunctions.o parsingFunctions.o main.o declarationFunctions.o expressionParser.o paranthesisParser.o
+gcc -Wall -c printFunctions.c parsingFunctions.c declarationFunctions.c expressionParser.c
+gcc  main.c printFunctions.o parsingFunctions.o declarationFunctions.o expressionParser.o -o main.out -Wall
 ./main.out
