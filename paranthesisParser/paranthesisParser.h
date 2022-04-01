@@ -5,9 +5,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include "../main/main.h"
 
 
-char* strrev ( char* str);
 char *parseParanthesis(char *str);
 
 char *reverseStr;
@@ -20,7 +20,7 @@ char *beforeParantReverse;
 char *beforeParant;
 
 char *afterParantModified;
-char *temp;
+char *innerExpression;
 char *result;
 
 #endif

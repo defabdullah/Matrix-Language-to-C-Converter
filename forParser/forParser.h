@@ -23,5 +23,6 @@ char *secondCondition;
 char *secondAddition;
 
 char *parseSingleFor(char *str);
+char *parseDoubleFor(char *str);
 
 #endif

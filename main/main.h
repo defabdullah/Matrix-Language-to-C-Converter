@@ -15,24 +15,32 @@ int lineNumber;
 
 char * special_functions;
 
+/*extern void printSingleForOpening(char* firstInitVariable, char* firstInitAssignment, char* firstCondition, char* firstAddition);
+extern void printDoubleForOpening(char* firstInitVariable, char* firstInitAssignment, char* firstCondition, char* firstAddition, char* secondInitVariable, char* secondInitAssignment, char* secondCondition, char* secondAddition);
+extern void printScalarMultiplication();
+extern void printScalarMatrixMultiplication();
+extern void printPrintScalar();*/
 extern void printCloseBracket();
 extern void print_usual();
 extern void printsep();
 
+extern char* strrev ( char* str);
 extern char *trim(char *s);
 
 extern int is_alphanumeric(char* s);
 extern int is_alphanumeric_string(char* s);
 extern int is_numeric_string(char *s);
+extern int expression_divider(char* line,char *first,char *second);
+
 
 extern void scalar_line(char* line);
 extern void vector_line(char* line);
 extern void matrix_line(char* line);
 
-char* summation(char *first,char* second);
-char* substraction(char *first,char* second);
-char* multiplication(char *first,char* second);
-char* expression_parser(char *line);
+extern char* summation(char *first,char* second);
+extern char* substraction(char *first,char* second);
+extern char* multiplication(char *first,char* second);
+extern char* expression_parser(char *line);
 
 extern void exit_program(int lineNumber);
 
