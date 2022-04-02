@@ -5,7 +5,8 @@
 char *parseParanthesis(char *str){
 
     //if there is no paranthesis send expression to expression function else paste it
-    if(strstr(str,"(")!=NULL){
+
+    if(strstr(str,"(")==NULL){
         return expression_parser(str);
     }
 
@@ -30,7 +31,7 @@ char *parseParanthesis(char *str){
     afterParantModified=strtok(NULL,"");
 
     //if there is no paranthesis send expression to expression function else paste it
-    if(strstr(innerExpression,"(")!=NULL){
+    if(strstr(innerExpression,"(")==NULL){
         innerExpression=expression_parser(innerExpression);
     }
     else{
@@ -39,13 +40,14 @@ char *parseParanthesis(char *str){
 
     //concatenate string after changing expression with old value
     result=strcat(beforeParant,innerExpression);
-
+    strcat(result,")");
     if(afterParantModified!=NULL){
         result=strcat(result,afterParantModified);
     }
 
     //if it includes paranthesis then rec. else return
-    if(strstr(result,"(") && strstr(result,")")){
+    char *temp=strtok(beforeParant,"(");
+    if(strstr(temp,"(") || strstr(temp,")")){
         return parseParanthesis(result);
     }
 
