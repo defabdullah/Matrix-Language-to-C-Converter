@@ -4,12 +4,7 @@
 //parse all expression without paranthesis and send them to expression handler function
 char *parseParanthesis(char *str){
 
-    //if there is no paranthesis send expression to expression function
-    if(strstr(str,"(")==NULL){
-
-        //incomplete ex: op=expression(after)
-        return expression_parser(innerExpression);
-    }
+    
 
     //take it's reverse
     reverseFull=strrev(str);
@@ -31,6 +26,14 @@ char *parseParanthesis(char *str){
     innerExpression=parseParanthesis(strtok(afterParant, ")"));
     afterParantModified=strtok(NULL,"");
 
+    //if there is no paranthesis send expression to expression function else paste it
+    if(strstr(innerExpression,"(")!=NULL){
+        innerExpression=expression_parser(innerExpression);
+    }
+    else{
+        innerExpression=parseParanthesis(innerExpression);
+    }
+
     //concatenate string after changing expression with old value
     result=strcat(beforeParant,innerExpression);
     if(afterParantModified!=NULL){
@@ -50,7 +53,7 @@ char *deleteParanthesis(char *str){
 
     //delete open paranth.
     reverse= strtok(reverseStr,"(");
-    
+
     return strrev(reverse);
 }
 /*
