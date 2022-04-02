@@ -88,30 +88,32 @@ int main(int argc,char *argv[]){
             }
             // if first token is "}", it should be end of the for loop.Otherwise gives error(exit_program).
 
-            if(is_infor){
-
+            if(is_infor!=0){
                 fprintf(pOutputFile,"%s","\t");
+                if(is_infor==2){
+                    fprintf(pOutputFile,"%s","\t");
+                }
             }
             if (strcmp(token,"}")==0){
-                if(is_infor==1){
+                if(is_infor==1 || is_infor==2){
                     is_infor=0;
                     break;
                 }else{
                     exit_program();
                 }
             }else if(strcmp(token,"for")==0){
-                is_infor=1;
                 //for function;
                 if(strstr(pextendeds,",")!=NULL){
                     parseDoubleFor(pextendeds);
+                    is_infor=2;
                 }
                 else{
                     parseSingleFor(pextendeds);
+                    is_infor=1;
                 }
                 break;
 
             }else if(strcmp(token,"print")==0){
-                printf("%d",lineNumber);
                 print_line(pextendeds);
                 break;
             }else if(strcmp(token,"printsep")==0){
@@ -122,9 +124,7 @@ int main(int argc,char *argv[]){
                 if(type==empty){
                     exit_program();
                 }
-                char *variable_name;
-                variable_name=token;
-                assignment_statement(trim(pextendeds),variable_name);
+                assignment_statement(trim(pextendeds),token);
                 break;
             }
 

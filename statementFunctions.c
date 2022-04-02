@@ -28,6 +28,7 @@ void assignment_statement(char * statement,char* variable_name){
             }
             fprintf(pOutputFile,"%s%s%s","\t",variable_name," =");
             fprintf(pOutputFile,"%s",expression_parser(statement));
+            printf("%s\n",token);
             fprintf(pOutputFile,"%s",";\n");      
             break;
         }
@@ -50,7 +51,6 @@ void print_line(char * line){
             }
         }else if(token_number==2){
             fprintf(pOutputFile,"%s",expression_parser(token));
-
         }else if(token_number==3) {
             if(strcmp(token,")")!=0){
                 exit_program();

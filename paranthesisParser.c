@@ -4,7 +4,10 @@
 //parse all expression without paranthesis and send them to expression handler function
 char *parseParanthesis(char *str){
 
-    
+    //if there is no paranthesis send expression to expression function else paste it
+    if(strstr(str,"(")!=NULL){
+        return expression_parser(str);
+    }
 
     //take it's reverse
     reverseFull=strrev(str);
