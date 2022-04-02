@@ -35,7 +35,4 @@ void print_usual(){
     printScalarMatrixMultiplication();
     printPrintScalar();
     fprintf(pOutputFile,"%s","\n\nint main(){\n\n");
-    printSingleForOpening("i","1","42","3");
-    printDoubleForOpening("j","2","58","8","i","1","42","3");
-
 }

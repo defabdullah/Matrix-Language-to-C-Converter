@@ -21,7 +21,7 @@ char *trim(char *s)
 
 int is_alphanumeric(char* s){
 
-    if((*s>='A' && *s<='Z') || (*s>='0' && *s <= '9') || (*s>='a' && *s<='z')){
+    if((*s>='A' && *s<='Z') || (*s>='0' && *s <= '9') || (*s>='a' && *s<='z') || (*s=='.')){
         return 1;
     }
     else

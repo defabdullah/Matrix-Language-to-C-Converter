@@ -35,36 +35,29 @@ void printScalar(double value){
 
 int main(){
 
-	int i;
-	for (i=1;i<42;i+=3){
-	int j,i;
-	for (j=2;j<58;j+=8){
-		for(i=1;i<42;i+=3){
-	double A[4][4] ;
-	double count ;
-	double incr ;
-	double B[4][1] ;
+	double A[3][3] ;
+	double x[3][1] ;
+	double y[3][1] ;
+	double r ;
 	double i ;
-	double j ;
-	*(*A+0)=0; 
-	*(*A+1)=1; 
-	*(*A+2)=2; 
-	*(*A+3)=3; 
-	*(*A+4)=4; 
-	*(*A+5)=5; 
-	*(*A+6)=6; 
-	*(*A+7)=7; 
-	*(*A+8)=8; 
-	*(*A+9)=9; 
-	*(*A+10)=1; 
-	*(*A+11)=1; 
-	*(*A+12)=1; 
-	*(*A+13)=2; 
-	*(*A+14)=3; 
-	*(*A+15)=4; 
-	count =0;
-	int i,j;
-	for (i=1;i<45;i+=1){
-		for(j=1;j<4;j+=1){
-	printScalar(count);
+	*(*A+0)=0.5; 
+	*(*A+1)=0; 
+	*(*A+2)=0.5; 
+	*(*A+3)=0; 
+	*(*A+4)=0; 
+	*(*A+5)=0.5; 
+	*(*A+6)=0.5; 
+	*(*A+7)=1; 
+	*(*A+8)=0; 
+	*(*x+0)=1; 
+	*(*x+1)=1; 
+	*(*x+2)=1; 
+	int i;
+	for (i=1;i<10;i+=1){
+		y =(A*x);
+		printScalar(r);
+		x =y;
+	}
+	printsep();
+	printScalar(x);
 }
