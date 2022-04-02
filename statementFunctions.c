@@ -11,7 +11,7 @@ void assignment_statement(char * statement,char* variable_name){
         if(token_number==1){
             if(strcmp(token,"=")!=0){
                 if(strcmp(token,"[")!=0){
-                    exit_program(lineNumber);
+                    exit_program();
                 }else{
                     assign_value_specified_index(statement);
                     break;
@@ -44,7 +44,7 @@ void print_line(char * line){
     while((token=strsep(&line," "))!=NULL){
         if(token_number==1){
             if(strcmp(token,"(")!=0){
-                exit_program(lineNumber);
+                exit_program();
             }else{
                 fprintf(pOutputFile,"%s","(");
             }
@@ -53,19 +53,19 @@ void print_line(char * line){
 
         }else if(token_number==3) {
             if(strcmp(token,")")!=0){
-                exit_program(lineNumber);
+                exit_program();
             }else{
                 fprintf(pOutputFile,"%s",");\n");
             }
         }else{
-            exit_program(lineNumber);
+            exit_program();
         }
         token_number++;
         token = strtok(NULL, " ");
 
     }
     if(token_number!=4){
-        exit_program(lineNumber);
+        exit_program();
     }
 }
 

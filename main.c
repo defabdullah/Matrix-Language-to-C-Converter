@@ -87,20 +87,19 @@ int main(int argc,char *argv[]){
                 continue;
             }
             // if first token is "}", it should be end of the for loop.Otherwise gives error(exit_program).
+
+            if(is_infor){
+
+                fprintf(pOutputFile,"%s","\t");
+            }
             if (strcmp(token,"}")==0){
                 if(is_infor==1){
                     is_infor=0;
                     break;
                 }else{
-                    exit_program(lineNumber);
+                    exit_program();
                 }
-            }
-
-            else if(is_infor==1){
-                //print to other file
-                break;
-            }
-            else if(strcmp(token,"for")==0){
+            }else if(strcmp(token,"for")==0){
                 is_infor=1;
                 //for function;
                 if(strstr(pextendeds,",")!=NULL){
@@ -112,6 +111,7 @@ int main(int argc,char *argv[]){
                 break;
 
             }else if(strcmp(token,"print")==0){
+                printf("%d",lineNumber);
                 print_line(pextendeds);
                 break;
             }else if(strcmp(token,"printsep")==0){
@@ -119,7 +119,6 @@ int main(int argc,char *argv[]){
                 break;
             }else{
                 enum types type= isDeclared(token);
-                
                 if(type==empty){
                     exit_program();
                 }
