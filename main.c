@@ -96,6 +96,13 @@ int main(int argc,char *argv[]){
             }
             if (strcmp(token,"}")==0){
                 if(is_infor==1 || is_infor==2){
+                    if(is_infor==2){
+                        fprintf(pOutputFile,"%s","}\n");
+                        fprintf(pOutputFile,"%s","\t}\n");
+                    }else{
+                        fprintf(pOutputFile,"%s","}\n");
+                    }
+
                     is_infor=0;
                     break;
                 }else{
