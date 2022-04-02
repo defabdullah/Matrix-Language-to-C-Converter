@@ -6,7 +6,7 @@ enum special_functions is_special_funciton(char * token){
         return tr;
     }else if(strcmp(token,"choose")==0){
         return choose;
-    }else if(strcmp(token,"sqrt")){
+    }else if(strcmp(token,"sqrt")==0){
         return sqrt;
     }else{
         return none;
@@ -107,17 +107,17 @@ char* summation(char *first,char* second){
             ftoken_iteration++;
         }
     }
-    //char * second_variable_name;
+    char * second_variable_name;
     char *stoken_clean = strtok(second_clean_2," ");
     enum special_functions  second_function  =is_special_funciton(stoken_clean);
     if(second_function!=none){
         is_second_in_base=1;
-        while( (stoken=strtok(NULL, " ")) != NULL ) {
-            if(stoken_iteration==1 && ! strcmp(stoken,"(")){
+        while( (stoken_clean=strtok(NULL, " ")) != NULL ) {
+            if(stoken_iteration==1 && !strcmp(stoken_clean,"(")==0){
                 exit_program();
             }else if(stoken_iteration==2){
-                //second_variable_name = stoken;
-            }else if(stoken_iteration==3 && strcmp(stoken,")")){
+                second_variable_name = stoken_clean;
+            }else if(stoken_iteration==3 && strcmp(stoken_clean,")")){
                 exit_program();
             }else if(stoken_iteration==4){
                 is_second_in_base=0;
@@ -128,28 +128,40 @@ char* summation(char *first,char* second){
 
     if(is_first_in_base==1){
         if(is_second_in_base==1){
-            
             char *part = strtok(first_clean," ");
+            char *part2 = strtok(second_clean," ");
             if(first_function==tr){
                 strcat(a," matrixTranspose(sizeof(");  strcat(a,first_variable_name); strcat(a,")/sizeof(");  strcat(a,first_variable_name); strcat(a,"[0]),");
                 strcat(a,"sizeof("); strcat(a,first_variable_name); strcat(a,"[0])/sizeof("); strcat(a,first_variable_name); strcat(a,"[0][0]))");
             }else if(first_function==sqrt){
                 strcat(a,"sqrt("); strcat(a,first_variable_name); strcat(a,")");
+            }else if(first_function==choose){
+                strcat(a,"choose( )");
+
             }else{
                 strcat(a,part);
                 while((part=strtok(NULL, " ")) != NULL ){
                     strcat(a,part);
                 }
-            }
+            }   
 
             strcat(a,"+");
-            char *part2 = strtok(second_clean," ");
-                        strcat(a,part2);
-            while((part=strtok(NULL, " ")) != NULL ){
+
+            if(second_function==tr){
+                strcat(a," matrixTranspose(sizeof(");  strcat(a,second_variable_name); strcat(a,")/sizeof(");  strcat(a,second_variable_name); strcat(a,"[0]),");
+                strcat(a,"sizeof("); strcat(a,second_variable_name); strcat(a,"[0])/sizeof("); strcat(a,second_variable_name); strcat(a,"[0][0]))");
+            }else if(second_function==sqrt){
+                strcat(a,"sqrt("); strcat(a,second_variable_name); strcat(a,")");
+            }else if(second_function==choose){
+                strcat(a,"choose( )");
+            }else{
                 strcat(a,part2);
+                while((part=strtok(NULL, " ")) != NULL ){
+                    strcat(a,part2);
+                }
+                strcat(a,")");
             }
-            strcat(a,")");
-            return strtok(a, " ") ;
+            return strdup(a) ;
         }else{
 
             return summation(first_clean,expression_parser(second_clean));
@@ -168,6 +180,7 @@ char* summation(char *first,char* second){
 }
 
 char* substraction(char *first,char* second){
+    char a[2048]=" ";
     char* ftoken;
     char* stoken;
     char * first_clean = strdup(first);
@@ -187,16 +200,18 @@ char* substraction(char *first,char* second){
       is_second_in_base=0;
       break;
     }
-    char a[256]="(";
     int ftoken_iteration=1;
     int stoken_iteration=1;
     char *ftoken_clean = strtok(first_clean_2," ");
+    char * first_variable_name;
     enum special_functions  first_function  =is_special_funciton(ftoken_clean);
     if(first_function!=none){
         is_first_in_base=1;
         while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
             if(ftoken_iteration==1 && !strcmp(ftoken_clean,"(")==0){
                 exit_program();
+            }else if(ftoken_iteration==2){
+                first_variable_name = ftoken_clean;
             }else if(ftoken_iteration==3 && !strcmp(ftoken_clean,")")==0){
                 exit_program();
             }else if(ftoken_iteration==4){
@@ -207,12 +222,15 @@ char* substraction(char *first,char* second){
     }
     char *stoken_clean = strtok(second_clean_2," ");
     enum special_functions  second_function  =is_special_funciton(stoken_clean);
+    char * second_variable_name;
     if(second_function!=none){
         is_second_in_base=1;
-        while( (stoken=strtok(NULL, " ")) != NULL ) {
-            if(stoken_iteration==1 && ! strcmp(stoken,"(")){
+        while( (stoken_clean=strtok(NULL, " ")) != NULL ) {
+            if(stoken_iteration==1 && strcmp(stoken_clean,"(")!=0){
                 exit_program();
-            }else if(stoken_iteration==3 && strcmp(stoken,")")){
+            }else if(stoken_iteration==2){
+                second_variable_name = stoken_clean;
+            }else if(stoken_iteration==3 && strcmp(stoken_clean,")")!=0){
                 exit_program();
             }else if(stoken_iteration==4){
                 is_second_in_base=0;
@@ -224,18 +242,38 @@ char* substraction(char *first,char* second){
     if(is_first_in_base==1){
         if(is_second_in_base==1){
             char *part = strtok(first_clean," ");
-            strcat(a,part);
-            while((part=strtok(NULL, " ")) != NULL ){
-                strcat(a,part);
-            }
-            strcat(a,"-");
             char *part2 = strtok(second_clean," ");
-                        strcat(a,part2);
-            while((part=strtok(NULL, " ")) != NULL ){
+            if(first_function==tr){
+                strcat(a," matrixTranspose(sizeof(");  strcat(a,first_variable_name); strcat(a,")/sizeof(");  strcat(a,first_variable_name); strcat(a,"[0]),");
+                strcat(a,"sizeof("); strcat(a,first_variable_name); strcat(a,"[0])/sizeof("); strcat(a,first_variable_name); strcat(a,"[0][0]))");
+            }else if(first_function==sqrt){
+                strcat(a,"sqrt("); strcat(a,first_variable_name); strcat(a,")");
+            }else if(first_function==choose){
+                strcat(a,"choose( )");
+
+            }else{
+                strcat(a,part);
+                while((part=strtok(NULL, " ")) != NULL ){
+                    strcat(a,part);
+                }
+            }   
+
+            strcat(a,"-");
+
+            if(second_function==tr){
+                strcat(a," matrixTranspose(sizeof(");  strcat(a,second_variable_name); strcat(a,")/sizeof(");  strcat(a,second_variable_name); strcat(a,"[0]),");
+                strcat(a,"sizeof("); strcat(a,second_variable_name); strcat(a,"[0])/sizeof("); strcat(a,second_variable_name); strcat(a,"[0][0]))");
+            }else if(second_function==sqrt){
+                strcat(a,"sqrt("); strcat(a,second_variable_name); strcat(a,")");
+            }else if(second_function==choose){
+                strcat(a,"choose( )");
+            }else{
                 strcat(a,part2);
+                while((part=strtok(NULL, " ")) != NULL ){
+                    strcat(a,part2);
+                }
+                strcat(a,")");
             }
-            strcat(a,")");
-            //printf(": %s \n",a);
             return strdup(a) ;
         }else{
 
@@ -255,6 +293,7 @@ char* substraction(char *first,char* second){
 }
 
 char* multiplication(char *first,char* second){
+    char a[2048]=" ";
     char* ftoken;
     char* stoken;
     char * first_clean = strdup(first);
@@ -271,18 +310,20 @@ char* multiplication(char *first,char* second){
     while( (stoken=strtok(NULL, " ")) != NULL ) {
       is_second_in_base=0;
     }
-    char a[256]="(";
-    
+
     int ftoken_iteration=1;
     int stoken_iteration=1;
     char *ftoken_clean = strtok(first_clean_2," ");
     enum special_functions  first_function  =is_special_funciton(ftoken_clean);
+    char * first_variable_name;
     if(first_function!=none){
         is_first_in_base=1;
         while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
-            if(ftoken_iteration==1 && !strcmp(ftoken_clean,"(")==0){
+            if(ftoken_iteration==1 && strcmp(ftoken_clean,"(")!=0){
                 exit_program();
-            }else if(ftoken_iteration==3 && !strcmp(ftoken_clean,")")==0){
+            }else if(ftoken_iteration==2){
+                first_variable_name = ftoken_clean;
+            }else if(ftoken_iteration==3 && strcmp(ftoken_clean,")")!=0){
                 exit_program();
             }else if(ftoken_iteration==4){
                 is_first_in_base=0;
@@ -292,12 +333,15 @@ char* multiplication(char *first,char* second){
     }
     char *stoken_clean = strtok(second_clean_2," ");
     enum special_functions  second_function  =is_special_funciton(stoken_clean);
+    char * second_variable_name;
     if(second_function!=none){
         is_second_in_base=1;
-        while( (stoken=strtok(NULL, " ")) != NULL ) {
-            if(stoken_iteration==1 && ! strcmp(stoken,"(")){
+        while( (stoken_clean=strtok(NULL, " ")) != NULL ) {
+            if(stoken_iteration==1 &&  strcmp(stoken_clean,"(")!=0){
                 exit_program();
-            }else if(stoken_iteration==3 && strcmp(stoken,")")){
+            }else if(stoken_iteration==2){
+                second_variable_name = stoken_clean;
+            }else if(stoken_iteration==3 && strcmp(stoken_clean,")")!=0){
                 exit_program();
             }else if(stoken_iteration==4){
                 is_second_in_base=0;
@@ -310,18 +354,39 @@ char* multiplication(char *first,char* second){
     if(is_first_in_base==1){
         if(is_second_in_base==1){
             char *part = strtok(first_clean," ");
-            strcat(a,part);
-            while((part=strtok(NULL, " ")) != NULL ){
-                strcat(a,part);
-            }
-            strcat(a,"*");
             char *part2 = strtok(second_clean," ");
-                        strcat(a,part2);
-            while((part=strtok(NULL, " ")) != NULL ){
+            if(first_function==tr){
+                strcat(a," matrixTranspose(sizeof(");  strcat(a,first_variable_name); strcat(a,")/sizeof(");  strcat(a,first_variable_name); strcat(a,"[0]),");
+                strcat(a,"sizeof("); strcat(a,first_variable_name); strcat(a,"[0])/sizeof("); strcat(a,first_variable_name); strcat(a,"[0][0]))");
+            }else if(first_function==sqrt){
+                strcat(a,"sqrt("); strcat(a,first_variable_name); strcat(a,")");
+            }else if(first_function==choose){
+                strcat(a,"choose( )");
+
+            }else{
+                strcat(a,part);
+                while((part=strtok(NULL, " ")) != NULL ){
+                    strcat(a,part);
+                }
+            }   
+
+            strcat(a,"*");
+
+            if(second_function==tr){
+                strcat(a," matrixTranspose(sizeof(");  strcat(a,second_variable_name); strcat(a,")/sizeof(");  strcat(a,second_variable_name); strcat(a,"[0]),");
+                strcat(a,"sizeof("); strcat(a,second_variable_name); strcat(a,"[0])/sizeof("); strcat(a,second_variable_name); strcat(a,"[0][0]))");
+            }else if(second_function==sqrt){
+                strcat(a,"sqrt("); strcat(a,second_variable_name); strcat(a,")");
+            }else if(second_function==choose){
+                strcat(a,"choose( )");
+            }else{
                 strcat(a,part2);
+                while((part=strtok(NULL, " ")) != NULL ){
+                    strcat(a,part2);
+                }
+                strcat(a,")");
             }
-            strcat(a,")");
-            return strtok(a, " ") ;
+            return strdup(a) ;
         }else{
             return multiplication(strtok(first, " "),expression_parser(second_clean));
         }
