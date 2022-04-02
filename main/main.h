@@ -44,4 +44,8 @@ extern char* expression_parser(char *line);
 
 extern void exit_program(int lineNumber);
 
+extern void matrix_initializer(char * statement,char* variable_name);
+extern void assignment_statement(char * statement,char* variable_name);
+extern void print_line(char * line);
+
 #endif

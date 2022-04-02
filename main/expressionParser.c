@@ -3,55 +3,8 @@
 char special_functionss[][10] = { "tr","choose","sqrt"};
 char * special_functions= *special_functionss; 
 
-/*char  * matrix_initializer(char * line){
-        char* line_copy;
-        line_copy= strdup(line);
-        char  result [200] = "{";
-        char * token;
-        char* last_token;
-        token=strsep(&line_copy," ");
-        token=strsep(&line_copy," ");
-        int is_first= 0;
-        while((token=strsep(&line_copy," "))!=NULL){
-            if(strcmp(token,"")==0){
-                continue;
-            }
 
-            if(strcmp(token,"}")!=0 && is_first==1){
-               strcat(result,",");
-            }
-            strcat(result,token);
-            last_token= token;
-            is_first=1;
-        }
-        if(strcmp(last_token,"}")!=0){
-            exit_program(lineNumber);
-        }
-        return strdup(result);
-}*/
-void matrix_initializer(char *line,char *variable_name){
-    //fprintf(pOutputFile,"%s","char * token;\ntoken = strtok(line,\" \");\nint i = 0;\nwhile((token=strtok(NULL,\" \")!=NULL)){\n)");
-    char * token;
-    char* line_copy;
-    line_copy= strdup(line);
-    int i=0;
-    token=strsep(&line_copy," ");
-    while((token=strsep(&line_copy," "))!=NULL){
-        if(strcmp(token,"")==0){
-            continue;
-        }
-        if(strcmp(token,"{")==0){
-            continue;
-        }
-        if(strcmp(token,"}")==0){
-            break;
-        }
-        fprintf(pOutputFile,"%s%s%s%d%s%s%s","**(",variable_name,"+",i,")=",token,"; \n");
-        i++;
-        token = strtok(NULL, " ");
-    }
-   
-}
+
 
 
 
