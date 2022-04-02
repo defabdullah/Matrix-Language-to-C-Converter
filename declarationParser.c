@@ -77,14 +77,12 @@ void matrix_line(char* line){
                 continue;
         }
         if(token_number==1){
-            }else{
-                if(isDeclared(token)!=empty || is_valid_variable_name(token)==0){
-                    exit_program();
-                }
-                fprintf(pOutputFile,"%s", token);
-                matrixArray[matrixNumber]=token;
-                matrixNumber++;
-            } 
+            if(isDeclared(token)!=empty || is_valid_variable_name(token)==0){
+                exit_program();
+            }
+            fprintf(pOutputFile,"%s", token);
+            matrixArray[matrixNumber]=token;
+            matrixNumber++; 
         }else if(token_number==2){
             if(!strcmp(token,"[")==0){
                 exit_program();
