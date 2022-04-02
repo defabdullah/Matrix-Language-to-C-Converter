@@ -35,13 +35,36 @@ void printScalar(double value){
 
 int main(){
 
-int i,j;
-for (i=2;i<58;i+=8){
-	for(j=1;j<42;j+=3){
+	int i;
+	for (i=1;i<42;i+=3){
+	int j,i;
+	for (j=2;j<58;j+=8){
+		for(i=1;i<42;i+=3){
 	double A[4][4] ;
 	double count ;
 	double incr ;
 	double B[4][1] ;
 	double i ;
 	double j ;
+	*(*A+0)=0; 
+	*(*A+1)=1; 
+	*(*A+2)=2; 
+	*(*A+3)=3; 
+	*(*A+4)=4; 
+	*(*A+5)=5; 
+	*(*A+6)=6; 
+	*(*A+7)=7; 
+	*(*A+8)=8; 
+	*(*A+9)=9; 
+	*(*A+10)=1; 
+	*(*A+11)=1; 
+	*(*A+12)=1; 
+	*(*A+13)=2; 
+	*(*A+14)=3; 
+	*(*A+15)=4; 
+	count =0;
+	int i,j;
+	for (i=1;i<45;i+=1){
+		for(j=1;j<4;j+=1){
+	printScalar(count);
 }

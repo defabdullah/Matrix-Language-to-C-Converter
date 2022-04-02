@@ -16,13 +16,18 @@ FILE *pInputFile;
 FILE *pOutputFile;
 
 int lineNumber;
-
 int scalarNumber;
 int vectorNumber;
 int matrixNumber;
 char *scalarArray[256];
 char *vectorArray[256];
 char *matrixArray[256];
+
+//statement functions
+
+extern void matrix_initializer(char * statement,char* variable_name);
+extern void assignment_statement(char * statement,char* variable_name);
+extern void print_line(char * line);
 
 //expression parser
 char * special_functions;
@@ -97,6 +102,5 @@ extern void parseSingleFor(char *str);
 extern void parseDoubleFor(char *str);
 
 void tokenControl(char *str,char *correctToken);
-
 
 #endif
