@@ -6,7 +6,7 @@ char *parseParanthesis(char *str){
 
     
 
-    //take it's reverse
+    //take its reverse
     reverseFull=strrev(str);
 
     //create reverse copy string
