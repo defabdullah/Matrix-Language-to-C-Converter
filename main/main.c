@@ -76,7 +76,8 @@ int main(int argc,char *argv[]){
     char * token;
     int is_declaratiion=1;
     int is_infor=0;
-
+    
+    //reads input line by line from txt file 
     while( fgets(line,256,pInputFile) != NULL ) {
         lineNumber++;
         // checks if line starts with '#' or line is an empty line, if so continues with next line
@@ -85,6 +86,11 @@ int main(int argc,char *argv[]){
         }
         int cur=0;
         char extended[512];
+        
+        /* adds whitespace before and after characters which is not alpha_numeric. So we can reach token by using strtok and strsep 
+            ex: matrix A[4,4]==> matrix A [ 4 , 4 ]
+        */
+
         for(int i =0; i<strlen(line);i++){
             char as = line[i];
             char *ps = &as;
@@ -111,7 +117,7 @@ int main(int argc,char *argv[]){
         char * pextended = strdup(trim(extended));
         char * pextendeds = strdup(trim(extended));
 
-        // declaration while
+        // declaration while. Reads first token of each line and decides type and sends line to the corresponding function.
         while ( is_declaratiion==1 && (token=strsep(&pextended," "))!=NULL ){
             if(strcmp(token,"")==0){
                 continue;
@@ -130,7 +136,7 @@ int main(int argc,char *argv[]){
             }
         }
 
-        //statement while
+        //statement while. Reads first token of each line and decides type of the statement and sends line to the corresponding function.
         while((token=strsep(&pextendeds," "))!=NULL && is_declaratiion==0){
             if(strcmp(token,"")==0){
                 continue;
