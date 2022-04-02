@@ -28,7 +28,6 @@ void assignment_statement(char * statement,char* variable_name){
             }
             fprintf(pOutputFile,"%s%s%s","\t",variable_name," =");
             fprintf(pOutputFile,"%s",expression_parser(statement));
-            printf("%s\n",token);
             fprintf(pOutputFile,"%s",";\n");      
             break;
         }
@@ -42,6 +41,7 @@ void print_line(char * line){
     fprintf(pOutputFile,"\t%s","printScalar");
     char * token;
     int token_number=1;
+    
     while((token=strsep(&line," "))!=NULL){
         if(token_number==1){
             if(strcmp(token,"(")!=0){
@@ -50,21 +50,25 @@ void print_line(char * line){
                 fprintf(pOutputFile,"%s","(");
             }
         }else if(token_number==2){
-            fprintf(pOutputFile,"%s",expression_parser(token));
-        }else if(token_number==3) {
+            char temp[256]= "";
+            while(strcmp(token,")")!=0 && line!=NULL){
+                if(token == NULL){
+                    exit_program();
+                }
+                strcat(temp,token);
+                token=strsep(&line," ");
+            }
+            fprintf(pOutputFile,"%s",expression_parser(temp));
+
             if(strcmp(token,")")!=0){
                 exit_program();
             }else{
                 fprintf(pOutputFile,"%s",");\n");
-            }
-        }else{
-            exit_program();
+            } 
         }
         token_number++;
-        token = strtok(NULL, " ");
-
     }
-    if(token_number!=4){
+    if(token_number!=3){
         exit_program();
     }
 }

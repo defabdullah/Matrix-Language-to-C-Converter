@@ -35,29 +35,27 @@ void printScalar(double value){
 
 int main(){
 
-	double A[3][3] ;
-	double x[3][1] ;
-	double y[3][1] ;
-	double r ;
 	double i ;
-	*(*A+0)=0.5; 
-	*(*A+1)=0; 
-	*(*A+2)=0.5; 
-	*(*A+3)=0; 
-	*(*A+4)=0; 
-	*(*A+5)=0.5; 
-	*(*A+6)=0.5; 
-	*(*A+7)=1; 
-	*(*A+8)=0; 
+	double n ;
+	double x[2][1] ;
+	double y[2][1] ;
+	double A[2][2] ;
+	double B[2][2] ;
+	n =10;
 	*(*x+0)=1; 
 	*(*x+1)=1; 
-	*(*x+2)=1; 
-	int i;
-	for (i=1;i<10;i+=1){
-		y =(A*x);
-		printScalar(r);
-		x =y;
-	}
-	printsep();
+	*(*A+0)=1; 
+	*(*A+1)=1; 
+	*(*A+2)=1; 
+	*(*A+3)=0; 
+	*(*B+0)=1; 
+	*(*B+1)=0; 
+	*(*B+2)=0; 
+	*(*B+3)=1; 
 	printScalar(x);
-}
+	int i;
+	for (i=1;i<n;i+=1){
+		B =(A*B);
+		y =(B*x);
+		printScalar(y[1]);
+	}
