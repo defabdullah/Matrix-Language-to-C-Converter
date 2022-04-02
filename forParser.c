@@ -1,55 +1,81 @@
 #include "main.h"
 
-char *parseSingleFor(char *str){
+void parseSingleFor(char *str){
+    
+    char *temp=strtok(strrev(str)," ");
+    tokenControl(strtok(temp," "),"{");
+
+    str=deleteParanthesis(str);
+    
     firstInitVariable=strtok(str," ");
-    temp=strtok(NULL," ");
     
-    if(strcmp(temp,"in")!=0){
-        printf("sikinti\n");
-    }
+    tokenControl(strtok(NULL," "),"in");
 
-    //get all parameters
-    firstInitAssignment=strtok(NULL,":");
-    firstCondition=strtok(NULL,":");
-    firstAddition=strtok(NULL,":");
-    return firstAddition;
+    //get all parameters && : control tokens
+    firstInitAssignment=strtok(NULL," ");
+    
+    tokenControl(strtok(NULL," "),":");
+    
+    firstCondition=strtok(NULL," ");
+    
+    tokenControl(strtok(NULL," "),":");
+
+    firstAddition=strtok(NULL," ");
+
+    printSingleForOpening(firstInitVariable,firstInitAssignment,firstCondition,firstAddition);
+    
 }
 
-char *parseDoubleFor(char *str){
-    initVariables=strtok(str," ");
-    temp=strtok(NULL, " ");
+void parseDoubleFor(char *str){
 
-    if(strcmp(temp,"in")!=0){
-        printf("sikinti\n");
-    }
+    char *temp=strtok(strrev(str)," ");
+    
+    tokenControl(temp,"{");
 
-    //take 3 exp parameters like 1:45:46
-    firstParameters=strtok(NULL,",");
-    secondParameters=strtok(NULL,"");
+    str=deleteParanthesis(str);
 
-    //take init variables like i,j
-    firstInitVariable=strtok(initVariables,",");
+
+    firstInitVariable=strtok(str," ");
+
+    tokenControl(strtok(NULL," "),",");
+
     secondInitVariable=strtok(NULL," ");
+
+    tokenControl(strtok(NULL," "),"in");
+
+    //get first parameters && : control tokens
+    firstInitAssignment=strtok(NULL," ");
+    tokenControl(strtok(NULL," "),":");
+    firstCondition=strtok(NULL," ");
+    tokenControl(strtok(NULL," "),":");
+    firstAddition=strtok(NULL," ");
+        
+    tokenControl(strtok(NULL," "),",");
+
+    //get second parameters && : control tokens
+    secondInitAssignment=strtok(NULL," ");
+    tokenControl(strtok(NULL," "),":");
+    secondCondition=strtok(NULL," ");
+    tokenControl(strtok(NULL," "),":");
+    secondAddition=strtok(NULL," ");
+
+    printDoubleForOpening(firstInitVariable,firstInitAssignment,firstCondition,firstAddition,secondInitVariable,secondInitAssignment,secondCondition,secondAddition);
     
-    //take first loop parameters
-    firstInitAssignment=strtok(firstParameters,":");
-    firstCondition=strtok(NULL,":");
-    firstAddition=strtok(NULL,"");
-
-    //take second loop parameters
-    secondInitAssignment=strtok(secondParameters,":");
-    secondCondition=strtok(NULL,":");
-    secondAddition=strtok(NULL,"");
-
-    return secondInitVariable;
 }
 
+void tokenControl(char *str,char *correctToken){
+    if(strcmp(str,correctToken)!=0){
+        exit_program();
+    }
+}
+
+/*
 int main(){
     char doubleFor[]="i,j in 2:45:25,5:42:75";
     char singleFor[]="i in 2:5:9";
     //printf("%s\n",parseSingleFor(singleFor));
     printf("%s\n",parseDoubleFor(doubleFor));
     return 0;
-}
+}*/
 
 

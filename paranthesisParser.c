@@ -12,7 +12,7 @@ char *parseParanthesis(char *str){
     }
 
     //take it's reverse
-    reverseStr=strrev(str);
+    reverseFull=strrev(str);
 
     //create reverse copy string
     reverseCopy = (char *)malloc(strlen(str) + 1);
@@ -29,11 +29,9 @@ char *parseParanthesis(char *str){
 
     //create string after paranthesis
     innerExpression=parseParanthesis(strtok(afterParant, ")"));
-    return "beforeParant";
     afterParantModified=strtok(NULL,"");
 
-    //concatenate string after changing expression with old value 
-    
+    //concatenate string after changing expression with old value
     result=strcat(beforeParant,innerExpression);
     if(afterParantModified!=NULL){
         return strcat(result,afterParantModified);
@@ -42,9 +40,23 @@ char *parseParanthesis(char *str){
     return result;
 }
 
+char *deleteParanthesis(char *str){
+    
+    //delete last parant.
+    withoutLastParanthesis=strtok(str,")");
+
+    //take it's reverse
+    reverseStr=strrev(withoutLastParanthesis);
+
+    //delete open paranth.
+    reverse= strtok(reverseStr,"(");
+    
+    return strrev(reverse);
+}
+/*
 int main(){
     printf("asf");
     char str[]="tr ( 2 + 3) * 5 + ( 3 * 7 + 2 + 1 ) + 3";
     printf("%s",parseParanthesis(str));
     return 0;
-}
+}*/

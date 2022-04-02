@@ -12,7 +12,7 @@ void assignment_statement(char * statement){
         }else{
             fprintf(pOutputFile,"%s",expression_parser(statement));
             fprintf(pOutputFile,"%s",";\n");      
-                break;
+            break;
         }
         token_number++;
     }
@@ -68,7 +68,6 @@ int main(){
         return 1;
     }
 
-    char extended[512];
     char * token;
     int is_declaration=1;
     int is_infor=0;
@@ -140,6 +139,7 @@ int main(){
                     break;
                 }
             }
+
             else if(is_infor==1){
                 //print to other file
                 break;
@@ -147,7 +147,14 @@ int main(){
             else if(strcmp(token,"for")==0){
                 is_infor=1;
                 //for function;
+                if(strstr(pextendeds,",")!=NULL){
+                    parseDoubleFor(pextendeds);
+                }
+                else{
+                    parseSingleFor(pextendeds);
+                }
                 break;
+
             }else if(strcmp(token,"print")==0){
                 print_line(pextendeds);
                 break;
@@ -163,7 +170,6 @@ int main(){
                 assignment_statement(trim(pextendeds));
                 break;
             }
-
 
         }
         memset(extended, 0, 256);

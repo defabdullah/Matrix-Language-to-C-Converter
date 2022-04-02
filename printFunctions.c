@@ -1,11 +1,11 @@
 #include "main.h"
 
 void printSingleForOpening(char* firstInitVariable, char* firstInitAssignment, char* firstCondition, char* firstAddition){
-    fprintf(pOutputFile,"int %s;\nfor (%s=%s;%s<%s;%s+=%s){\n",firstInitVariable,firstInitVariable,firstInitAssignment,firstInitVariable,firstCondition,firstInitVariable,firstAddition);
+    fprintf(pOutputFile,"\tint %s;\n\tfor (%s=%s;%s<%s;%s+=%s){\n",firstInitVariable,firstInitVariable,firstInitAssignment,firstInitVariable,firstCondition,firstInitVariable,firstAddition);
 }
 
 void printDoubleForOpening(char* firstInitVariable, char* firstInitAssignment, char* firstCondition, char* firstAddition, char* secondInitVariable, char* secondInitAssignment, char* secondCondition, char* secondAddition){
-    fprintf(pOutputFile,"int %s,%s;\nfor (%s=%s;%s<%s;%s+=%s){\n\tfor(%s=%s;%s<%s;%s+=%s){\n",firstInitVariable,secondInitVariable,firstInitVariable,firstInitAssignment,firstInitVariable,firstCondition,firstInitVariable,firstAddition,secondInitVariable,secondInitAssignment,secondInitVariable,secondCondition,secondInitVariable,secondAddition);
+    fprintf(pOutputFile,"\tint %s,%s;\n\tfor (%s=%s;%s<%s;%s+=%s){\n\t\tfor(%s=%s;%s<%s;%s+=%s){\n",firstInitVariable,secondInitVariable,firstInitVariable,firstInitAssignment,firstInitVariable,firstCondition,firstInitVariable,firstAddition,secondInitVariable,secondInitAssignment,secondInitVariable,secondCondition,secondInitVariable,secondAddition);
 }
 
 void printScalarMultiplication(){
