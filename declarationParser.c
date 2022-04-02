@@ -9,7 +9,7 @@ void scalar_line(char* line){
         }
         if(token_number==1){
             if(is_alphanumeric_string(token)){
-                if(isDeclared(token)!=empty){
+                if(isDeclared(token)!=empty || is_valid_variable_name(token)==0){
                     exit_program();
                 }
                 fprintf(pOutputFile,"%s %s %s","\tdouble",token,";\n");
@@ -35,7 +35,7 @@ void vector_line(char* line){
         }
         if(token_number==1){
             if(is_alphanumeric(token)){
-                if(isDeclared(token)!=empty){
+                if(isDeclared(token)!=empty || is_valid_variable_name(token)==0){
                     exit_program();
                 }
                 vectorArray[vectorNumber]=token;
@@ -77,10 +77,8 @@ void matrix_line(char* line){
                 continue;
         }
         if(token_number==1){
-            if(is_alphanumeric(token)==0){
-                exit_program();
             }else{
-                if(isDeclared(token)!=empty){
+                if(isDeclared(token)!=empty || is_valid_variable_name(token)==0){
                     exit_program();
                 }
                 fprintf(pOutputFile,"%s", token);

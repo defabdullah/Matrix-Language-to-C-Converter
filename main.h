@@ -45,10 +45,13 @@ extern void matrix_line(char* line);
 //parsing functions
 extern char *trim(char *s);
 
+extern int is_valid_variable_name(char *str)
 extern int is_alphanumeric(char* s);
+extern int is_alphanumeric_or_comma(char* s);
 extern int is_alphanumeric_string(char* s);
 extern int is_numeric_string(char *s);
 extern int expression_divider(char* line,char *first,char *second);
+
 extern void exit_program();
 
 

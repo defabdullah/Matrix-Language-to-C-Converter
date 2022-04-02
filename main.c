@@ -44,7 +44,7 @@ int main(int argc,char *argv[]){
                 cur++;
                 continue;
             }
-            if(!is_alphanumeric(ps)){
+            if(!is_alphanumeric_or_comma(ps)){
                 extended[cur]=' ';
                 cur++;
                 extended[cur]=as;
