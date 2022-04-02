@@ -1,8 +1,7 @@
 #include "main.h"
 
 
-void assignment_statement(char * statement){
-
+void assignment_statement(char * statement,char* variable_name){
     char * token;
     int token_number=1;
     while((token=strsep(&statement," "))!=NULL){
@@ -10,11 +9,18 @@ void assignment_statement(char * statement){
             if(strcmp(token,"=")!=0){
                 exit_program(lineNumber);
             }
-            fprintf(pOutputFile,"%s",token);
         }else{
+            char * statement_copy=strdup(statement);
+            char * token;
+            token = strtok(statement_copy," "); 
+            if(strcmp(token,"{")==0){
+                matrix_initializer(statement,variable_name);
+                break;
+            }
+            fprintf(pOutputFile,"%s%s",variable_name," =");
             fprintf(pOutputFile,"%s",expression_parser(statement));
             fprintf(pOutputFile,"%s",";\n");      
-                break;
+            break;
         }
         token_number++;
     }
@@ -117,7 +123,7 @@ int main(int argc,char *argv[]){
         char * pextended = strdup(trim(extended));
         char * pextendeds = strdup(trim(extended));
 
-        // declaration while. Reads first token of each line and decides type and sends line to the corresponding function.
+        // declaration while. Reads first token of each line and decides type then sends line to the corresponding function.
         while ( is_declaratiion==1 && (token=strsep(&pextended," "))!=NULL ){
             if(strcmp(token,"")==0){
                 continue;
@@ -136,15 +142,18 @@ int main(int argc,char *argv[]){
             }
         }
 
-        //statement while. Reads first token of each line and decides type of the statement and sends line to the corresponding function.
+        //statement while. Reads first token of each line and decides type of the statement then sends line to the corresponding function.
         while((token=strsep(&pextendeds," "))!=NULL && is_declaratiion==0){
             if(strcmp(token,"")==0){
                 continue;
             }
+            // if first token is "}", it should be end of the for loop.Otherwise gives error(exit_program).
             if (strcmp(token,"}")==0){
                 if(is_infor==1){
                     is_infor=0;
                     break;
+                }else{
+                    exit_program(lineNumber);
                 }
             }
             else if(is_infor==1){
@@ -163,8 +172,9 @@ int main(int argc,char *argv[]){
                 break;
             }else{
                 //if variable is valid
-                fprintf(pOutputFile,"\t%s",token);
-                assignment_statement(trim(pextendeds));
+                char *variable_name;
+                variable_name=token;
+                assignment_statement(trim(pextendeds),variable_name);
                 break;
             }
 

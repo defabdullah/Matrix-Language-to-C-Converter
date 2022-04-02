@@ -3,7 +3,7 @@
 char special_functionss[][10] = { "tr","choose","sqrt"};
 char * special_functions= *special_functionss; 
 
-char  * matrix_initializer(char * line){
+/*char  * matrix_initializer(char * line){
         char* line_copy;
         line_copy= strdup(line);
         char  result [200] = "{";
@@ -20,7 +20,7 @@ char  * matrix_initializer(char * line){
             if(strcmp(token,"}")!=0 && is_first==1){
                strcat(result,",");
             }
-            strcat(result,expression_parser(token));
+            strcat(result,token);
             last_token= token;
             is_first=1;
         }
@@ -28,6 +28,29 @@ char  * matrix_initializer(char * line){
             exit_program(lineNumber);
         }
         return strdup(result);
+}*/
+void matrix_initializer(char *line,char *variable_name){
+    //fprintf(pOutputFile,"%s","char * token;\ntoken = strtok(line,\" \");\nint i = 0;\nwhile((token=strtok(NULL,\" \")!=NULL)){\n)");
+    char * token;
+    char* line_copy;
+    line_copy= strdup(line);
+    int i=0;
+    token=strsep(&line_copy," ");
+    while((token=strsep(&line_copy," "))!=NULL){
+        if(strcmp(token,"")==0){
+            continue;
+        }
+        if(strcmp(token,"{")==0){
+            continue;
+        }
+        if(strcmp(token,"}")==0){
+            break;
+        }
+        fprintf(pOutputFile,"%s%s%s%d%s%s%s","**(",variable_name,"+",i,")=",token,"; \n");
+        i++;
+        token = strtok(NULL, " ");
+    }
+   
 }
 
 
@@ -59,7 +82,9 @@ char* strrev (char *str) {
     return reverse;
 }
 
-int expression_divider(char* line,char *first,char *second){
+// takes expression string and divides it into two parts according to precedence.
+// returns the type of operator (+,-,*) 
+int expression_divider(char* line,char *first_part,char *second_part){
     int first_index =0;
     int second_index=0;
     int is_found=0;
@@ -67,7 +92,7 @@ int expression_divider(char* line,char *first,char *second){
     char * rev_line=strrev(line);
     for(int i=0;i<strlen(rev_line);i++){
         if((*(rev_line+i)=='+'|| *(rev_line+i)=='-') && is_found==0){
-            second[second_index]='\0';
+            second_part[second_index]='\0';
             is_found=1;
             if(*(rev_line+i)=='+'){
                 operator=1;
@@ -76,38 +101,39 @@ int expression_divider(char* line,char *first,char *second){
             }
             
         }else if(is_found==0){
-            second[second_index]=*(rev_line+i);
+            second_part[second_index]=*(rev_line+i);
             second_index++;
         }else if(is_found==1){
-            first[first_index]=*(rev_line+i);
+            first_part[first_index]=*(rev_line+i);
             first_index++;
         }
 
     }
     second_index=0;
     if(is_found==0){
-        memset(first, 0, 256);
-        memset(second, 0, 256);
+        memset(first_part, 0, 256);
+        memset(second_part, 0, 256);
         for(int i=0;i<strlen(rev_line);i++){
             if(*(rev_line+i)=='*' && is_found==0){
-                second[second_index]='\0';
+                second_part[second_index]='\0';
                 is_found=1;
                 operator=3;
             }else if(is_found==0){
-                second[second_index]=*(rev_line+i);
+                second_part[second_index]=*(rev_line+i);
                 second_index++;
             }else if(is_found==1){
-                first[first_index]=*(rev_line+i);
+                first_part[first_index]=*(rev_line+i);
                 first_index++;
             }
         }     
 
     }
 
-    first[first_index]='\0';
+    first_part[first_index]='\0';
     return operator;
 
 }
+
 char* summation(char *first,char* second){
     char* ftoken;
     char* stoken;
@@ -357,28 +383,40 @@ char* multiplication(char *first,char* second){
 
 }
 
-
+// expression_parser is the entrance function. Other functions (summation,multiplication,substraction,expressionn_divider) wont call explixitly.
 char* expression_parser(char *line){
-    char  first[256];
-    char  second[256];
-    memset(first, 0, 256);
-    memset(second, 0, 256);
+    char  first_part[256];
+    char  second_part[256];
+    memset(first_part, 0, 256);
+    memset(second_part, 0, 256);
+    
+    
+    /* sends expression to expression_divider function and gets the output int the following form <first_part> <operator_type> <second_part>  
+       if  operator type is
+       1 -> operator is +
+       2 -> operator is -
+       3 -> operator is *
+       0 -> there is not any operator. in this case first_part and second_part variables are meaningless
+    */
+    int operator_type = expression_divider(line,first_part,second_part);
 
-    int operator_type=expression_divider(line,first,second);
+    // sends first_part and second_part to corresponding functions. Return the final parsed expression string
     if(operator_type==1){
-        return  summation(strrev(first),strrev(second));
+        return  summation(strrev(first_part),strrev(second_part));
+    
     }else if(operator_type==2){
-        return substraction(strrev(first),strrev(second));
-    }
-    else if(operator_type==3){
-        return  multiplication(strrev(first),strrev(second));
+        return substraction(strrev(first_part),strrev(second_part));
+    
+    }else if(operator_type==3){
+        return  multiplication(strrev(first_part),strrev(second_part));
+    
     }else{
-        char * token;
-        char * line_copy= strdup(line);
-        token = strtok(line_copy," "); 
-        if(strcmp(token,"{")==0){
+        //char * token;
+        //char * line_copy= strdup(line);
+        //token = strtok(line_copy," "); 
+        /*if(strcmp(token,"{")==0){
             return matrix_initializer(line);
-        }
+        }*/
         return line;
     }
 

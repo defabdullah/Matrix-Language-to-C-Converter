@@ -5,4 +5,4 @@ gcc -Wall -c declarationFunctions.c
 gcc -Wall -c expressionParser.c
 gcc -Wall -c main.c
 gcc -o main.out printFunctions.o parsingFunctions.o main.o declarationFunctions.o expressionParser.o
-./main.out
+./main.out trial.txt
