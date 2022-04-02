@@ -51,7 +51,7 @@ int is_valid_variable_name(char *str){
     }
     int i;
     for(i=1;i<strlen(str);i++){
-        if(strcmp(&str[i],"_") || is_alphanumeric(&str[i])){
+        if(strcmp(&str[i],"_")==0 || is_alphanumeric(&str[i])==0){
             return 0;
         }
     }
