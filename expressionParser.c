@@ -66,6 +66,7 @@ int expression_divider(char* line,char *first_part,char *second_part){
 }
 
 char* summation(char *first,char* second){
+
     char a[2048]=" ";
     char* ftoken;
     char* stoken;
@@ -91,6 +92,7 @@ char* summation(char *first,char* second){
     char *ftoken_clean = strtok(first_clean_2," ");
     char * first_variable_name;
     enum special_functions  first_function  =is_special_funciton(ftoken_clean);
+
     if(first_function!=none){
         is_first_in_base=1;
         while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
@@ -99,6 +101,9 @@ char* summation(char *first,char* second){
             }else if(ftoken_iteration==3 && !strcmp(ftoken_clean,")")==0){
                 exit_program();
             }else if(ftoken_iteration==2){
+                if(isDeclared(ftoken_clean)==empty){
+                    exit_program();
+                }
                 first_variable_name = ftoken_clean;
             }else if(ftoken_iteration==4){
                 is_first_in_base=0;
@@ -116,6 +121,10 @@ char* summation(char *first,char* second){
             if(stoken_iteration==1 && !strcmp(stoken_clean,"(")==0){
                 exit_program();
             }else if(stoken_iteration==2){
+                if(isDeclared(stoken_clean)==empty){
+                    printf("aaa\n");
+                    exit_program();
+                }
                 second_variable_name = stoken_clean;
             }else if(stoken_iteration==3 && strcmp(stoken_clean,")")){
                 exit_program();
@@ -211,6 +220,9 @@ char* substraction(char *first,char* second){
             if(ftoken_iteration==1 && !strcmp(ftoken_clean,"(")==0){
                 exit_program();
             }else if(ftoken_iteration==2){
+                if(isDeclared(ftoken_clean)==empty){
+                    exit_program();
+                }
                 first_variable_name = ftoken_clean;
             }else if(ftoken_iteration==3 && !strcmp(ftoken_clean,")")==0){
                 exit_program();
@@ -229,6 +241,9 @@ char* substraction(char *first,char* second){
             if(stoken_iteration==1 && strcmp(stoken_clean,"(")!=0){
                 exit_program();
             }else if(stoken_iteration==2){
+                if(isDeclared(stoken_clean)==empty){
+                    exit_program();
+                }
                 second_variable_name = stoken_clean;
             }else if(stoken_iteration==3 && strcmp(stoken_clean,")")!=0){
                 exit_program();
@@ -322,6 +337,9 @@ char* multiplication(char *first,char* second){
             if(ftoken_iteration==1 && strcmp(ftoken_clean,"(")!=0){
                 exit_program();
             }else if(ftoken_iteration==2){
+                if((isDeclared(ftoken_clean)==empty)){
+                    exit_program();
+                }
                 first_variable_name = ftoken_clean;
             }else if(ftoken_iteration==3 && strcmp(ftoken_clean,")")!=0){
                 exit_program();
@@ -340,6 +358,9 @@ char* multiplication(char *first,char* second){
             if(stoken_iteration==1 &&  strcmp(stoken_clean,"(")!=0){
                 exit_program();
             }else if(stoken_iteration==2){
+                if(isDeclared(stoken_clean)==empty){
+                    exit_program();
+                }
                 second_variable_name = stoken_clean;
             }else if(stoken_iteration==3 && strcmp(stoken_clean,")")!=0){
                 exit_program();
