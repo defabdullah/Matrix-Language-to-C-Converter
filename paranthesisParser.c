@@ -6,7 +6,7 @@ char *parseParanthesis(char *str){
 
     
 
-    //take its reverse
+    //take it's reverse
     reverseFull=strrev(str);
 
     //create reverse copy string
@@ -36,8 +36,14 @@ char *parseParanthesis(char *str){
 
     //concatenate string after changing expression with old value
     result=strcat(beforeParant,innerExpression);
+
     if(afterParantModified!=NULL){
-        return strcat(result,afterParantModified);
+        result=strcat(result,afterParantModified);
+    }
+
+    //if it includes paranthesis then rec. else return
+    if(strstr(result,"(") && strstr(result,")")){
+        return parseParanthesis(result);
     }
 
     return result;
