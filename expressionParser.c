@@ -1,21 +1,16 @@
 #include "main.h"
 
-char special_functionss[][10] = { "tr","choose","sqrt"};
-char * special_functions= *special_functionss; 
 
-
-
-
-// control char in array
-int is_in_chararray(char * token){
-    for(int i=0;i<3;i++){
-        char *temp= strdup(special_functions);
-        if(strcmp(special_functions,token)==0){
-            return 1;
-        }
-        temp+=10;
+enum special_functions is_special_funciton(char * token){
+    if(strcmp(token,"tr")==0){
+        return tr;
+    }else if(strcmp(token,"choose")==0){
+        return choose;
+    }else if(strcmp(token,"sqrt")){
+        return sqrt;
+    }else{
+        return none;
     }
-    return 0;
 }
 
 // takes expression string and divides it into two parts according to precedence.
@@ -71,6 +66,7 @@ int expression_divider(char* line,char *first_part,char *second_part){
 }
 
 char* summation(char *first,char* second){
+    char a[2048]=" ";
     char* ftoken;
     char* stoken;
     char * first_clean = strdup(first);
@@ -90,44 +86,62 @@ char* summation(char *first,char* second){
       break;
     }
 
-    char a[256]="(";
     int ftoken_iteration=1;
     int stoken_iteration=1;
     char *ftoken_clean = strtok(first_clean_2," ");
-
-    if(is_in_chararray(ftoken_clean)==1){
+    char * first_variable_name;
+    enum special_functions  first_function  =is_special_funciton(ftoken_clean);
+    if(first_function!=none){
         is_first_in_base=1;
         while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
             if(ftoken_iteration==1 && !strcmp(ftoken_clean,"(")==0){
                 exit_program();
             }else if(ftoken_iteration==3 && !strcmp(ftoken_clean,")")==0){
                 exit_program();
+            }else if(ftoken_iteration==2){
+                first_variable_name = ftoken_clean;
             }else if(ftoken_iteration==4){
                 is_first_in_base=0;
+                break;
             }
             ftoken_iteration++;
         }
     }
+    //char * second_variable_name;
     char *stoken_clean = strtok(second_clean_2," ");
-    if(is_in_chararray(stoken_clean)==1){
+    enum special_functions  second_function  =is_special_funciton(stoken_clean);
+    if(second_function!=none){
         is_second_in_base=1;
         while( (stoken=strtok(NULL, " ")) != NULL ) {
             if(stoken_iteration==1 && ! strcmp(stoken,"(")){
                 exit_program();
+            }else if(stoken_iteration==2){
+                //second_variable_name = stoken;
             }else if(stoken_iteration==3 && strcmp(stoken,")")){
                 exit_program();
             }else if(stoken_iteration==4){
                 is_second_in_base=0;
             }
+            stoken_iteration++;
         }
     }
+
     if(is_first_in_base==1){
         if(is_second_in_base==1){
+            
             char *part = strtok(first_clean," ");
-            strcat(a,part);
-            while((part=strtok(NULL, " ")) != NULL ){
+            if(first_function==tr){
+                strcat(a," matrixTranspose(sizeof(");  strcat(a,first_variable_name); strcat(a,")/sizeof(");  strcat(a,first_variable_name); strcat(a,"[0]),");
+                strcat(a,"sizeof("); strcat(a,first_variable_name); strcat(a,"[0])/sizeof("); strcat(a,first_variable_name); strcat(a,"[0][0]))");
+            }else if(first_function==sqrt){
+                strcat(a,"sqrt("); strcat(a,first_variable_name); strcat(a,")");
+            }else{
                 strcat(a,part);
+                while((part=strtok(NULL, " ")) != NULL ){
+                    strcat(a,part);
+                }
             }
+
             strcat(a,"+");
             char *part2 = strtok(second_clean," ");
                         strcat(a,part2);
@@ -177,9 +191,8 @@ char* substraction(char *first,char* second){
     int ftoken_iteration=1;
     int stoken_iteration=1;
     char *ftoken_clean = strtok(first_clean_2," ");
-
-    
-    if(is_in_chararray(ftoken_clean)==1){
+    enum special_functions  first_function  =is_special_funciton(ftoken_clean);
+    if(first_function!=none){
         is_first_in_base=1;
         while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
             if(ftoken_iteration==1 && !strcmp(ftoken_clean,"(")==0){
@@ -193,7 +206,8 @@ char* substraction(char *first,char* second){
         }
     }
     char *stoken_clean = strtok(second_clean_2," ");
-    if(is_in_chararray(stoken_clean)==1){
+    enum special_functions  second_function  =is_special_funciton(stoken_clean);
+    if(second_function!=none){
         is_second_in_base=1;
         while( (stoken=strtok(NULL, " ")) != NULL ) {
             if(stoken_iteration==1 && ! strcmp(stoken,"(")){
@@ -203,6 +217,8 @@ char* substraction(char *first,char* second){
             }else if(stoken_iteration==4){
                 is_second_in_base=0;
             }
+            stoken_iteration++;
+
         }
     }
     if(is_first_in_base==1){
@@ -260,7 +276,8 @@ char* multiplication(char *first,char* second){
     int ftoken_iteration=1;
     int stoken_iteration=1;
     char *ftoken_clean = strtok(first_clean_2," ");
-    if(is_in_chararray(ftoken_clean)==1){
+    enum special_functions  first_function  =is_special_funciton(ftoken_clean);
+    if(first_function!=none){
         is_first_in_base=1;
         while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
             if(ftoken_iteration==1 && !strcmp(ftoken_clean,"(")==0){
@@ -274,7 +291,8 @@ char* multiplication(char *first,char* second){
         }
     }
     char *stoken_clean = strtok(second_clean_2," ");
-    if(is_in_chararray(stoken_clean)==1){
+    enum special_functions  second_function  =is_special_funciton(stoken_clean);
+    if(second_function!=none){
         is_second_in_base=1;
         while( (stoken=strtok(NULL, " ")) != NULL ) {
             if(stoken_iteration==1 && ! strcmp(stoken,"(")){
@@ -284,6 +302,8 @@ char* multiplication(char *first,char* second){
             }else if(stoken_iteration==4){
                 is_second_in_base=0;
             }
+            stoken_iteration++;
+
         }
     }
 
@@ -325,7 +345,7 @@ char* expression_parser(char *line){
     char  second_part[256];
     memset(first_part, 0, 256);
     memset(second_part, 0, 256);
-    
+
     
     /* sends expression to expression_divider function and gets the output int the following form <first_part> <operator_type> <second_part>  
        if  operator type is

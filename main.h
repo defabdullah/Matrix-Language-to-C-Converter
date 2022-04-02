@@ -10,6 +10,7 @@
 //main
 
 enum types {scalar,vector,matrix,empty};
+enum special_functions {tr,choose,sqrt,none};
 enum types isDeclared(char *str);
 
 FILE *pInputFile;
@@ -29,8 +30,6 @@ extern void matrix_initializer(char * statement,char* variable_name);
 extern void assignment_statement(char * statement,char* variable_name);
 extern void print_line(char * line);
 
-//expression parser
-char * special_functions;
 
 extern char* summation(char *first,char* second);
 extern char* substraction(char *first,char* second);
