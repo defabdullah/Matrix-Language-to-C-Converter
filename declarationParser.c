@@ -1,5 +1,5 @@
 #include "main.h"
-
+//
 void scalar_line(char* line){
     char * token;
     int token_number=1;
@@ -67,7 +67,7 @@ void matrix_line(char* line){
     char * token;
     int token_number=1;
     while ((token=strsep(&line," "))!=NULL ){
-        if(strcmp(token,"")==0 /*||  has_new_line(token)*/){
+        if(strcmp(token,"")==0 ){
                 continue;
         }
         if(token_number==1){

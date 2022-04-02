@@ -1,5 +1,6 @@
 #include "main.h"
 
+<<<<<<< HEAD:main.c
 void assignment_statement(char * statement){
     char * token;
     int token_number=1;
@@ -54,6 +55,10 @@ void print_line(char * line){
 
 
 int main(){
+=======
+int main(int argc,char *argv[]){
+
+>>>>>>> main:main/main.c
     char line[256];
     pOutputFile=fopen("file.c","w");
     print_usual();
@@ -71,10 +76,15 @@ int main(){
     char * token;
     int is_declaration=1;
     int is_infor=0;
+<<<<<<< HEAD:main.c
     scalarNumber=0;
     vectorNumber=0;
     matrixNumber=0;
 
+=======
+    
+    //reads input line by line from txt file 
+>>>>>>> main:main/main.c
     while( fgets(line,256,pInputFile) != NULL ) {
         lineNumber++;
         // checks if line starts with '#' or line is an empty line, if so continues with next line
@@ -83,6 +93,11 @@ int main(){
         }
         int cur=0;
         char extended[512];
+        
+        /* adds whitespace before and after characters which is not alpha_numeric. So we can reach token by using strtok and strsep 
+            ex: matrix A[4,4]==> matrix A [ 4 , 4 ]
+        */
+
         for(int i =0; i<strlen(line);i++){
             char as = line[i];
             char *ps = &as;
@@ -109,8 +124,13 @@ int main(){
         char * pextended = strdup(trim(extended));
         char * pextendeds = strdup(trim(extended));
 
+<<<<<<< HEAD:main.c
         // declaration while
         while ( is_declaration==1 && (token=strsep(&pextended," "))!=NULL ){
+=======
+        // declaration while. Reads first token of each line and decides type then sends line to the corresponding function.
+        while ( is_declaratiion==1 && (token=strsep(&pextended," "))!=NULL ){
+>>>>>>> main:main/main.c
             if(strcmp(token,"")==0){
                 continue;
             }
@@ -128,15 +148,23 @@ int main(){
             }
         }
 
+<<<<<<< HEAD:main.c
         //statement while
         while((token=strsep(&pextendeds," "))!=NULL && is_declaration==0){
+=======
+        //statement while. Reads first token of each line and decides type of the statement then sends line to the corresponding function.
+        while((token=strsep(&pextendeds," "))!=NULL && is_declaratiion==0){
+>>>>>>> main:main/main.c
             if(strcmp(token,"")==0){
                 continue;
             }
+            // if first token is "}", it should be end of the for loop.Otherwise gives error(exit_program).
             if (strcmp(token,"}")==0){
                 if(is_infor==1){
                     is_infor=0;
                     break;
+                }else{
+                    exit_program(lineNumber);
                 }
             }
 
@@ -162,12 +190,19 @@ int main(){
                 printsep();
                 break;
             }else{
+<<<<<<< HEAD:main.c
                 enum types type= isDeclared(token);
                 if(type==empty){
                     exit_program();
                 }
                 fprintf(pOutputFile,"\t%s",token);
                 assignment_statement(trim(pextendeds));
+=======
+                //if variable is valid
+                char *variable_name;
+                variable_name=token;
+                assignment_statement(trim(pextendeds),variable_name);
+>>>>>>> main:main/main.c
                 break;
             }
 
