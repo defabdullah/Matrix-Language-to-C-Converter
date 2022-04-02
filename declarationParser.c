@@ -9,6 +9,9 @@ void scalar_line(char* line){
         }
         if(token_number==1){
             if(is_alphanumeric_string(token)){
+                if(isDeclared(token)!=empty){
+                    exit_program();
+                }
                 fprintf(pOutputFile,"%s %s %s","\tdouble",token,";\n");
                 scalarArray[scalarNumber]= token;
                 scalarNumber++;
@@ -32,6 +35,9 @@ void vector_line(char* line){
         }
         if(token_number==1){
             if(is_alphanumeric(token)){
+                if(isDeclared(token)!=empty){
+                    exit_program();
+                }
                 vectorArray[vectorNumber]=token;
                 vectorNumber++;
             }
@@ -74,6 +80,9 @@ void matrix_line(char* line){
             if(is_alphanumeric(token)==0){
                 exit_program();
             }else{
+                if(isDeclared(token)!=empty){
+                    exit_program();
+                }
                 fprintf(pOutputFile,"%s", token);
                 matrixArray[matrixNumber]=token;
                 matrixNumber++;
