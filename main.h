@@ -53,13 +53,19 @@ extern void exit_program();
 extern void printCloseBracket();
 extern void print_usual();
 extern void printsep();
+extern void printSingleForOpening(char* firstInitVariable, char* firstInitAssignment, char* firstCondition, char* firstAddition);
+extern void printDoubleForOpening(char* firstInitVariable, char* firstInitAssignment, char* firstCondition, char* firstAddition, char* secondInitVariable, char* secondInitAssignment, char* secondCondition, char* secondAddition);
 
 
 //paranthesis parser
 extern char *parseParanthesis(char *str);
+extern char *deleteParanthesis(char *str);
 
+char *reverse;
 char *reverseStr;
 char *reverseCopy;
+char *reverseFull;
+char *withoutLastParanthesis;
 
 char *afterParantReverse;
 char *afterParant;
@@ -87,9 +93,10 @@ char *secondInitAssignment;
 char *secondCondition;
 char *secondAddition;
  
-extern char *parseSingleFor(char *str);
-extern char *parseDoubleFor(char *str);
+extern void parseSingleFor(char *str);
+extern void parseDoubleFor(char *str);
 
+void tokenControl(char *str,char *correctToken);
 
 
 #endif
