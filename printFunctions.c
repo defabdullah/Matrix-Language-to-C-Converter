@@ -9,6 +9,21 @@ void printDoubleForOpening(char* firstInitVariable, char* firstInitAssignment, c
     fprintf(pOutputFile,"\tint %s,%s;\n\tfor (%s=%s;%s<%s;%s+=%s){\n\t\tfor(%s=%s;%s<%s;%s+=%s){\n",firstInitVariable,secondInitVariable,firstInitVariable,firstInitAssignment,firstInitVariable,firstCondition,firstInitVariable,firstAddition,secondInitVariable,secondInitAssignment,secondInitVariable,secondCondition,secondInitVariable,secondAddition);
 }
 
+void printScalarSubstraction(){
+    fprintf(pOutputFile,"%s","double scalarSubstraction(double num1,double num2){\n\treturn num1-num2;\n}\n");
+}
+
+void printScalarSummation(){
+    fprintf(pOutputFile,"%s","double scalarSummation(double num1,double num2){\n\treturn num1+num2;\n}\n");
+}
+
+void printMatrixSubstraction(){
+    fprintf(pOutputFile,"%s","double **matrixSubstraction( double **matrix1, double **matrix2, int row, int column){\n\tdouble **newMatrix;\n\tnewMatrix=(double**)calloc(row,sizeof(double*));\n\tfor(int i=0;i<row;i++){\n\t\tnewMatrix[i]=(double*)calloc(column,sizeof(double));\n\t}\n\tfor(int i=0;i<row;i++){\n\t\tfor(int j=0;j<column;j++){\n\t\t\tnewMatrix[i][j]=(matrix1[i][j]-matrix2[i][j]);\n\t\t}\n\t}\n\treturn newMatrix;\n}\n");
+}
+
+void printMatrixSummation(){
+    fprintf(pOutputFile,"%s","double **matrixSummation( double **matrix1, double **matrix2, int row, int column){\n\tdouble **newMatrix;\n\tnewMatrix=(double**)calloc(row,sizeof(double*));\n\tfor(int i=0;i<row;i++){\n\t\tnewMatrix[i]=(double*)calloc(column,sizeof(double));\n\t}\n\tfor(int i=0;i<row;i++){\n\t\tfor(int j=0;j<column;j++){\n\t\t\tnewMatrix[i][j]=(matrix1[i][j]+matrix2[i][j]);\n\t\t}\n\t}\n\treturn newMatrix;\n}\n");
+}
 void printScalarMultiplication(){
     fprintf(pOutputFile,"%s","double scalarMultiplication(double num1,double num2){\n\treturn num1*num2;\n}\n");
 }
@@ -23,6 +38,10 @@ void printPrintScalar(){
 
 void printMatrixTranspose(){
     fprintf(pOutputFile,"%s","\ndouble **matrixTranspose(int row,int column,double **matrix){\n\tdouble **newMatrix;\n\tnewMatrix=(double**)calloc(column,sizeof(double*));\n\tfor(int i=0;i<column;i++){\n\t\tnewMatrix[i]=(double*)calloc(row,sizeof(double));\n\t}\n\tfor(int i=0;i<column;i++){\n\t\tfor(int j=0;j<row;j++){\n\t\t\tnewMatrix[i][j]=matrix[j][i];\n\t\t}\n\t}\n\treturn newMatrix;\n}\n");
+}
+
+void printScalarTranspose(){
+    fprintf(pOutputFile,"%s","double scalarTranspose(double num1){\n\treturn num1;\n}\n");
 }
 
 void printChoose(){
@@ -40,10 +59,16 @@ void printsep(){
 void print_usual(){
     fprintf(pOutputFile, "%s","#include <stdio.h>\n#include <string.h>\n#include <ctype.h>\n\n");
     fprintf(pOutputFile,"%s","\nvoid printsep(){ \n\tprintf(\"----------\\n\"); \n}\n");
+    printScalarSubstraction();
+    printScalarSummation();
+    printMatrixSubstraction();
+    printMatrixSummation();
     printScalarMultiplication();
     printScalarMatrixMultiplication();
     printPrintScalar();
     printMatrixTranspose();
+    printScalarTranspose();
+    
     printChoose();
     fprintf(pOutputFile,"%s","\n\nint main(){\n\n");
 }

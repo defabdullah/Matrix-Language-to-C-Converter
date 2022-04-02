@@ -2,7 +2,8 @@
 #include <stdlib.h>
 double scalarTranspose(double num1){
         return num1;
-    }
+}
+
 
 double **matrixTranspose(int row,int column,double **matrix){
     double **newMatrix;
