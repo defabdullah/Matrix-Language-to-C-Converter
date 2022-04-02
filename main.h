@@ -8,7 +8,9 @@
 
 
 //main
-enum types{scalar,vector,matrix};
+
+enum types {scalar,vector,matrix,empty};
+enum types isDeclared(char *str);
 
 FILE *pInputFile;
 FILE *pOutputFile;
@@ -18,9 +20,9 @@ int lineNumber;
 int scalarNumber;
 int vectorNumber;
 int matrixNumber;
-extern char *scalarArray[256][256];
-extern char *vectorArray[256][256];
-extern char *matrixArray[256][256];
+char *scalarArray[256];
+char *vectorArray[256];
+char *matrixArray[256];
 
 //expression parser
 char * special_functions;
@@ -43,7 +45,7 @@ extern int is_alphanumeric(char* s);
 extern int is_alphanumeric_string(char* s);
 extern int is_numeric_string(char *s);
 extern int expression_divider(char* line,char *first,char *second);
-extern void exit_program(int lineNumber);
+extern void exit_program();
 
 
 

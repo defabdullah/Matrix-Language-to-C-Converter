@@ -69,7 +69,7 @@ char* strrev (char *str) {
     return reverse;
 }
 
-void exit_program(int lineNumber){
+void exit_program(){
     printf("Error (Line %d)",lineNumber);
     exit(1);
 }

@@ -25,14 +25,14 @@ char  * matrix_initializer(char * line){
             is_first=1;
         }
         if(strcmp(last_token,"}")!=0){
-            exit_program(lineNumber);
+            exit_program();
         }
         return strdup(result);
 }
 
 
 
-
+// control char in array
 int is_in_chararray(char * token){
     for(int i=0;i<3;i++){
         char *temp= strdup(special_functions);
@@ -122,9 +122,9 @@ char* summation(char *first,char* second){
         is_first_in_base=1;
         while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
             if(ftoken_iteration==1 && !strcmp(ftoken_clean,"(")==0){
-                exit_program(lineNumber);
+                exit_program();
             }else if(ftoken_iteration==3 && !strcmp(ftoken_clean,")")==0){
-                exit_program(lineNumber);
+                exit_program();
             }else if(ftoken_iteration==4){
                 is_first_in_base=0;
             }
@@ -136,10 +136,10 @@ char* summation(char *first,char* second){
         is_second_in_base=1;
         while( (stoken=strtok(NULL, " ")) != NULL ) {
             if(stoken_iteration==1 && ! strcmp(stoken,"(")){
-                exit_program(lineNumber);
+                exit_program();
             }else if(stoken_iteration==3 && strcmp(stoken,")")){
-                exit_program(lineNumber);
-            }else if(lineNumber==4){
+                exit_program();
+            }else if(stoken_iteration==4){
                 is_second_in_base=0;
             }
         }
@@ -206,9 +206,9 @@ char* substraction(char *first,char* second){
         is_first_in_base=1;
         while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
             if(ftoken_iteration==1 && !strcmp(ftoken_clean,"(")==0){
-                exit_program(lineNumber);
+                exit_program();
             }else if(ftoken_iteration==3 && !strcmp(ftoken_clean,")")==0){
-                exit_program(lineNumber);
+                exit_program();
             }else if(ftoken_iteration==4){
                 is_first_in_base=0;
             }
@@ -220,10 +220,10 @@ char* substraction(char *first,char* second){
         is_second_in_base=1;
         while( (stoken=strtok(NULL, " ")) != NULL ) {
             if(stoken_iteration==1 && ! strcmp(stoken,"(")){
-                exit_program(lineNumber);
+                exit_program();
             }else if(stoken_iteration==3 && strcmp(stoken,")")){
-                exit_program(lineNumber);
-            }else if(lineNumber==4){
+                exit_program();
+            }else if(stoken_iteration==4){
                 is_second_in_base=0;
             }
         }
@@ -287,9 +287,9 @@ char* multiplication(char *first,char* second){
         is_first_in_base=1;
         while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
             if(ftoken_iteration==1 && !strcmp(ftoken_clean,"(")==0){
-                exit_program(lineNumber);
+                exit_program();
             }else if(ftoken_iteration==3 && !strcmp(ftoken_clean,")")==0){
-                exit_program(lineNumber);
+                exit_program();
             }else if(ftoken_iteration==4){
                 is_first_in_base=0;
             }
@@ -301,10 +301,10 @@ char* multiplication(char *first,char* second){
         is_second_in_base=1;
         while( (stoken=strtok(NULL, " ")) != NULL ) {
             if(stoken_iteration==1 && ! strcmp(stoken,"(")){
-                exit_program(lineNumber);
+                exit_program();
             }else if(stoken_iteration==3 && strcmp(stoken,")")){
-                exit_program(lineNumber);
-            }else if(lineNumber==4){
+                exit_program();
+            }else if(stoken_iteration==4){
                 is_second_in_base=0;
             }
         }

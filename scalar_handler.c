@@ -15,7 +15,7 @@ void scalarHandler(char line[256],int lineNumber){
 
     //control second word exist
     if((token=strtok(NULL," "))!=NULL){
-        exit_program(lineNumber);
+        exit_program();
     }
     
 

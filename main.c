@@ -6,7 +6,7 @@ void assignment_statement(char * statement){
     while((token=strsep(&statement," "))!=NULL){
         if(token_number==1){
             if(strcmp(token,"=")!=0){
-                exit_program(lineNumber);
+                exit_program();
             }
             fprintf(pOutputFile,"%s",token);
         }else{
@@ -27,7 +27,7 @@ void print_line(char * line){
     while((token=strsep(&line," "))!=NULL){
         if(token_number==1){
             if(strcmp(token,"(")!=0){
-                exit_program(lineNumber);
+                exit_program();
             }else{
                 fprintf(pOutputFile,"%s","(");
             }
@@ -36,19 +36,19 @@ void print_line(char * line){
 
         }else if(token_number==3) {
             if(strcmp(token,")")!=0){
-                exit_program(lineNumber);
+                exit_program();
             }else{
                 fprintf(pOutputFile,"%s",");\n");
             }
         }else{
-            exit_program(lineNumber);
+            exit_program();
         }
         token_number++;
         token = strtok(NULL, " ");
 
     }
     if(token_number!=4){
-        exit_program(lineNumber);
+        exit_program();
     }
 }
 
@@ -62,7 +62,7 @@ int main(){
         pInputFile = fopen("trial.txt", "r");
         return 1;
     }*/
-    pInputFile = fopen("try.txt", "r");
+    pInputFile = fopen("trial.txt", "r");
     if(pInputFile == NULL) {
         printf("Cannot open %s\n","trial.txt");
         return 1;
@@ -70,8 +70,11 @@ int main(){
 
     char extended[512];
     char * token;
-    int is_declaratiion=1;
+    int is_declaration=1;
     int is_infor=0;
+    scalarNumber=0;
+    vectorNumber=0;
+    matrixNumber=0;
 
     while( fgets(line,256,pInputFile) != NULL ) {
         lineNumber++;
@@ -108,7 +111,7 @@ int main(){
         char * pextendeds = strdup(trim(extended));
 
         // declaration while
-        while ( is_declaratiion==1 && (token=strsep(&pextended," "))!=NULL ){
+        while ( is_declaration==1 && (token=strsep(&pextended," "))!=NULL ){
             if(strcmp(token,"")==0){
                 continue;
             }
@@ -122,12 +125,12 @@ int main(){
                 matrix_line(pextended);
                 break;
             }else{
-                is_declaratiion=0;
+                is_declaration=0;
             }
         }
 
         //statement while
-        while((token=strsep(&pextendeds," "))!=NULL && is_declaratiion==0){
+        while((token=strsep(&pextendeds," "))!=NULL && is_declaration==0){
             if(strcmp(token,"")==0){
                 continue;
             }
@@ -152,7 +155,10 @@ int main(){
                 printsep();
                 break;
             }else{
-                //if variable is valid
+                enum types type= isDeclared(token);
+                if(type==empty){
+                    exit_program();
+                }
                 fprintf(pOutputFile,"\t%s",token);
                 assignment_statement(trim(pextendeds));
                 break;
