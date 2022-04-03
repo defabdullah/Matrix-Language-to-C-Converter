@@ -66,8 +66,7 @@ int expression_divider(char* line,char *first_part,char *second_part){
 }
 
 char* summation(char *first,char* second){
-
-    char a[2048]=" ";
+    char a[2048]="";
     char* ftoken;
     char* stoken;
     char * first_clean = strdup(first);
@@ -92,24 +91,74 @@ char* summation(char *first,char* second){
     char *ftoken_clean = strtok(first_clean_2," ");
     char * first_variable_name;
     enum special_functions  first_function  =is_special_funciton(ftoken_clean);
-
+    char * expOne;
+    char * expTwo;
+    char * expThree;
+    char * expFour;
+    char * expOne_second;
+    char * expTwo_second;
+    char * expThree_second;
+    char * expFour_second;
     if(first_function!=none){
         is_first_in_base=1;
-        while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
-            if(ftoken_iteration==1 && !strcmp(ftoken_clean,"(")==0){
-                exit_program();
-            }else if(ftoken_iteration==3 && !strcmp(ftoken_clean,")")==0){
-                exit_program();
-            }else if(ftoken_iteration==2){
-                if(isDeclared(ftoken_clean)==empty){
-                    exit_program();
+        int choose_iterator=1;
+        if(first_function==choose){
+            while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
+                if(choose_iterator==1){
+                    if(strcmp(ftoken_clean,"(")!=0)
+                        exit_program();
+                }else if(choose_iterator==2 || choose_iterator==3 || choose_iterator==4){
+                    char  exp[256] ;
+                    memset(exp,0,256);
+                    strcat(exp,ftoken_clean);
+                    while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
+                        if(strcmp(ftoken_clean,",")==0){
+                            break;
+                        }
+                        strcat(exp,ftoken_clean);
+                    }
+                    if(choose_iterator==2){
+                        expOne=strdup(expression_parser(exp));
+                    }else if(choose_iterator==3){
+                        expTwo=strdup(expression_parser(exp));
+                    }else if(choose_iterator==4){
+                        expThree=strdup(expression_parser(exp));
+                    }
+
+                }else if(choose_iterator==5){
+                    char  exp[256] ;
+                    memset(exp,0,256);
+                    strcat(exp,ftoken_clean);
+                    while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
+                        if(strcmp(ftoken_clean,")")==0){
+                            break;
+                        }
+                        strcat(exp,ftoken_clean);
+                    }
+                    expFour=strdup(expression_parser(exp));
+                }else{
+                    is_first_in_base=0;
+                    break;
                 }
-                first_variable_name = ftoken_clean;
-            }else if(ftoken_iteration==4){
-                is_first_in_base=0;
-                break;
+                choose_iterator++;
             }
-            ftoken_iteration++;
+        }else{
+            while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
+                if(ftoken_iteration==1 && !strcmp(ftoken_clean,"(")==0){
+                    exit_program();
+                }else if(ftoken_iteration==3 && !strcmp(ftoken_clean,")")==0){
+                    exit_program();
+                }else if(ftoken_iteration==2){
+                    if(isDeclared(ftoken_clean)==empty){
+                        exit_program();
+                    }
+                    first_variable_name = ftoken_clean;
+                }else if(ftoken_iteration==4){
+                    is_first_in_base=0;
+                    break;
+                }
+                ftoken_iteration++;
+            }
         }
     }
     char * second_variable_name;
@@ -117,52 +166,97 @@ char* summation(char *first,char* second){
     enum special_functions  second_function  =is_special_funciton(stoken_clean);
     if(second_function!=none){
         is_second_in_base=1;
-        while( (stoken_clean=strtok(NULL, " ")) != NULL ) {
-            if(stoken_iteration==1 && !strcmp(stoken_clean,"(")==0){
-                exit_program();
-            }else if(stoken_iteration==2){
-                if(isDeclared(stoken_clean)==empty){
-                    printf("aaa\n");
-                    exit_program();
+        int choose_iterator_second=1;
+        if(second_function==choose){
+            while( (stoken_clean=strtok(NULL, " "))!= NULL ) {
+                if(choose_iterator_second==1){
+                    if(strcmp(stoken_clean,"(")!=0)
+                        exit_program();
+                }else if(choose_iterator_second==2 || choose_iterator_second==3 || choose_iterator_second==4){
+                    char  exp[256] ;
+                    memset(exp,0,256);
+                    strcat(exp,stoken_clean);
+                    while( (stoken_clean=strtok(NULL, " "))!= NULL ) {
+                        if(strcmp(stoken_clean,",")==0){
+                            break;
+                        }
+                        strcat(exp,stoken_clean);
+                    }
+                    if(choose_iterator_second==2){
+                        expOne_second=strdup(expression_parser(exp));
+                    
+                    }else if(choose_iterator_second==3){
+                        expTwo_second=strdup(expression_parser(exp));
+                    
+                    }else if(choose_iterator_second==4){
+                        expThree_second=strdup(expression_parser(exp));
+                    }
+
+                }else if(choose_iterator_second==5){
+                    char  exp[256] ;
+                    memset(exp,0,256);
+                    strcat(exp,stoken_clean);
+                    while( (stoken_clean=strtok(NULL, " "))!= NULL ) {
+                        if(strcmp(stoken_clean,")")==0){
+                            break;
+                        }
+                        strcat(exp,stoken_clean);
+                    }
+                    expFour_second=strdup(expression_parser(exp));
+                }else{
+                    is_second_in_base=0;
+                    break;
                 }
-                second_variable_name = stoken_clean;
-            }else if(stoken_iteration==3 && strcmp(stoken_clean,")")){
-                exit_program();
-            }else if(stoken_iteration==4){
-                is_second_in_base=0;
+                choose_iterator_second++;
             }
-            stoken_iteration++;
+        }else{
+            while((stoken_clean=strtok(NULL, " ")) != NULL ) {
+                if(stoken_iteration==1 && !strcmp(stoken_clean,"(")==0){
+                    exit_program();
+                }else if(stoken_iteration==2){
+                    if(isDeclared(stoken_clean)==empty){
+                        exit_program();
+                    }
+                    second_variable_name = stoken_clean;
+                }else if(stoken_iteration==3 && strcmp(stoken_clean,")")){
+                    exit_program();
+                }else if(stoken_iteration==4){
+                    is_second_in_base=0;
+                }
+                stoken_iteration++;
+            }
         }
     }
 
     if(is_first_in_base==1){
         if(is_second_in_base==1){
             char *part = strtok(first_clean," ");
-            char *part2 = strtok(second_clean," ");
+            char* part_copy = strdup(first_clean);
+            if(isDeclared(part)==matrix|| isDeclared(part)== vector || is_special_funciton(part)==tr || return_type_of_function(part_copy)==1){
+                strcat(a,"matrixSummation(");
+            }else{
+                strcat(a,"scalarSummation(");
+            }
             if(first_function==tr){
-                strcat(a," matrixTranspose(sizeof(");  strcat(a,first_variable_name); strcat(a,")/sizeof(");  strcat(a,first_variable_name); strcat(a,"[0]),");
-                strcat(a,"sizeof("); strcat(a,first_variable_name); strcat(a,"[0])/sizeof("); strcat(a,first_variable_name); strcat(a,"[0][0]))");
+                strcat(a,"matrixTranspose(sizeof(");  strcat(a,first_variable_name); strcat(a,")/sizeof(");  strcat(a,first_variable_name); strcat(a,"[0]),");
+                strcat(a,"sizeof("); strcat(a,first_variable_name); strcat(a,"[0])/sizeof("); strcat(a,first_variable_name); strcat(a,"[0][0]),(double**)");strcat(a,first_variable_name);strcat(a,")");
             }else if(first_function==sqrt){
                 strcat(a,"sqrt("); strcat(a,first_variable_name); strcat(a,")");
             }else if(first_function==choose){
-                strcat(a,"choose( )");
+                strcat(a,"choose("); strcat(a,expOne); strcat(a,","); strcat(a,expTwo);strcat(a,","); strcat(a,expThree); strcat(a,","); strcat(a,expFour);strcat(a,")");
 
             }else{
                 strcat(a,part);
-                while((part=strtok(NULL, " ")) != NULL ){
-                    strcat(a,part);
-                }
             }   
-
-            strcat(a,"+");
-
+            strcat(a,",");
+            char *part2 = strtok(second_clean," ");
             if(second_function==tr){
-                strcat(a," matrixTranspose(sizeof(");  strcat(a,second_variable_name); strcat(a,")/sizeof(");  strcat(a,second_variable_name); strcat(a,"[0]),");
-                strcat(a,"sizeof("); strcat(a,second_variable_name); strcat(a,"[0])/sizeof("); strcat(a,second_variable_name); strcat(a,"[0][0]))");
+                strcat(a,"matrixTranspose(sizeof(");  strcat(a,second_variable_name); strcat(a,")/sizeof(");  strcat(a,second_variable_name); strcat(a,"[0]),");
+                strcat(a,"sizeof("); strcat(a,second_variable_name); strcat(a,"[0])/sizeof("); strcat(a,second_variable_name); strcat(a,"[0][0]),(double**)");strcat(a,second_variable_name);strcat(a,")");
             }else if(second_function==sqrt){
                 strcat(a,"sqrt("); strcat(a,second_variable_name); strcat(a,")");
             }else if(second_function==choose){
-                strcat(a,"choose( )");
+                strcat(a,"choose("); strcat(a,expOne_second); strcat(a,","); strcat(a,expTwo_second);strcat(a,","); strcat(a,expThree_second); strcat(a,","); strcat(a,expFour_second);strcat(a,")");
             }else{
                 strcat(a,part2);
                 while((part=strtok(NULL, " ")) != NULL ){
@@ -189,7 +283,7 @@ char* summation(char *first,char* second){
 }
 
 char* substraction(char *first,char* second){
-    char a[2048]=" ";
+    char a[2048]="";
     char* ftoken;
     char* stoken;
     char * first_clean = strdup(first);
@@ -214,22 +308,73 @@ char* substraction(char *first,char* second){
     char *ftoken_clean = strtok(first_clean_2," ");
     char * first_variable_name;
     enum special_functions  first_function  =is_special_funciton(ftoken_clean);
+    char * expOne;
+    char * expTwo;
+    char * expThree;
+    char * expFour;
+    char * expOne_second;
+    char * expTwo_second;
+    char * expThree_second;
+    char * expFour_second;
     if(first_function!=none){
         is_first_in_base=1;
-        while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
-            if(ftoken_iteration==1 && !strcmp(ftoken_clean,"(")==0){
-                exit_program();
-            }else if(ftoken_iteration==2){
-                if(isDeclared(ftoken_clean)==empty){
-                    exit_program();
+        int choose_iterator=1;
+        if(first_function==choose){
+            while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
+                if(choose_iterator==1){
+                    if(strcmp(ftoken_clean,"(")!=0)
+                        exit_program();
+                }else if(choose_iterator==2 || choose_iterator==3 || choose_iterator==4){
+                    char  exp[256] ;
+                    memset(exp,0,256);
+                    strcat(exp,ftoken_clean);
+                    while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
+                        if(strcmp(ftoken_clean,",")==0){
+                            break;
+                        }
+                        strcat(exp,ftoken_clean);
+                    }
+                    if(choose_iterator==2){
+                        expOne=strdup(expression_parser(exp));
+                    }else if(choose_iterator==3){
+                        expTwo=strdup(expression_parser(exp));
+                    }else if(choose_iterator==4){
+                        expThree=strdup(expression_parser(exp));
+                    }
+
+                }else if(choose_iterator==5){
+                    char  exp[256] ;
+                    memset(exp,0,256);
+                    strcat(exp,ftoken_clean);
+                    while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
+                        if(strcmp(ftoken_clean,")")==0){
+                            break;
+                        }
+                        strcat(exp,ftoken_clean);
+                    }
+                    expFour=strdup(expression_parser(exp));
+                }else{
+                    is_first_in_base=0;
+                    break;
                 }
-                first_variable_name = ftoken_clean;
-            }else if(ftoken_iteration==3 && !strcmp(ftoken_clean,")")==0){
-                exit_program();
-            }else if(ftoken_iteration==4){
-                is_first_in_base=0;
+                choose_iterator++;
             }
-            ftoken_iteration++;
+        }else{
+            while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
+                if(ftoken_iteration==1 && !strcmp(ftoken_clean,"(")==0){
+                    exit_program();
+                }else if(ftoken_iteration==2){
+                    if(isDeclared(ftoken_clean)==empty){
+                        exit_program();
+                    }
+                    first_variable_name = ftoken_clean;
+                }else if(ftoken_iteration==3 && !strcmp(ftoken_clean,")")==0){
+                    exit_program();
+                }else if(ftoken_iteration==4){
+                    is_first_in_base=0;
+                }
+                ftoken_iteration++;
+            }
         }
     }
     char *stoken_clean = strtok(second_clean_2," ");
@@ -237,51 +382,99 @@ char* substraction(char *first,char* second){
     char * second_variable_name;
     if(second_function!=none){
         is_second_in_base=1;
-        while( (stoken_clean=strtok(NULL, " ")) != NULL ) {
-            if(stoken_iteration==1 && strcmp(stoken_clean,"(")!=0){
-                exit_program();
-            }else if(stoken_iteration==2){
-                if(isDeclared(stoken_clean)==empty){
-                    exit_program();
-                }
-                second_variable_name = stoken_clean;
-            }else if(stoken_iteration==3 && strcmp(stoken_clean,")")!=0){
-                exit_program();
-            }else if(stoken_iteration==4){
-                is_second_in_base=0;
-            }
-            stoken_iteration++;
+        int choose_iterator_second=1;
+        if(second_function==choose){
+            while( (stoken_clean=strtok(NULL, " "))!= NULL ) {
+                if(choose_iterator_second==1){
+                    if(strcmp(stoken_clean,"(")!=0)
+                        exit_program();
+                }else if(choose_iterator_second==2 || choose_iterator_second==3 || choose_iterator_second==4){
+                    char  exp[256] ;
+                    memset(exp,0,256);
+                    strcat(exp,stoken_clean);
+                    while( (stoken_clean=strtok(NULL, " "))!= NULL ) {
+                        if(strcmp(stoken_clean,",")==0){
+                            break;
+                        }
+                        strcat(exp,stoken_clean);
+                    }
+                    if(choose_iterator_second==2){
+                        expOne_second=strdup(expression_parser(exp));
+                    
+                    }else if(choose_iterator_second==3){
+                        expTwo_second=strdup(expression_parser(exp));
+                    
+                    }else if(choose_iterator_second==4){
+                        expThree_second=strdup(expression_parser(exp));
+                    }
 
+                }else if(choose_iterator_second==5){
+                    char  exp[256] ;
+                    memset(exp,0,256);
+                    strcat(exp,stoken_clean);
+                    while( (stoken_clean=strtok(NULL, " "))!= NULL ) {
+                        if(strcmp(stoken_clean,")")==0){
+                            break;
+                        }
+                        strcat(exp,stoken_clean);
+                    }
+                    expFour_second=strdup(expression_parser(exp));
+                }else{
+                    is_second_in_base=0;
+                    break;
+                }
+                choose_iterator_second++;
+            }
+        }else{
+            while( (stoken_clean=strtok(NULL, " ")) != NULL ) {
+                if(stoken_iteration==1 && strcmp(stoken_clean,"(")!=0){
+                    exit_program();
+                }else if(stoken_iteration==2){
+                    if(isDeclared(stoken_clean)==empty){
+                        exit_program();
+                    }
+                    second_variable_name = stoken_clean;
+                }else if(stoken_iteration==3 && strcmp(stoken_clean,")")!=0){
+                    exit_program();
+                }else if(stoken_iteration==4){
+                    is_second_in_base=0;
+                }
+                stoken_iteration++;
+
+            }
         }
+       
     }
     if(is_first_in_base==1){
         if(is_second_in_base==1){
             char *part = strtok(first_clean," ");
-            char *part2 = strtok(second_clean," ");
+            char* part_copy = strdup(first_clean);
+            if(isDeclared(part)==matrix|| isDeclared(part)== vector || is_special_funciton(part)==tr || return_type_of_function(part_copy)==1){
+                strcat(a,"matrixSubstraction(");
+            }else{
+                strcat(a,"scalarSubstraction(");
+            }
             if(first_function==tr){
-                strcat(a," matrixTranspose(sizeof(");  strcat(a,first_variable_name); strcat(a,")/sizeof(");  strcat(a,first_variable_name); strcat(a,"[0]),");
-                strcat(a,"sizeof("); strcat(a,first_variable_name); strcat(a,"[0])/sizeof("); strcat(a,first_variable_name); strcat(a,"[0][0]))");
+                strcat(a,"matrixTranspose(sizeof(");  strcat(a,first_variable_name); strcat(a,")/sizeof(");  strcat(a,first_variable_name); strcat(a,"[0]),");
+                strcat(a,"sizeof("); strcat(a,first_variable_name); strcat(a,"[0])/sizeof("); strcat(a,first_variable_name); strcat(a,"[0][0]),(double**)");strcat(a,first_variable_name);strcat(a,")");
             }else if(first_function==sqrt){
                 strcat(a,"sqrt("); strcat(a,first_variable_name); strcat(a,")");
             }else if(first_function==choose){
-                strcat(a,"choose( )");
+                strcat(a,"choose("); strcat(a,expOne); strcat(a,","); strcat(a,expTwo);strcat(a,","); strcat(a,expThree); strcat(a,","); strcat(a,expFour);strcat(a,")");
 
             }else{
                 strcat(a,part);
-                while((part=strtok(NULL, " ")) != NULL ){
-                    strcat(a,part);
-                }
             }   
 
-            strcat(a,"-");
-
+            strcat(a,",");
+            char *part2 = strtok(second_clean," ");
             if(second_function==tr){
-                strcat(a," matrixTranspose(sizeof(");  strcat(a,second_variable_name); strcat(a,")/sizeof(");  strcat(a,second_variable_name); strcat(a,"[0]),");
-                strcat(a,"sizeof("); strcat(a,second_variable_name); strcat(a,"[0])/sizeof("); strcat(a,second_variable_name); strcat(a,"[0][0]))");
+                strcat(a,"matrixTranspose(sizeof(");  strcat(a,second_variable_name); strcat(a,")/sizeof(");  strcat(a,second_variable_name); strcat(a,"[0]),");
+                strcat(a,"sizeof("); strcat(a,second_variable_name); strcat(a,"[0])/sizeof("); strcat(a,second_variable_name);  strcat(a,"[0][0]),(double**)");strcat(a,second_variable_name);strcat(a,")");
             }else if(second_function==sqrt){
                 strcat(a,"sqrt("); strcat(a,second_variable_name); strcat(a,")");
             }else if(second_function==choose){
-                strcat(a,"choose( )");
+                strcat(a,"choose("); strcat(a,expOne_second); strcat(a,","); strcat(a,expTwo_second);strcat(a,","); strcat(a,expThree_second); strcat(a,","); strcat(a,expFour_second);strcat(a,")");
             }else{
                 strcat(a,part2);
                 while((part=strtok(NULL, " ")) != NULL ){
@@ -308,7 +501,7 @@ char* substraction(char *first,char* second){
 }
 
 char* multiplication(char *first,char* second){
-    char a[2048]=" ";
+    char a[2048]="";
     char* ftoken;
     char* stoken;
     char * first_clean = strdup(first);
@@ -331,30 +524,127 @@ char* multiplication(char *first,char* second){
     char *ftoken_clean = strtok(first_clean_2," ");
     enum special_functions  first_function  =is_special_funciton(ftoken_clean);
     char * first_variable_name;
+    char * expOne;
+    char * expTwo;
+    char * expThree;
+    char * expFour;
+    char * expOne_second;
+    char * expTwo_second;
+    char * expThree_second;
+    char * expFour_second;
     if(first_function!=none){
+        int choose_iterator=1;
         is_first_in_base=1;
-        while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
-            if(ftoken_iteration==1 && strcmp(ftoken_clean,"(")!=0){
-                exit_program();
-            }else if(ftoken_iteration==2){
-                if((isDeclared(ftoken_clean)==empty)){
+        if(first_function==choose){
+            while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
+                if(choose_iterator==1){
+                    if(strcmp(ftoken_clean,"(")!=0)
+                        exit_program();
+                }else if(choose_iterator==2 || choose_iterator==3 || choose_iterator==4){
+                    char  exp[256] ;
+                    memset(exp,0,256);
+                    strcat(exp,ftoken_clean);
+                    while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
+                        if(strcmp(ftoken_clean,",")==0){
+                            break;
+                        }
+                        strcat(exp,ftoken_clean);
+                    }
+                    if(choose_iterator==2){
+                        expOne=strdup(expression_parser(exp));
+                    }else if(choose_iterator==3){
+                        expTwo=strdup(expression_parser(exp));
+                    }else if(choose_iterator==4){
+                        expThree=strdup(expression_parser(exp));
+                    }
+
+                }else if(choose_iterator==5){
+                    char  exp[256] ;
+                    memset(exp,0,256);
+                    strcat(exp,ftoken_clean);
+                    while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
+                        if(strcmp(ftoken_clean,")")==0){
+                            break;
+                        }
+                        strcat(exp,ftoken_clean);
+                    }
+                    expFour=strdup(expression_parser(exp));
+                }else{
+                    is_first_in_base=0;
+                    break;
+                }
+                choose_iterator++;
+            }
+        }else{
+            is_first_in_base=1;
+            while( (ftoken_clean=strtok(NULL, " "))!= NULL ) {
+                if(ftoken_iteration==1 && strcmp(ftoken_clean,"(")!=0){
                     exit_program();
+                }else if(ftoken_iteration==2){
+                    if((isDeclared(ftoken_clean)==empty)){
+                        exit_program();
                 }
                 first_variable_name = ftoken_clean;
-            }else if(ftoken_iteration==3 && strcmp(ftoken_clean,")")!=0){
-                exit_program();
-            }else if(ftoken_iteration==4){
-                is_first_in_base=0;
+                }else if(ftoken_iteration==3 && strcmp(ftoken_clean,")")!=0){
+                    exit_program();
+                }else if(ftoken_iteration==4){
+                    is_first_in_base=0;
+                }
+                ftoken_iteration++;
             }
-            ftoken_iteration++;
         }
+        
     }
     char *stoken_clean = strtok(second_clean_2," ");
     enum special_functions  second_function  =is_special_funciton(stoken_clean);
     char * second_variable_name;
     if(second_function!=none){
         is_second_in_base=1;
-        while( (stoken_clean=strtok(NULL, " ")) != NULL ) {
+        int choose_iterator_second=1;
+        if(second_function==choose){
+            while( (stoken_clean=strtok(NULL, " "))!= NULL ) {
+                if(choose_iterator_second==1){
+                    if(strcmp(stoken_clean,"(")!=0)
+                        exit_program();
+                }else if(choose_iterator_second==2 || choose_iterator_second==3 || choose_iterator_second==4){
+                    char  exp[256] ;
+                    memset(exp,0,256);
+                    strcat(exp,stoken_clean);
+                    while( (stoken_clean=strtok(NULL, " "))!= NULL ) {
+                        if(strcmp(stoken_clean,",")==0){
+                            break;
+                        }
+                        strcat(exp,stoken_clean);
+                    }
+                    if(choose_iterator_second==2){
+                        expOne_second=strdup(expression_parser(exp));
+                    
+                    }else if(choose_iterator_second==3){
+                        expTwo_second=strdup(expression_parser(exp));
+                    
+                    }else if(choose_iterator_second==4){
+                        expThree_second=strdup(expression_parser(exp));
+                    }
+
+                }else if(choose_iterator_second==5){
+                    char  exp[256] ;
+                    memset(exp,0,256);
+                    strcat(exp,stoken_clean);
+                    while( (stoken_clean=strtok(NULL, " "))!= NULL ) {
+                        if(strcmp(stoken_clean,")")==0){
+                            break;
+                        }
+                        strcat(exp,stoken_clean);
+                    }
+                    expFour_second=strdup(expression_parser(exp));
+                }else{
+                    is_second_in_base=0;
+                    break;
+                }
+                choose_iterator_second++;
+            }
+        }else{
+            while( (stoken_clean=strtok(NULL, " ")) != NULL ) {
             if(stoken_iteration==1 &&  strcmp(stoken_clean,"(")!=0){
                 exit_program();
             }else if(stoken_iteration==2){
@@ -369,44 +659,48 @@ char* multiplication(char *first,char* second){
             }
             stoken_iteration++;
 
+            }
         }
+        
     }
 
     if(is_first_in_base==1){
         if(is_second_in_base==1){
             char *part = strtok(first_clean," ");
-            char *part2 = strtok(second_clean," ");
+            char * part_copy=strdup(part);
+            if(isDeclared(part)==matrix|| isDeclared(part)== vector || is_special_funciton(part)==tr || return_type_of_function(part_copy)==1){
+                strcat(a,"matrixMultiplication(");
+            }else{
+                strcat(a,"scalarMultiplication(");
+            }
             if(first_function==tr){
-                strcat(a," matrixTranspose(sizeof(");  strcat(a,first_variable_name); strcat(a,")/sizeof(");  strcat(a,first_variable_name); strcat(a,"[0]),");
-                strcat(a,"sizeof("); strcat(a,first_variable_name); strcat(a,"[0])/sizeof("); strcat(a,first_variable_name); strcat(a,"[0][0]))");
+                strcat(a,"matrixTranspose(sizeof(");  strcat(a,first_variable_name); strcat(a,")/sizeof(");  strcat(a,first_variable_name); strcat(a,"[0]),");
+                strcat(a,"sizeof("); strcat(a,first_variable_name); strcat(a,"[0])/sizeof("); strcat(a,first_variable_name);  strcat(a,"[0][0]),(double**)");strcat(a,first_variable_name);strcat(a,")");
             }else if(first_function==sqrt){
                 strcat(a,"sqrt("); strcat(a,first_variable_name); strcat(a,")");
             }else if(first_function==choose){
-                strcat(a,"choose( )");
+                strcat(a,"choose("); strcat(a,expOne); strcat(a,","); strcat(a,expTwo);strcat(a,","); strcat(a,expThree); strcat(a,","); strcat(a,expFour);strcat(a,")");
 
             }else{
                 strcat(a,part);
-                while((part=strtok(NULL, " ")) != NULL ){
-                    strcat(a,part);
-                }
+
             }   
-
-            strcat(a,"*");
-
+            strcat(a,",");
+            char *part2 = strtok(second_clean," ");
             if(second_function==tr){
-                strcat(a," matrixTranspose(sizeof(");  strcat(a,second_variable_name); strcat(a,")/sizeof(");  strcat(a,second_variable_name); strcat(a,"[0]),");
-                strcat(a,"sizeof("); strcat(a,second_variable_name); strcat(a,"[0])/sizeof("); strcat(a,second_variable_name); strcat(a,"[0][0]))");
+                strcat(a,"matrixTranspose(sizeof(");  strcat(a,second_variable_name); strcat(a,")/sizeof(");  strcat(a,second_variable_name); strcat(a,"[0]),");
+                strcat(a,"sizeof("); strcat(a,second_variable_name); strcat(a,"[0])/sizeof("); strcat(a,second_variable_name);  strcat(a,"[0][0]),(double**)");strcat(a,second_variable_name);strcat(a,")");
             }else if(second_function==sqrt){
                 strcat(a,"sqrt("); strcat(a,second_variable_name); strcat(a,")");
             }else if(second_function==choose){
-                strcat(a,"choose( )");
+                 strcat(a,"choose("); strcat(a,expOne_second); strcat(a,","); strcat(a,expTwo_second);strcat(a,","); strcat(a,expThree_second); strcat(a,","); strcat(a,expFour_second);strcat(a,")");
             }else{
                 strcat(a,part2);
                 while((part=strtok(NULL, " ")) != NULL ){
                     strcat(a,part2);
                 }
-                strcat(a,")");
             }
+            strcat(a,")");
             return strdup(a) ;
         }else{
             return multiplication(strtok(first, " "),expression_parser(second_clean));

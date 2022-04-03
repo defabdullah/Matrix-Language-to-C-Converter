@@ -91,6 +91,31 @@ char* strrev (char *str) {
 
     return reverse;
 }
+int is_matrix_function(char * token){
+    if(strcmp(token,"matrixMultiplication")==0 || strcmp(token,"matrixTranspose")==0 || strcmp(token,"matrixSubstraction")==0 || strcmp(token,"matrixSummation")==0 || strcmp(token,"scalarMatrixMultiplication")==0 ){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+int is_scalar_function(char* token){
+    if(strcmp(token,"scalarSubstraction")==0 || strcmp(token,"scalarSummation")==0 || strcmp(token,"scalarMultiplication")==0   || strcmp(token,"scalarTranspose")==0 ){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+int return_type_of_function(char *token){
+    char * first_token = strtok(token,"("); 
+    if(is_matrix_function(first_token)==1){
+        return 1;
+    }else if(is_scalar_function(first_token)){
+        return 2;
+    }
+    return 0;
+}
 
 void exit_program(){
     printf("Error (Line %d)",lineNumber);
