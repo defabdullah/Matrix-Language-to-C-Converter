@@ -74,7 +74,7 @@ char *reverseCopy;
 char *reverseFull;
 char *withoutLastParanthesis;
 
-char *afterParantReverse;
+char afterParantReverse[256];
 char *afterParant;
 char *beforeParantReverse;
 char *beforeParant;
