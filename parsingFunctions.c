@@ -100,7 +100,7 @@ int is_matrix_function(char * token){
 }
 
 int is_scalar_function(char* token){
-    if(strcmp(token,"scalarSubstraction")==0 || strcmp(token,"scalarSummation")==0 || strcmp(token,"scalarMultiplication")==0   || strcmp(token,"scalarTranspose")==0 ){
+    if(strcmp(token,"scalarSubstraction")==0 || strcmp(token,"scalarSummation")==0 || strcmp(token,"scalarMultiplication")==0   || strcmp(token,"scalarTranspose")==0 || strcmp(token,"sqrt")==0  ){
         return 1;
     }else{
         return 0;

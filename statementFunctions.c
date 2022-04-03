@@ -38,16 +38,17 @@ void assignment_statement(char * statement,char* variable_name){
 
 
 void print_line(char * line){
-    fprintf(pOutputFile,"\t%s","printScalar");
+    char * print_variable;
     char * token;
     int token_number=1;
     
     while((token=strsep(&line," "))!=NULL){
+        if(strcmp(token,"")==0){
+                continue;
+            }
         if(token_number==1){
             if(strcmp(token,"(")!=0){
                 exit_program();
-            }else{
-                fprintf(pOutputFile,"%s","(");
             }
         }else if(token_number==2){
             char temp[256]= "";
@@ -56,21 +57,33 @@ void print_line(char * line){
                     exit_program();
                 }
                 strcat(temp,token);
+                strcat(temp," ");
                 token=strsep(&line," ");
             }
-            fprintf(pOutputFile,"%s",expression_parser(temp));
+            strcat(temp,")");
+            print_variable=expression_parser(temp);
 
             if(strcmp(token,")")!=0){
                 exit_program();
-            }else{
-                fprintf(pOutputFile,"%s",");\n");
-            } 
+            }
         }
         token_number++;
     }
-    if(token_number!=3){
+
+    /*if(token_number!=4){
+        exit_program();
+    }*/
+    char * print_variable_copy= strdup(print_variable);
+    char * print_variable_copy_2= strdup(print_variable);
+    if(isDeclared(print_variable)==matrix ||isDeclared(print_variable)==vector ||  is_special_funciton(print_variable)==tr || return_type_of_function(print_variable_copy)==1){
+        fprintf(pOutputFile,"%s","\tprintMatrix(*");fprintf(pOutputFile,"%s",print_variable);fprintf(pOutputFile,"%s",");\n");
+    }else if(isDeclared(print_variable)==scalar || return_type_of_function(print_variable_copy_2)==2 ){
+        fprintf(pOutputFile,"%s","\tprintScalar(");fprintf(pOutputFile,"%s",print_variable);fprintf(pOutputFile,"%s",");\n");
+    }else{
+        printf("%s\n",print_variable);
         exit_program();
     }
+
 }
 
 void matrix_initializer(char *line,char *variable_name){
