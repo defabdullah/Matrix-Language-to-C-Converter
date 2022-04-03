@@ -50,7 +50,7 @@ extern int is_alphanumeric_string(char* s);
 extern int is_numeric_string(char *s);
 extern int expression_divider(char* line,char *first,char *second);
 extern void exit_program();
-
+enum special_functions is_special_funciton(char * token);
 
 
 //print functions
