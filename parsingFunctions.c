@@ -21,18 +21,41 @@ char *trim(char *s)
 
 int is_alphanumeric(char* s){
 
-    if((*s>='A' && *s<='Z') || (*s>='0' && *s <= '9') || (*s>='a' && *s<='z') || (*s=='.')){
+    if((*s>='A' && *s<='Z') || (*s>='0' && *s <= '9') || (*s>='a' && *s<='z')){
         return 1;
     }
     else
         return 0;
 }
+int is_alphanumeric_or_comma(char* s){
+
+    if(is_alphanumeric(s) || (*s=='.')){
+        return 1;
+    }
+    else
+        return 0;
+}
+
 int is_alphanumeric_string(char* s){
     for(int i =0; i<strlen(s);i++){
         if(!is_alphanumeric(&s[i])){
             return 0;
         }
     }
+    return 1;
+}
+
+int is_valid_variable_name(char *str){
+    if(isdigit(str[0])){
+        return 0;
+    }
+    int i;
+    for(i=1;i<strlen(str);i++){
+        if(strcmp(&str[i],"_")==0 || is_alphanumeric(&str[i])==0){
+            return 0;
+        }
+    }
+
     return 1;
 }
 int has_new_line(char* s){
