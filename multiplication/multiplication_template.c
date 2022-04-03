@@ -53,9 +53,10 @@ int main() {
     printf("----------------\n");
 
     //call scalar*matrix function
-    double **secondMatrix=scalarMatrixMultiplication(scalar,firstMatrix,row,column);
+    double **secondMatrix=scalarMatrixMultiplication(scalar,firstMatrix,sizeof(firstMatrix)/sizeof(firstMatrix[0]),column);
 
     printMatrix(row,column,secondMatrix);
 
    return 0;
-}
+
+   }

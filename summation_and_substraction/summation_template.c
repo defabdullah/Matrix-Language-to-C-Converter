@@ -5,7 +5,7 @@ double scalarSummation(double num1,double num2){
     return num1+num2;
 }
 
-double **matrixSummation( double **matrix1, double **matrix2, int row, int column){
+/*double **matrixSummation( double **matrix1, double **matrix2, int row, int column){
     double **newMatrix;
     newMatrix=(double**)calloc(row,sizeof(double*));
     for(int i=0;i<row;i++){
@@ -20,6 +20,18 @@ double **matrixSummation( double **matrix1, double **matrix2, int row, int colum
     }
 
     return newMatrix;
+}*/
+
+double **matrixSummation( double *matrix1, double *matrix2, int row, int column){
+	double **newMatrix;
+	newMatrix=(double**)calloc(row,sizeof(double*));
+	for(int i=0;i<row;i++){
+		newMatrix[i]=(double*)calloc(column,sizeof(double));
+	}
+	for(int i=0;i<row * column;i++){
+			*(*newMatrix + i) = *(matrix1 + i)+*(matrix2 + i);		
+	}
+	return newMatrix;
 }
 
 void printMatrix(int row,int column,double **matrix){

@@ -5,7 +5,7 @@ double scalarTranspose(double num1){
 }
 
 
-double **matrixTranspose(int row,int column,double **matrix){
+/*double **matrixTranspose(int row,int column,double **matrix){
     double **newMatrix;
     newMatrix=(double**)calloc(column,sizeof(double*));
     for(int i=0;i<column;i++){
@@ -18,13 +18,32 @@ double **matrixTranspose(int row,int column,double **matrix){
         }
     }
     return newMatrix;
+}*/
+double **matrixTranspose(int row,int column,double *matrix){
+	double **newMatrix;
+	newMatrix=(double**)calloc(column,sizeof(double*));
+	for(int i=0;i<column;i++){
+		newMatrix[i]=(double*)calloc(row,sizeof(double));
+	}
+	for(int i=0;i<column;i++){
+		for(int j=0;j<row;j++){
+			newMatrix[i][j]= *(matrix + (j*column + i));
+		}
+	}
+	return newMatrix;
 }
 
-void printMatrix(int row,int column,double **matrix){
+/*void printMatrix(int row,int column,double **matrix){
     for(int i=0;i<row;i++){
         for(int j=0;j<column;j++){
             printf("%f\n",matrix[i][j]);
         }
+    }
+}*/
+
+void printMatrix(int row,int column,double *matrix){
+    for(int i=0;i<row * column;i++){
+        printf("%f\n",*(matrix + i));
     }
 }
 
