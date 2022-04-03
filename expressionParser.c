@@ -66,8 +66,7 @@ int expression_divider(char* line,char *first_part,char *second_part){
 }
 
 char* summation(char *first,char* second){
-
-    char a[2048]="(";
+    char a[2048]="";
     char* ftoken;
     char* stoken;
     char * first_clean = strdup(first);
@@ -232,10 +231,15 @@ char* summation(char *first,char* second){
     if(is_first_in_base==1){
         if(is_second_in_base==1){
             char *part = strtok(first_clean," ");
-
+            char* part_copy = strdup(first_clean);
+            if(isDeclared(part)==matrix|| isDeclared(part)== vector || is_special_funciton(part)==tr || return_type_of_function(part_copy)==1){
+                strcat(a,"matrixSummation(");
+            }else{
+                strcat(a,"scalarSummation(");
+            }
             if(first_function==tr){
-                strcat(a," matrixTranspose(sizeof(");  strcat(a,first_variable_name); strcat(a,")/sizeof(");  strcat(a,first_variable_name); strcat(a,"[0]),");
-                strcat(a,"sizeof("); strcat(a,first_variable_name); strcat(a,"[0])/sizeof("); strcat(a,first_variable_name); strcat(a,"[0][0]))");
+                strcat(a,"matrixTranspose(sizeof(");  strcat(a,first_variable_name); strcat(a,")/sizeof(");  strcat(a,first_variable_name); strcat(a,"[0]),");
+                strcat(a,"sizeof("); strcat(a,first_variable_name); strcat(a,"[0])/sizeof("); strcat(a,first_variable_name); strcat(a,"[0][0]),(double**)");strcat(a,first_variable_name);strcat(a,")");
             }else if(first_function==sqrt){
                 strcat(a,"sqrt("); strcat(a,first_variable_name); strcat(a,")");
             }else if(first_function==choose){
@@ -243,16 +247,12 @@ char* summation(char *first,char* second){
 
             }else{
                 strcat(a,part);
-                while((part=strtok(NULL, " ")) != NULL ){
-                    strcat(a,part);
-                }
             }   
-
-            strcat(a,"+");
+            strcat(a,",");
             char *part2 = strtok(second_clean," ");
             if(second_function==tr){
-                strcat(a," matrixTranspose(sizeof(");  strcat(a,second_variable_name); strcat(a,")/sizeof(");  strcat(a,second_variable_name); strcat(a,"[0]),");
-                strcat(a,"sizeof("); strcat(a,second_variable_name); strcat(a,"[0])/sizeof("); strcat(a,second_variable_name); strcat(a,"[0][0]))");
+                strcat(a,"matrixTranspose(sizeof(");  strcat(a,second_variable_name); strcat(a,")/sizeof(");  strcat(a,second_variable_name); strcat(a,"[0]),");
+                strcat(a,"sizeof("); strcat(a,second_variable_name); strcat(a,"[0])/sizeof("); strcat(a,second_variable_name); strcat(a,"[0][0]),(double**)");strcat(a,second_variable_name);strcat(a,")");
             }else if(second_function==sqrt){
                 strcat(a,"sqrt("); strcat(a,second_variable_name); strcat(a,")");
             }else if(second_function==choose){
@@ -283,7 +283,7 @@ char* summation(char *first,char* second){
 }
 
 char* substraction(char *first,char* second){
-    char a[2048]="(";
+    char a[2048]="";
     char* ftoken;
     char* stoken;
     char * first_clean = strdup(first);
@@ -448,10 +448,15 @@ char* substraction(char *first,char* second){
     if(is_first_in_base==1){
         if(is_second_in_base==1){
             char *part = strtok(first_clean," ");
-
+            char* part_copy = strdup(first_clean);
+            if(isDeclared(part)==matrix|| isDeclared(part)== vector || is_special_funciton(part)==tr || return_type_of_function(part_copy)==1){
+                strcat(a,"matrixSubstraction(");
+            }else{
+                strcat(a,"scalarSubstraction(");
+            }
             if(first_function==tr){
-                strcat(a," matrixTranspose(sizeof(");  strcat(a,first_variable_name); strcat(a,")/sizeof(");  strcat(a,first_variable_name); strcat(a,"[0]),");
-                strcat(a,"sizeof("); strcat(a,first_variable_name); strcat(a,"[0])/sizeof("); strcat(a,first_variable_name); strcat(a,"[0][0]))");
+                strcat(a,"matrixTranspose(sizeof(");  strcat(a,first_variable_name); strcat(a,")/sizeof(");  strcat(a,first_variable_name); strcat(a,"[0]),");
+                strcat(a,"sizeof("); strcat(a,first_variable_name); strcat(a,"[0])/sizeof("); strcat(a,first_variable_name); strcat(a,"[0][0]),(double**)");strcat(a,first_variable_name);strcat(a,")");
             }else if(first_function==sqrt){
                 strcat(a,"sqrt("); strcat(a,first_variable_name); strcat(a,")");
             }else if(first_function==choose){
@@ -459,16 +464,13 @@ char* substraction(char *first,char* second){
 
             }else{
                 strcat(a,part);
-                while((part=strtok(NULL, " ")) != NULL ){
-                    strcat(a,part);
-                }
             }   
 
-            strcat(a,"-");
+            strcat(a,",");
             char *part2 = strtok(second_clean," ");
             if(second_function==tr){
-                strcat(a," matrixTranspose(sizeof(");  strcat(a,second_variable_name); strcat(a,")/sizeof(");  strcat(a,second_variable_name); strcat(a,"[0]),");
-                strcat(a,"sizeof("); strcat(a,second_variable_name); strcat(a,"[0])/sizeof("); strcat(a,second_variable_name); strcat(a,"[0][0]))");
+                strcat(a,"matrixTranspose(sizeof(");  strcat(a,second_variable_name); strcat(a,")/sizeof(");  strcat(a,second_variable_name); strcat(a,"[0]),");
+                strcat(a,"sizeof("); strcat(a,second_variable_name); strcat(a,"[0])/sizeof("); strcat(a,second_variable_name);  strcat(a,"[0][0]),(double**)");strcat(a,second_variable_name);strcat(a,")");
             }else if(second_function==sqrt){
                 strcat(a,"sqrt("); strcat(a,second_variable_name); strcat(a,")");
             }else if(second_function==choose){
@@ -499,7 +501,7 @@ char* substraction(char *first,char* second){
 }
 
 char* multiplication(char *first,char* second){
-    char a[2048]="(";
+    char a[2048]="";
     char* ftoken;
     char* stoken;
     char * first_clean = strdup(first);
@@ -665,9 +667,15 @@ char* multiplication(char *first,char* second){
     if(is_first_in_base==1){
         if(is_second_in_base==1){
             char *part = strtok(first_clean," ");
+            char * part_copy=strdup(part);
+            if(isDeclared(part)==matrix|| isDeclared(part)== vector || is_special_funciton(part)==tr || return_type_of_function(part_copy)==1){
+                strcat(a,"matrixMultiplication(");
+            }else{
+                strcat(a,"scalarMultiplication(");
+            }
             if(first_function==tr){
-                strcat(a," matrixTranspose(sizeof(");  strcat(a,first_variable_name); strcat(a,")/sizeof(");  strcat(a,first_variable_name); strcat(a,"[0]),");
-                strcat(a,"sizeof("); strcat(a,first_variable_name); strcat(a,"[0])/sizeof("); strcat(a,first_variable_name); strcat(a,"[0][0]))");
+                strcat(a,"matrixTranspose(sizeof(");  strcat(a,first_variable_name); strcat(a,")/sizeof(");  strcat(a,first_variable_name); strcat(a,"[0]),");
+                strcat(a,"sizeof("); strcat(a,first_variable_name); strcat(a,"[0])/sizeof("); strcat(a,first_variable_name);  strcat(a,"[0][0]),(double**)");strcat(a,first_variable_name);strcat(a,")");
             }else if(first_function==sqrt){
                 strcat(a,"sqrt("); strcat(a,first_variable_name); strcat(a,")");
             }else if(first_function==choose){
@@ -675,16 +683,13 @@ char* multiplication(char *first,char* second){
 
             }else{
                 strcat(a,part);
-                while((part=strtok(NULL, " ")) != NULL ){
-                    strcat(a,part);
-                }
-            }   
 
-            strcat(a,"*");
+            }   
+            strcat(a,",");
             char *part2 = strtok(second_clean," ");
             if(second_function==tr){
-                strcat(a," matrixTranspose(sizeof(");  strcat(a,second_variable_name); strcat(a,")/sizeof(");  strcat(a,second_variable_name); strcat(a,"[0]),");
-                strcat(a,"sizeof("); strcat(a,second_variable_name); strcat(a,"[0])/sizeof("); strcat(a,second_variable_name); strcat(a,"[0][0]))");
+                strcat(a,"matrixTranspose(sizeof(");  strcat(a,second_variable_name); strcat(a,")/sizeof(");  strcat(a,second_variable_name); strcat(a,"[0]),");
+                strcat(a,"sizeof("); strcat(a,second_variable_name); strcat(a,"[0])/sizeof("); strcat(a,second_variable_name);  strcat(a,"[0][0]),(double**)");strcat(a,second_variable_name);strcat(a,")");
             }else if(second_function==sqrt){
                 strcat(a,"sqrt("); strcat(a,second_variable_name); strcat(a,")");
             }else if(second_function==choose){
