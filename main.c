@@ -10,7 +10,7 @@ int main(int argc,char *argv[]){
         pInputFile = fopen("trial.txt", "r");
         return 1;
     }
-    pInputFile = fopen("trial.txt", "r");
+    pInputFile = fopen(argv[1], "r");
     if(pInputFile == NULL) {
         printf("Cannot open %s\n","trial.txt");
         return 1;
