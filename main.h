@@ -83,6 +83,8 @@ char *afterParantModified;
 char *innerExpression;
 char *result;
 
+char res[256];
+
 //for parser
 char *temp;
 
