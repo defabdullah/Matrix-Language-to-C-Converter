@@ -20,9 +20,13 @@ int lineNumber;
 int scalarNumber;
 int vectorNumber;
 int matrixNumber;
+
 char *scalarArray[256];
 char *vectorArray[256];
 char *matrixArray[256];
+
+int row_sizes[256];
+int column_sizes[256];
 
 //statement functions
 
@@ -50,7 +54,9 @@ extern int is_alphanumeric_or_comma(char* s);
 extern int is_alphanumeric_string(char* s);
 extern int is_numeric_string(char *s);
 extern int expression_divider(char* line,char *first,char *second);
-int return_type_of_function(char *token);
+extern int return_type_of_function(char *token);
+extern int firstSize(char *mat);
+extern int secondSize(char *mat);
 extern void exit_program();
 enum special_functions is_special_funciton(char * token);
 

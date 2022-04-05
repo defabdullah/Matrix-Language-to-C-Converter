@@ -120,6 +120,30 @@ int return_type_of_function(char *token){
     return 0;
 }
 
+int firstSize(char *mat){
+    for(int i=0;i<256;i++){
+        if(matrixArray[i]==NULL  || strcmp(matrixArray[i],"")==0){
+            break;
+        }
+        if(strcmp(mat,matrixArray[i])==0){
+            return row_sizes[i];
+        }
+    }
+    return 0;
+}
+
+int secondSize(char *mat){
+    for(int i=0;i<256;i++){
+        if(matrixArray[i]==NULL  || strcmp(matrixArray[i],"")==0){
+            break;
+        }
+        if(strcmp(mat,matrixArray[i])==0){
+            return column_sizes[i];
+        }
+    }
+    return 0;
+}
+
 void exit_program(){
     printf("Error (Line %d)",lineNumber);
     exit(1);
