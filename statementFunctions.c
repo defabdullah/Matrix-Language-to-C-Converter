@@ -25,17 +25,14 @@ void assignment_statement(char * statement,char* variable_name){
             line=strdup(statement);
         }else{
             if(statement!=NULL){
-                char * statement_copy=strdup(statement);
-                char * token;
-                token = strtok(statement_copy," "); 
-                if(strcmp(token,"{")==0){
-                    matrix_initializer(statement,variable_name);
-                    break;
-                }
+                    if(strcmp(token,"{")==0){
+                        matrix_initializer(statement,variable_name);
+                        break;
+                    }   
+                
             }
            
             if(isDeclared(variable_name)==matrix || isDeclared(variable_name)==vector){
-                
                 char * result= expression_parser(line);
                 if(return_type_of_function(strdup(result))==2){
                     exit_program();
@@ -103,7 +100,6 @@ void print_line(char * line){
     }else if(isDeclared(print_variable)==scalar || return_type_of_function(print_variable_copy_2)==2 ){
         fprintf(pOutputFile,"%s","\tprintScalar(");fprintf(pOutputFile,"%s",print_variable);fprintf(pOutputFile,"%s",");\n");
     }else{
-        printf("%s\n",print_variable);
         exit_program();
     }
 
