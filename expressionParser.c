@@ -974,7 +974,6 @@ char* expression_parser(char *line){
         return  multiplication(strrev(first_part),strrev(second_part));
     
     }else{
-
         char a [1024] = " ";
         char *first_token = strtok(line," ");
         enum special_functions  function  =is_special_funciton(first_token);
@@ -1028,6 +1027,7 @@ char* expression_parser(char *line){
                 strcat(a,"choose("); strcat(a,expOne); strcat(a,","); strcat(a,expTwo);strcat(a,","); strcat(a,expThree); strcat(a,","); strcat(a,expFour);strcat(a,")");
                 return strdup(a);
             }else {
+            int is_matrix_operation=0;
             int iteration=1;
             char * second_variable_name;
             while( (first_token=strtok(NULL, " ")) != NULL ) {
@@ -1035,10 +1035,11 @@ char* expression_parser(char *line){
                     exit_program();
                 }else if(iteration==2){
                     if(isDeclared(first_token)==empty){
-                        if(function==sqrt){
+                        if(function==sqrt || function == tr){
                             if(is_numeric_string(first_token)==0){
                                 exit_program();
                             }
+                            is_matrix_operation=0;
                         }else{
                                 exit_program();
                         }
@@ -1046,10 +1047,7 @@ char* expression_parser(char *line){
                         if(function==sqrt){
                             exit_program();
                         }
-                    }else if(isDeclared(first_token)==scalar){
-                        if(function==tr){
-                            exit_program();
-                        }
+                        is_matrix_operation=1;
                     }
                     second_variable_name = first_token;
                 }else if(iteration==3 && strcmp(first_token,")")!=0){
@@ -1061,8 +1059,12 @@ char* expression_parser(char *line){
 
             }
             if(function==tr){
-                strcat(a,"matrixTranspose(sizeof(");  strcat(a,second_variable_name); strcat(a,")/sizeof(");  strcat(a,second_variable_name); strcat(a,"[0]),");
-                strcat(a,"sizeof("); strcat(a,second_variable_name); strcat(a,"[0])/sizeof("); strcat(a,second_variable_name);  strcat(a,"[0][0]),*");strcat(a,second_variable_name);strcat(a,")");
+                if(is_matrix_operation==1){
+                    strcat(a,"matrixTranspose(sizeof(");  strcat(a,second_variable_name); strcat(a,")/sizeof(");  strcat(a,second_variable_name); strcat(a,"[0]),");
+                    strcat(a,"sizeof("); strcat(a,second_variable_name); strcat(a,"[0])/sizeof("); strcat(a,second_variable_name); strcat(a,"[0][0]),*");strcat(a,second_variable_name);strcat(a,")");
+                }else{
+                    strcat(a,"scalarTranspose(");  strcat(a,second_variable_name); strcat(a,")");
+                }
             }else if(function==sqrt){
                 strcat(a,"sqrt("); strcat(a,second_variable_name); strcat(a,")");
             }

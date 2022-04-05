@@ -92,7 +92,8 @@ char* strrev (char *str) {
     return reverse;
 }
 int is_matrix_function(char * token){
-    if(strcmp(token,"matrixMultiplication")==0 || strcmp(token,"matrixTranspose")==0 || strcmp(token,"matrixSubstraction")==0 || strcmp(token,"matrixSummation")==0 || strcmp(token,"scalarMatrixMultiplication")==0 ){
+    token = trim(token);
+    if(strcmp(token,"matrixMultiplication")==0 || strcmp(token,"matrixTranspose") ==0  || strcmp(token,"matrixSubstraction")==0 || strcmp(token,"matrixSummation")==0 || strcmp(token,"scalarMatrixMultiplication")==0 ){
         return 1;
     }else{
         return 0;
@@ -100,6 +101,7 @@ int is_matrix_function(char * token){
 }
 
 int is_scalar_function(char* token){
+    token = trim(token);
     if(strcmp(token,"scalarSubstraction")==0 || strcmp(token,"scalarSummation")==0 || strcmp(token,"scalarMultiplication")==0   || strcmp(token,"scalarTranspose")==0 || strcmp(token,"sqrt")==0  ){
         return 1;
     }else{

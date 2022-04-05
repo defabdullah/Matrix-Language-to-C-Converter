@@ -27,10 +27,20 @@ void assignment_statement(char * statement,char* variable_name){
                 break;
             }
             if(isDeclared(variable_name)==matrix || isDeclared(variable_name)==vector){
-                fprintf(pOutputFile,"%s%s%s%s%s","\tmatAssign(*",variable_name,",*",expression_parser(statement),");\n");
+                char * result= expression_parser(statement);
+                if(return_type_of_function(strdup(result))==2){
+                    exit_program();
+                }
+                fprintf(pOutputFile,"%s%s%s%s%s","\tmatAssign(*",variable_name,",*",result,");\n");
+
             }else{
+                printf("%s\n",statement);
+                char * result= expression_parser(statement);
+                if(return_type_of_function(strdup(result))==1){
+                    exit_program();
+                } 
                 fprintf(pOutputFile,"%s%s%s","\t",variable_name," =");
-                fprintf(pOutputFile,"%s",expression_parser(statement));
+                fprintf(pOutputFile,"%s",result);
                 fprintf(pOutputFile,"%s",";\n"); 
             }
      
