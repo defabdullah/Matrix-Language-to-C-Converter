@@ -120,25 +120,37 @@ int return_type_of_function(char *token){
     return 0;
 }
 
-int firstSize(char *mat){
+int matrixFirstSize(char *mat){
     for(int i=0;i<256;i++){
         if(matrixArray[i]==NULL  || strcmp(matrixArray[i],"")==0){
             break;
         }
         if(strcmp(mat,matrixArray[i])==0){
-            return row_sizes[i];
+            return matrix_row_sizes[i];
         }
     }
     return 0;
 }
 
-int secondSize(char *mat){
+int matrixSecondSize(char *mat){
     for(int i=0;i<256;i++){
         if(matrixArray[i]==NULL  || strcmp(matrixArray[i],"")==0){
             break;
         }
         if(strcmp(mat,matrixArray[i])==0){
-            return column_sizes[i];
+            return matrix_column_sizes[i];
+        }
+    }
+    return 0;
+}
+
+int vectorSize(char *vec){
+    for(int i=0;i<256;i++){
+        if(vectorArray[i]==NULL  || strcmp(vectorArray[i],"")==0){
+            break;
+        }
+        if(strcmp(vec,matrixArray[i])==0){
+            return vector_sizes[i];
         }
     }
     return 0;

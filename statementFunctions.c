@@ -33,14 +33,14 @@ void assignment_statement(char * statement,char* variable_name){
             }
            
             if(isDeclared(variable_name)==matrix || isDeclared(variable_name)==vector){
-                char * result= expression_parser(line);
+                char * result= parseParanthesis(line);
                 if(return_type_of_function(strdup(result))==2){
                     exit_program();
                 }
                 fprintf(pOutputFile,"%s%s%s%s%s","\tmatAssign(*",variable_name,",*",result,");\n");
 
             }else{
-                char * result= expression_parser(line);
+                char * result= parseParanthesis(line);
                 if(return_type_of_function(strdup(result))==1){
                     exit_program();
                 } 
@@ -81,7 +81,7 @@ void print_line(char * line){
                 token=strsep(&line," ");
             }
             strcat(temp,")");
-            print_variable=expression_parser(temp);
+            print_variable=parseParanthesis(temp);
 
             if(strcmp(token,")")!=0){
                 exit_program();

@@ -56,6 +56,7 @@ char *parseParanthesis(char *str){
     copy=strdup(str);
     //if there is no paranthesis send expression to expression function else paste it
     if(strstr(copy,"(")==NULL || strstr(copy,")")==NULL){
+
         return expression_parser(str);
     }
 
@@ -105,7 +106,9 @@ char *parseParanthesis(char *str){
     char *secondPrev;
     while((token=strsep(&reverseCopy," "))!=NULL){
         if(strcmp(token,"(")==0){
-            
+            if(strcmp(token,"")==0){
+                continue;
+            }
             if(reverseCopy==NULL || strcmp(reverseCopy,"")){
                 beforeParantReverse="";
                 break;
@@ -173,7 +176,7 @@ char *parseParanthesis(char *str){
     }
 
     //concatenate string after changing expression with old value
-    strcat(beforeParant," (");
+    strcat(beforeParant," ");
     if(is_func==1){
         strcat(beforeParant," ");
     }
@@ -181,7 +184,7 @@ char *parseParanthesis(char *str){
     if(is_func==1){
         strcat(beforeParant," ");
     }
-    strcat(beforeParant,") ");
+    strcat(beforeParant," ");
 
 
     if(temp!=NULL){

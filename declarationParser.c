@@ -39,7 +39,7 @@ void vector_line(char* line){
                     exit_program();
                 }
                 vectorArray[vectorNumber]=token;
-                vectorNumber++;
+                
             }
             else{
                 exit_program();
@@ -52,6 +52,7 @@ void vector_line(char* line){
             if(is_numeric_string(token)==0){
                 exit_program();
             }
+            vector_sizes[vectorNumber]=atoi(token);
         }else if(token_number==4){
             if(!strcmp(token,"]")==0){
                 exit_program();
@@ -65,6 +66,8 @@ void vector_line(char* line){
         exit_program();
     }
     fprintf(pOutputFile,"%s","[1] ;\n");
+    vectorNumber++;
+
 
 }
 
@@ -82,7 +85,6 @@ void matrix_line(char* line){
             }
             fprintf(pOutputFile,"%s", token);
             matrixArray[matrixNumber]=token;
-            matrixNumber++; 
         }else if(token_number==2){
             if(!strcmp(token,"[")==0){
                 exit_program();
@@ -93,6 +95,7 @@ void matrix_line(char* line){
             if(is_numeric_string(token)==0){
                 exit_program();
             }else{
+                matrix_row_sizes[matrixNumber]=atoi(token);
                 fprintf(pOutputFile,"%s", token);
             }
         }else if(token_number==4){
@@ -106,6 +109,7 @@ void matrix_line(char* line){
             if(is_numeric_string(token)==0){
                 exit_program();
             }else{
+                matrix_column_sizes[matrixNumber]=atoi(token);
                 fprintf(pOutputFile,"%s", token);
             }
         }else if(token_number==6){
@@ -120,6 +124,7 @@ void matrix_line(char* line){
     if(token_number!=7){
         exit_program();
     }
+    matrixNumber++;
     fprintf(pOutputFile,"%s","\n");
 }
 

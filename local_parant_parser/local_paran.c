@@ -175,15 +175,15 @@ char *parseParanthesis(char *str){
         tempInnerExpression=expression_parser(innerExpression);
     }*/
     //concatenate string after changing expression with old value
-    strcat(beforeParant," (");
-    if(is_func==1){
+    strcat(beforeParant," ");
+    /*if(is_func==1){
         strcat(beforeParant," ");
-    }
+    }*/
     strcat(beforeParant,"asd");
-    if(is_func==1){
+    /*if(is_func==1){
         strcat(beforeParant," ");
-    }
-    strcat(beforeParant,") ");
+    }*/
+    strcat(beforeParant," ");
 
 
     if(temp!=NULL){
@@ -207,7 +207,7 @@ char *parseParanthesis(char *str){
 
 int main(){
     
-    char str[]="( A * B ) * A";
+    char str[]="( A * B )  * B";
     printf("\nreturn value:  %s\n",parseParanthesis(str));
     
     //printf("%s",remove_spaces(" y - x "));
