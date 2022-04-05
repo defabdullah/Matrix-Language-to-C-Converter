@@ -33,7 +33,9 @@ void assignment_statement(char * statement,char* variable_name){
             }
            
             if(isDeclared(variable_name)==matrix || isDeclared(variable_name)==vector){
-                char * result= parseParanthesis(line);
+                printf("asd\n");
+                char * result=parseParanthesis(line);
+                printf("asd\n");
                 if(return_type_of_function(strdup(result))==2){
                     exit_program();
                 }

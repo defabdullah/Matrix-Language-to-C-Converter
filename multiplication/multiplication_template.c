@@ -5,7 +5,7 @@ double scalarMultiplication(double num1,double num2){
     return num1*num2;
 }
 
-double **scalarMatrixMultiplication(double scalar, double **matrix, int row, int column){
+double **scalarMatrixMultiplication(int row,int column,double scalar, double **matrix){
     double **newMatrix;
     newMatrix=(double**)calloc(column,sizeof(double*));
     for(int i=0;i<column;i++){

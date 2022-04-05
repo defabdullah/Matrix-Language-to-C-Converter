@@ -7,7 +7,7 @@ double **matrixMultiplication( double **matrix1, int row1, int column1, double *
     double **newMatrix;
     newMatrix=(double**)calloc(row1,sizeof(double*));
     for(int i=0;i<row1;i++){
-        newMatrix[i]=(double*)calloc(column2,sizeof(double));
+       newMatrix[i]=(double*)calloc(column2,sizeof(double));
     }
     
     //matrix multiplication

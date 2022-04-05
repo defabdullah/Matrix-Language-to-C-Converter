@@ -37,7 +37,7 @@ void printPrintScalar(){
 }
 
 void printMatrixTranspose(){
-    fprintf(pOutputFile,"%s","\ndouble **matrixTranspose(int row,int column,double *matrix){\n\tdouble **newMatrix;\n\tnewMatrix=(double**)calloc(column,sizeof(double*));\n\tfor(int i=0;i<column;i++){\n\t\tnewMatrix[i]=(double*)calloc(row,sizeof(double));\n\t}\n\tfor(int i=0;i<column;i++){\n\t\tfor(int j=0;j<row;j++){\n\t\t\tnewMatrix[i][j]= *(matrix + (j*column + i));\n\t\t}\n\t}\n\treturn newMatrix;\n}\n");
+    fprintf(pOutputFile,"%s","\ndouble **matrixTranspose(int column,int row,double *matrix){\n\tdouble **newMatrix;\n\tnewMatrix=(double**)calloc(column,sizeof(double*));\n\tfor(int i=0;i<column;i++){\n\t\tnewMatrix[i]=(double*)calloc(row,sizeof(double));\n\t}\n\tfor(int i=0;i<column;i++){\n\t\tfor(int j=0;j<row;j++){\n\t\t\tnewMatrix[i][j]= *(matrix + (j*column + i));\n\t\t}\n\t}\n\treturn newMatrix;\n}\n");
 }
 
 void printScalarTranspose(){
@@ -64,6 +64,10 @@ void assignMat(){
     fprintf(pOutputFile,"%s","void matAssign(double* matrix,double* matrix2,int row,int column ){\n\tfor(int i=0;i<row * column;i++){\n\t\t*(matrix + i) = *(matrix2 + i);\n\t}\n}\n");
 }
 
+void printMatrixMultiplication(){
+    fprintf(pOutputFile,"%s","double **matrixMultiplication( int a , int b,double **matrix1, int row1, int column1, double **matrix2, int row2, int column2){\n\tdouble **newMatrix;\n\tfor(int i=0;i<row1;i++){\n\t\tnewMatrix[i]=(double*)calloc(column2,sizeof(double));\n\t}\n\tfor(int i=0;i<row1;i++){\n\t\tfor(int j=0;j<column2;j++){\n\t\t\tnewMatrix[i][j]=0;\n\t\t\tfor(int k=0;k<row2;k++){\n\t\t\t\tnewMatrix[i][j]+=(matrix1[i][k]*matrix2[k][j]);\n\t\t\t}\n\t\t}\n\t}\n\treturn newMatrix;\n}\n");
+}
+
 void print_usual(){
     fprintf(pOutputFile, "%s","#include <stdio.h>\n#include <string.h>\n#include <ctype.h>\n#include <stdlib.h>\n\n");
     fprintf(pOutputFile,"%s","\nvoid printsep(){ \n\tprintf(\"----------\\n\"); \n}\n");
@@ -76,6 +80,7 @@ void print_usual(){
     printPrintScalar();
     printMatrixTranspose();
     printScalarTranspose();
+    printMatrixMultiplication();
     printPrintMatrix();
     printChoose();
     assignMat();
