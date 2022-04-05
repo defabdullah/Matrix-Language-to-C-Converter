@@ -1,5 +1,5 @@
 #include "main.h"
-/*char* strrev (char *str) {
+char* strrev (char *str) {
     if (!str) { return NULL; }
 
     int len = strnlen(str, 100);
@@ -13,7 +13,7 @@
     reverse[i] = 0;
 
     return reverse;
-}*/
+}
 
 char *deleteParanthesis(char *str){
     
@@ -49,33 +49,30 @@ char *remove_spaces(char *str)
 
 //parse all expression without paranthesis and send them to expression handler function
 char *parseParanthesis(char *str){
-
     char *token;
     char *copy;
     copy=strdup(str);
 
-    //if there is no paranthesis send expression to expression function else paste it
     int is_exp=1;
     if(strstr(copy,"(")==NULL || strstr(copy,")")==NULL){
-        return expression_parser(str);
+        return str;
     }
     while((token=strsep(&copy," "))!=NULL){
         if(strcmp(token,"(") || strcmp(token,")")){
             is_exp=0;
         }
     }
-
     if(is_exp==1){
-        return expression_parser(str);
+        return str;
     }
-
     //take it's reverse
     reverseFull=strrev(str);
+    //return reverseFull;
 
     //create reverse copy string
+
     char *reverseCopy=strndup(reverseFull,strlen(reverseFull));
 
-    //merge all
     while((token=strsep(&reverseCopy," "))!=NULL){
         if(strcmp(token,"(")==0){
             strcpy(beforeParantReverse,reverseCopy);
@@ -86,13 +83,11 @@ char *parseParanthesis(char *str){
     }
 
     strcpy(afterParant,strrev(afterParantReverse)); //include expression
+    //strcat(space,strdup(afterParant));
+    //afterParant=strdup(space);
 
     //create string after paranthesis
-
-
     strcpy(beforeParant,strrev(beforeParantReverse));
-    
-
 
     char *temp=strdup(afterParant);
     while((token=strsep(&temp," "))!=NULL){
@@ -103,57 +98,40 @@ char *parseParanthesis(char *str){
         strcat(innerExpression,token);
     }
 
+
     //if there is no paranthesis send expression to expression function else paste it
-    char *tempInnerExpression;
-    if(strstr(innerExpression," ( ")==NULL){
-        tempInnerExpression=expression_parser(innerExpression);
-    }
+    //if(strstr(innerExpression," ( ")==NULL){
+    //   return innerExpression;
+    //}
     //concatenate string after changing expression with old value
-
     strcat(beforeParant," (");
-    strcat(beforeParant,tempInnerExpression);
+    strcat(beforeParant,"msq");
     strcat(beforeParant,") ");
-
 
     
     if(afterParant!=NULL){
         strcat(beforeParant," ");
         strcat(beforeParant,temp);
     }
-
-    
+    return beforeParant;
     //if there is no paranthesis send expression to expression function else paste it
-
-    copy=strdup(beforeParant);
-    
-    /*printf("asf");
-    printf("%s\n",beforeParant);
-    printf("%s",copy);
-
-    exit_program();*/
-
+    copy=strdup(result);
     while((token=strsep(&copy," "))!=NULL){
         if(strcmp(token,"(")== 0 ||strcmp(token,")")==0){
-            printf("%s",beforeParant);
-            exit_program();
-            return parseParanthesis(beforeParant);
+           return parseParanthesis(result);
         }
     }
-
-
-
-    return expression_parser(beforeParant);
    
 }
 
 
 
 
-/*int main(){
+int main(){
     
-    char str[]="sqrt ( tr ( y - x ) * ( y - x ) )";
+    char str[]="sqrt ( tr (msq)  * (msq)    ) ";
     printf("%s\n",parseParanthesis(str));
     
     //printf("%s",remove_spaces(" y - x "));
     return (0);
-}*/
+}

@@ -41,6 +41,7 @@ extern void scalar_line(char* line);
 extern void vector_line(char* line);
 extern void matrix_line(char* line);
 
+
 //parsing functions
 extern char *trim(char *s);
 
@@ -73,15 +74,15 @@ char *reverseCopy;
 char *reverseFull;
 char *withoutLastParanthesis;
 
-char beforeParant[5512];
-char beforeParantReverse[5512];
-char afterParant[5512];
-char afterParantReverse[5512];
-char innerExpression[5512];
-char result[5512];
+char beforeParant[512];
+char beforeParantReverse[512];
+char afterParant[512];
+char afterParantReverse[512];
+char afterParantModified;
+char innerExpression[512];
+char result[512];
 
-char res[5512];
-
+char res[512];
 
 //for parser
 char *temp;
