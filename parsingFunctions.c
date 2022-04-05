@@ -120,7 +120,7 @@ int return_type_of_function(char *token){
     return 0;
 }
 
-int matrixFirstSize(char *mat){
+char *matrixFirstSize(char *mat){
     for(int i=0;i<256;i++){
         if(matrixArray[i]==NULL  || strcmp(matrixArray[i],"")==0){
             break;
@@ -129,10 +129,10 @@ int matrixFirstSize(char *mat){
             return matrix_row_sizes[i];
         }
     }
-    return 0;
+    return "0";
 }
 
-int matrixSecondSize(char *mat){
+char *matrixSecondSize(char *mat){
     for(int i=0;i<256;i++){
         if(matrixArray[i]==NULL  || strcmp(matrixArray[i],"")==0){
             break;
@@ -141,10 +141,10 @@ int matrixSecondSize(char *mat){
             return matrix_column_sizes[i];
         }
     }
-    return 0;
+    return "0";
 }
 
-int vectorSize(char *vec){
+char *vectorSize(char *vec){
     for(int i=0;i<256;i++){
         if(vectorArray[i]==NULL  || strcmp(vectorArray[i],"")==0){
             break;
@@ -153,7 +153,7 @@ int vectorSize(char *vec){
             return vector_sizes[i];
         }
     }
-    return 0;
+    return "0";
 }
 
 void exit_program(){

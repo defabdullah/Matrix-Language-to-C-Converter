@@ -52,7 +52,7 @@ void vector_line(char* line){
             if(is_numeric_string(token)==0){
                 exit_program();
             }
-            vector_sizes[vectorNumber]=atoi(token);
+            vector_sizes[vectorNumber]=token;
         }else if(token_number==4){
             if(!strcmp(token,"]")==0){
                 exit_program();
@@ -95,7 +95,7 @@ void matrix_line(char* line){
             if(is_numeric_string(token)==0){
                 exit_program();
             }else{
-                matrix_row_sizes[matrixNumber]=atoi(token);
+                matrix_row_sizes[matrixNumber]=token;
                 fprintf(pOutputFile,"%s", token);
             }
         }else if(token_number==4){
@@ -109,7 +109,7 @@ void matrix_line(char* line){
             if(is_numeric_string(token)==0){
                 exit_program();
             }else{
-                matrix_column_sizes[matrixNumber]=atoi(token);
+                matrix_column_sizes[matrixNumber]=token;
                 fprintf(pOutputFile,"%s", token);
             }
         }else if(token_number==6){
