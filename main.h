@@ -25,9 +25,9 @@ char *scalarArray[256];
 char *vectorArray[256];
 char *matrixArray[256];
 
-int matrix_row_sizes[256];
-int matrix_column_sizes[256];
-int vector_sizes[256];
+char *matrix_row_sizes[256];
+char *matrix_column_sizes[256];
+char *vector_sizes[256];
 
 //statement functions
 
@@ -56,9 +56,11 @@ extern int is_alphanumeric_string(char* s);
 extern int is_numeric_string(char *s);
 extern int expression_divider(char* line,char *first,char *second);
 extern int return_type_of_function(char *token);
-extern int matrixFirstSize(char *mat);
-extern int matrixSecondSize(char *mat);
-extern int vectorSize(char *mat);
+
+extern char *matrixFirstSize(char *mat);
+extern char *matrixSecondSize(char *mat);
+extern char *vectorSize(char *mat);
+
 extern void exit_program();
 enum special_functions is_special_funciton(char * token);
 
