@@ -6,8 +6,12 @@ void assign_value_specified_index(char * line){
 
 void assignment_statement(char * statement,char* variable_name){
     char * token;
+    char * line;
     int token_number=1;
     while((token=strsep(&statement," "))!=NULL){
+        if(strcmp(token,"")==0){
+            continue;
+        }
         if(token_number==1){
             if(strcmp(token,"=")!=0){
                 if(strcmp(token,"[")!=0){
@@ -18,24 +22,28 @@ void assignment_statement(char * statement,char* variable_name){
                 }
 
             }
+            line=strdup(statement);
         }else{
-            char * statement_copy=strdup(statement);
-            char * token;
-            token = strtok(statement_copy," "); 
-            if(strcmp(token,"{")==0){
-                matrix_initializer(statement,variable_name);
-                break;
+            if(statement!=NULL){
+                char * statement_copy=strdup(statement);
+                char * token;
+                token = strtok(statement_copy," "); 
+                if(strcmp(token,"{")==0){
+                    matrix_initializer(statement,variable_name);
+                    break;
+                }
             }
+           
             if(isDeclared(variable_name)==matrix || isDeclared(variable_name)==vector){
-                char * result= expression_parser(statement);
+                
+                char * result= expression_parser(line);
                 if(return_type_of_function(strdup(result))==2){
                     exit_program();
                 }
                 fprintf(pOutputFile,"%s%s%s%s%s","\tmatAssign(*",variable_name,",*",result,");\n");
 
             }else{
-                printf("%s\n",statement);
-                char * result= expression_parser(statement);
+                char * result= expression_parser(line);
                 if(return_type_of_function(strdup(result))==1){
                     exit_program();
                 } 
