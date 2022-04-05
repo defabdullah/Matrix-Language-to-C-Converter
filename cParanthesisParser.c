@@ -30,7 +30,8 @@ char *deleteParanthesis(char *str){
 }
 
 char *remove_spaces(char *str)
-{   
+{
+    char res[5512];
     char *t;
     int i=0;
     for (t = str; *t != '\0'; t++) {
@@ -44,11 +45,13 @@ char *remove_spaces(char *str)
         strncat(res,t,1);  
         i++;
     }
-    return res;
+    str=strdup(res);
+    return str;
 }
 
 //parse all expression without paranthesis and send them to expression handler function
 char *parseParanthesis(char *str){
+
     char *token;
     char *prev="";
     char *copy;
@@ -56,20 +59,23 @@ char *parseParanthesis(char *str){
     copy=strdup(str);
     //if there is no paranthesis send expression to expression function else paste it
     if(strstr(copy,"(")==NULL || strstr(copy,")")==NULL){
-
         return expression_parser(str);
     }
 
-    int is_exp=0;
+    int is_exp=1;
+    
+
     while((token=strsep(&copy," "))!=NULL){
         if(strcmp(token,"(")==0){
-
             if(prev==NULL || strcmp(prev,"")==0){
+
+                is_exp=0;
                 prev=strdup(token);
                 continue;
             }
 
             else if(strcmp(prev,"sqrt")==0||strcmp(prev,"tr")==0||strcmp(prev,"choose")==0){
+
                 tempCopy=strdup(copy);
 
                 if((token=strsep(&copy," "))!=NULL){
@@ -88,14 +94,17 @@ char *parseParanthesis(char *str){
                 is_exp=0;
             }
 
-        }
-
+        }  
         prev=strdup(token);
     }
 
     if(is_exp==1){
+        //printf("ilk : %s\n",str);
         return expression_parser(str);
+        //printf("ikinci : %s\n",str);
+
     }
+
     //take it's reverse
     reverseFull=strrev(str);
     //create reverse copy string
@@ -104,12 +113,16 @@ char *parseParanthesis(char *str){
     char *tempToken;
     char *firstPrev;
     char *secondPrev;
+
+    char *beforeParantReverse;
+    char afterParantReverse[5000];
     while((token=strsep(&reverseCopy," "))!=NULL){
-        if(strcmp(token,"(")==0){
-            if(strcmp(token,"")==0){
+        if(strcmp(token,"")==0){
                 continue;
-            }
-            if(reverseCopy==NULL || strcmp(reverseCopy,"")){
+        }
+
+        if(strcmp(token,"(")==0){
+            if(reverseCopy==NULL || strcmp(reverseCopy,"")==0){
                 beforeParantReverse="";
                 break;
             }
@@ -143,8 +156,10 @@ char *parseParanthesis(char *str){
             firstPrev=strdup(token);
         }
     }
-    //printf("d");
+
+    char afterParant[5000];
     strcpy(afterParant,strrev(afterParantReverse)); //include expression
+    char beforeParant[5000];
     strcpy(beforeParant,strrev(beforeParantReverse));
 
     token=strrev(strtok(beforeParantReverse," "));
@@ -152,10 +167,12 @@ char *parseParanthesis(char *str){
     if(token!= NULL && (strcmp(token,"tr")==0 || strcmp(token,"sqrt")==0 || strcmp(token,"choose")==0)){
         is_func=1;
     }
+
     
     char *temp=strdup(afterParant);
     int stack_num=1;
     char *new;
+    char innerExpression[5000];
     while((new=strsep(&temp," "))!=NULL){
         if(strcmp(new,")")==0){
             stack_num--;
@@ -172,37 +189,34 @@ char *parseParanthesis(char *str){
     //if there is no paranthesis send expression to expression function else paste it
     char *tempInnerExpression;
     if(strstr(innerExpression," ( ")==NULL){
-        tempInnerExpression=expression_parser(&innerExpression[0]);
+        //printf("first: %s\n",innerExpression);
+        tempInnerExpression=expression_parser(innerExpression);
+        //printf("second: %s\n",tempInnerExpression);
     }
 
     //concatenate string after changing expression with old value
-    strcat(beforeParant," ");
     if(is_func==1){
-        strcat(beforeParant," ");
+        strcat(beforeParant," ( ");
     }
     strcat(beforeParant,tempInnerExpression);
     if(is_func==1){
-        strcat(beforeParant," ");
+        strcat(beforeParant," ) ");
     }
-    strcat(beforeParant," ");
 
 
     if(temp!=NULL){
         strcat(beforeParant,temp);
     }
 
-    return beforeParant;
     //if there is no paranthesis send expression to expression function else paste it
 
     copy=strdup(beforeParant);
-
     while((token=strsep(&copy," "))!=NULL){
         if(strcmp(token,"(")== 0 ||strcmp(token,")")==0){
             return parseParanthesis(beforeParant);
         }
     }
-
-    return expression_parser(&beforeParant[0]);
+    return expression_parser(beforeParant);
    
 }
 /*int main(){

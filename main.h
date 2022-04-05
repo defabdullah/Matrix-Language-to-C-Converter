@@ -83,14 +83,8 @@ char *reverseCopy;
 char *reverseFull;
 char *withoutLastParanthesis;
 
-char beforeParant[5512];
-char *beforeParantReverse;
-char afterParant[5512];
-char afterParantReverse[5512];
-char innerExpression[5512];
-char result[5512];
 
-char res[5512];
+
 
 
 //for parser
