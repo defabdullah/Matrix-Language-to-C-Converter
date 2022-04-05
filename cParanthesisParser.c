@@ -1,5 +1,5 @@
 #include "main.h"
-char* strrev (char *str) {
+/*char* strrev (char *str) {
     if (!str) { return NULL; }
 
     int len = strnlen(str, 100);
@@ -13,7 +13,7 @@ char* strrev (char *str) {
     reverse[i] = 0;
 
     return reverse;
-}
+}*/
 
 char *deleteParanthesis(char *str){
     
@@ -49,23 +49,21 @@ char *remove_spaces(char *str)
 
 //parse all expression without paranthesis and send them to expression handler function
 char *parseParanthesis(char *str){
-
     char *token;
     char *prev="";
     char *copy;
     char *tempCopy;
-    char *innerTemp;
     copy=strdup(str);
     //if there is no paranthesis send expression to expression function else paste it
     if(strstr(copy,"(")==NULL || strstr(copy,")")==NULL){
-        return str;
+        return expression_parser(str);
     }
 
     int is_exp=0;
     while((token=strsep(&copy," "))!=NULL){
         if(strcmp(token,"(")==0){
 
-            if(prev==NULL || prev==""){
+            if(prev==NULL || strcmp(prev,"")==0){
                 prev=strdup(token);
                 continue;
             }
@@ -95,7 +93,7 @@ char *parseParanthesis(char *str){
     }
 
     if(is_exp==1){
-        return "3";
+        return expression_parser(str);
     }
     //take it's reverse
     reverseFull=strrev(str);
@@ -108,7 +106,7 @@ char *parseParanthesis(char *str){
     while((token=strsep(&reverseCopy," "))!=NULL){
         if(strcmp(token,"(")==0){
             
-            if(reverseCopy==NULL || reverseCopy==""){
+            if(reverseCopy==NULL || strcmp(reverseCopy,"")){
                 beforeParantReverse="";
                 break;
             }
@@ -116,7 +114,7 @@ char *parseParanthesis(char *str){
             tempCopy=strdup(reverseCopy);
             tempToken=strrev(strsep(&reverseCopy," "));
 
-            if(tempToken!=NULL && tempToken!="" && (strcmp(tempToken,"tr")==0 || strcmp(tempToken,"choose")==0 || strcmp(tempToken,"sqrt")==0)){
+            if(tempToken!=NULL && strcmp(tempToken,"")==0 && (strcmp(tempToken,"tr")==0 || strcmp(tempToken,"choose")==0 || strcmp(tempToken,"sqrt")==0)){
                 if(strcmp(secondPrev,")")==0){
                     reverseCopy=strdup(tempCopy);
                 }
@@ -169,17 +167,17 @@ char *parseParanthesis(char *str){
         strcat(innerExpression,new);
     }
     //if there is no paranthesis send expression to expression function else paste it
-    /*char *tempInnerExpression;
+    char *tempInnerExpression;
     if(strstr(innerExpression," ( ")==NULL){
-        return innerExpression;
-        tempInnerExpression=expression_parser(innerExpression);
-    }*/
+        tempInnerExpression=expression_parser(&innerExpression[0]);
+    }
+
     //concatenate string after changing expression with old value
     strcat(beforeParant," (");
     if(is_func==1){
         strcat(beforeParant," ");
     }
-    strcat(beforeParant,"asd");
+    strcat(beforeParant,tempInnerExpression);
     if(is_func==1){
         strcat(beforeParant," ");
     }
@@ -201,15 +199,14 @@ char *parseParanthesis(char *str){
         }
     }
 
-    //return expression_parser(beforeParant);
+    return expression_parser(&beforeParant[0]);
    
 }
-
-int main(){
+/*int main(){
     
-    char str[]="( A * B ) * A";
+    char str[]="sqrt ( tr ( y - x ) * ( y - x ) )";
     printf("\nreturn value:  %s\n",parseParanthesis(str));
     
     //printf("%s",remove_spaces(" y - x "));
     return (0);
-}
+}*/

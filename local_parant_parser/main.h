@@ -74,13 +74,13 @@ char *reverseCopy;
 char *reverseFull;
 char *withoutLastParanthesis;
 
-char beforeParant[512];
-char beforeParantReverse[512];
-char afterParant[512];
-char afterParantReverse[512];
+char beforeParant[5512];
+char *beforeParantReverse;
+char afterParant[5512];
+char afterParantReverse[5512];
 char afterParantModified;
-char innerExpression[512];
-char result[512];
+char innerExpression[5512];
+char result[5512];
 
 char res[512];
 
