@@ -108,7 +108,8 @@ int is_scalar_function(char* token){
 }
 
 int return_type_of_function(char *token){
-    char * first_token = strtok(token,"("); 
+    char * token_copy = strdup(token);
+    char * first_token = strtok(token_copy,"("); 
     if(is_matrix_function(first_token)==1){
         return 1;
     }else if(is_scalar_function(first_token)){

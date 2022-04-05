@@ -26,9 +26,14 @@ void assignment_statement(char * statement,char* variable_name){
                 matrix_initializer(statement,variable_name);
                 break;
             }
-            fprintf(pOutputFile,"%s%s%s","\t",variable_name," =");
-            fprintf(pOutputFile,"%s",expression_parser(statement));
-            fprintf(pOutputFile,"%s",";\n");      
+            if(isDeclared(variable_name)==matrix || isDeclared(variable_name)==vector){
+                fprintf(pOutputFile,"%s%s%s%s%s","\tmatAssign(*",variable_name,",*",expression_parser(statement),");\n");
+            }else{
+                fprintf(pOutputFile,"%s%s%s","\t",variable_name," =");
+                fprintf(pOutputFile,"%s",expression_parser(statement));
+                fprintf(pOutputFile,"%s",";\n"); 
+            }
+     
             break;
         }
         token_number++;

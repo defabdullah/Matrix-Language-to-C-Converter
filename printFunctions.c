@@ -45,7 +45,7 @@ void printScalarTranspose(){
 }
 
 void printChoose(){
-    fprintf(pOutputFile,"%s","double choose(double exp1, double exp2, double exp3, double exp4){\n\tif(exp1==0){\n\t\treturn exp2;\n\t}\n\telse if (exp1>0){\n\t\treturn exp3;\n\t}\n\treturn exp4;\n}");
+    fprintf(pOutputFile,"%s","double choose(double exp1, double exp2, double exp3, double exp4){\n\tif(exp1==0){\n\t\treturn exp2;\n\t}\n\telse if (exp1>0){\n\t\treturn exp3;\n\t}\n\treturn exp4;\n}\n");
 }
 
 void printCloseBracket(){
@@ -57,7 +57,11 @@ void printsep(){
 }
 
 void printPrintMatrix(){
-    fprintf(pOutputFile,"%s","\nvoid printMatrix(int row,int column,double *matrix){ \n\tfor(int i=0;i<row * column;i++){\n\t\tprintScalar(*(matrix + i));\n\t}\n}");
+    fprintf(pOutputFile,"%s","\nvoid printMatrix(int row,int column,double *matrix){ \n\tfor(int i=0;i<row * column;i++){\n\t\tprintScalar(*(matrix + i));\n\t}\n}\n");
+}
+
+void assignMat(){
+    fprintf(pOutputFile,"%s","void matAssign(double* matrix,double* matrix2,int row,int column ){\n\tfor(int i=0;i<row * column;i++){\n\t\t*(matrix + i) = *(matrix2 + i);\n\t}\n}\n");
 }
 
 void print_usual(){
@@ -74,5 +78,6 @@ void print_usual(){
     printScalarTranspose();
     printPrintMatrix();
     printChoose();
+    assignMat();
     fprintf(pOutputFile,"%s","\n\nint main(){\n\n");
 }
