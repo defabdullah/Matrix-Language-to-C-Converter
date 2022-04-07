@@ -156,7 +156,7 @@ char *vectorSize(char *vec){
     return "0";
 }
 
-/*char * first_size(char * exp){
+char * first_size(char * exp){
     if(isDeclared(exp)==matrix){
         return matrixFirstSize(exp);
     }else if(isDeclared(exp)==vector){
@@ -183,8 +183,21 @@ char * second_size(char * exp){
         char * result = strsep(&a,",");
         return result;
     }
-}*/
+}
 
+char *deleteParanthesis(char *str){
+    
+    //delete last parant.
+    withoutLastParanthesis=strtok(str,")");
+
+    //take it's reverse
+    reverseStr=strrev(withoutLastParanthesis);
+
+    //delete open paranth.
+    reverse= strtok(reverseStr,"(");
+
+    return strrev(reverse);
+}
 
 void exit_program(){
     printf("Error (Line %d)",lineNumber);

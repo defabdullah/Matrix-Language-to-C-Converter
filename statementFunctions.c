@@ -37,9 +37,9 @@ void assignment_statement(char * statement,char* variable_name){
                 if(return_type_of_function(strdup(result))==2){
                     exit_program();
                 }
-                //char* firstSize= first_size(result); 
-                //char* SecondSize= second_size(result);
-                fprintf(pOutputFile,"%s%s%s%s%s%s","\tmatAssign(",/*firstSize,",",SecondSize,*/ "*" ,variable_name,",*",result,");\n");
+                char* firstSize= first_size(result); 
+                char* SecondSize= second_size(result);
+                fprintf(pOutputFile,"%s%s%s%s%s%s%s%s%s","\tmatAssign(",firstSize,",",SecondSize, ",*" ,variable_name,",*",result,");\n");
 
             }else{
                 char * result= parseParanthesis(line);
