@@ -149,7 +149,7 @@ char *vectorSize(char *vec){
         if(vectorArray[i]==NULL  || strcmp(vectorArray[i],"")==0){
             break;
         }
-        if(strcmp(vec,matrixArray[i])==0){
+        if(strcmp(vec,vectorArray[i])==0){
             return vector_sizes[i];
         }
     }
