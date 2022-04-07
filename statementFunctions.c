@@ -82,7 +82,7 @@ void print_line(char * line){
                 strcat(temp," ");
                 token=strsep(&line," ");
             }
-            strcat(temp,")");
+            //strcat(temp,")");
             print_variable=parseParanthesis(temp);
 
             if(strcmp(token,")")!=0){

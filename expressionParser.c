@@ -387,7 +387,6 @@ char* multiplication(char *first,char* second){
 
 // expression_parser is the entrance function. Other functions (summation,multiplication,substraction,expressionn_divider) wont call explixitly.
 char* expression_parser(char *line){
-    printf("%s\n",line);
     char  first_part[256];
     char  second_part[256];
     memset(first_part, 0, 256);
@@ -508,8 +507,9 @@ char* expression_parser(char *line){
             }
             return strdup(a);
             
+            }
         }
-        }
+
         return line;
     }
 }
