@@ -198,7 +198,9 @@ char *parseParanthesis(char *str){
     if(is_func==1){
         strcat(beforeParant," ( ");
     }
+    strcat(beforeParant," ");
     strcat(beforeParant,tempInnerExpression);
+    strcat(beforeParant," ");
     if(is_func==1){
         strcat(beforeParant," ) ");
     }

@@ -102,7 +102,7 @@ int is_matrix_function(char * token){
 
 int is_scalar_function(char* token){
     token = trim(token);
-    if(strcmp(token,"scalarSubstraction")==0 || strcmp(token,"scalarSummation")==0 || strcmp(token,"scalarMultiplication")==0   || strcmp(token,"scalarTranspose")==0 || strcmp(token,"sqrt")==0  ){
+    if(strcmp(token,"scalarSubstraction")==0 || strcmp(token,"scalarSummation")==0 || strcmp(token,"scalarMultiplication")==0   || strcmp(token,"scalarTranspose")==0 || strcmp(token,"sqrt")==0 || strcmp(token,"sqrt")){
         return 1;
     }else{
         return 0;
@@ -155,6 +155,36 @@ char *vectorSize(char *vec){
     }
     return "0";
 }
+
+/*char * first_size(char * exp){
+    if(isDeclared(exp)==matrix){
+        return matrixFirstSize(exp);
+    }else if(isDeclared(exp)==vector){
+        return vectorSize(exp);
+    }else{
+        char * str = strdup(exp);
+        strsep(&str,"(");
+        char * ap= strdup(str);
+        char * result=strsep(&ap,",");
+        return result;
+    }
+}
+char * second_size(char * exp){
+    if(isDeclared(exp)==matrix){
+        return matrixSecondSize(exp);
+    }else if(isDeclared(exp)==vector){
+        return "1";
+    }else{
+        char * str = strdup(exp);
+        strsep(&str,"(");
+        char * ap= strdup(str);
+        strsep(&ap,",");
+        char * a= strdup(ap);
+        char * result = strsep(&a,",");
+        return result;
+    }
+}*/
+
 
 void exit_program(){
     printf("Error (Line %d)",lineNumber);

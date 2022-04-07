@@ -33,13 +33,13 @@ void assignment_statement(char * statement,char* variable_name){
             }
            
             if(isDeclared(variable_name)==matrix || isDeclared(variable_name)==vector){
-                printf("asd\n");
                 char * result=parseParanthesis(line);
-                printf("asd\n");
                 if(return_type_of_function(strdup(result))==2){
                     exit_program();
                 }
-                fprintf(pOutputFile,"%s%s%s%s%s","\tmatAssign(*",variable_name,",*",result,");\n");
+                //char* firstSize= first_size(result); 
+                //char* SecondSize= second_size(result);
+                fprintf(pOutputFile,"%s%s%s%s%s%s","\tmatAssign(",/*firstSize,",",SecondSize,*/ "*" ,variable_name,",*",result,");\n");
 
             }else{
                 char * result= parseParanthesis(line);
@@ -126,7 +126,6 @@ void matrix_initializer(char *line,char *variable_name){
         }
         fprintf(pOutputFile,"%s%s%s%d%s%s%s","\t*(*",variable_name,"+",i,")=",token,"; \n");
         i++;
-        token = strtok(NULL, " ");
     }
    
 }

@@ -42,6 +42,7 @@ char * second_size(char * exp){
     }
 }
 
+
 // takes expression string and divides it into two parts according to precedence.
 // returns the type of operator (+,-,*) 
 int expression_divider(char* line,char *first_part,char *second_part){
@@ -122,43 +123,73 @@ char* summation(char *first,char* second){
 
     if(is_first_in_base==1){
         if(is_second_in_base==1){
+            char* first_matrix_first_size;
+            char* first_matrix_second_size;
             int is_matrix_operation=0;
             char *part = strtok(first_clean," ");
             char* part_copy = strdup(first_clean);
-            char* part_copy_2 = strdup(first_clean);
-            if(isDeclared(part)==matrix|| isDeclared(part)== vector || return_type_of_function(part_copy)==1){
-                strcat(a,"matrixSummation(*");
+            int return_type_1=return_type_of_function(part_copy)==1;
+            
+            
+            if(isDeclared(part)==matrix|| isDeclared(part)== vector || return_type_1==1){
                 is_matrix_operation=1;
+                first_matrix_first_size = first_size(part);
+                first_matrix_second_size = second_size(part);
             }else{
-                if(isDeclared(part)==scalar || return_type_of_function(part_copy_2)== 2 || is_numeric_string(part)==1){
-                    strcat(a,"scalarSummation(");
+                if(isDeclared(part)==scalar || return_type_1== 2 || is_numeric_string(part)==1){
+                    is_matrix_operation=0;
+
                 }else{
                     exit_program();
                 }
             }
-            strcat(a,part);   
-            strcat(a,",");
-            if(is_matrix_operation==1){
-                strcat(a,"*");
-            }
-            char *part2 = strtok(second_clean," ");
+
+
+            int is_matrix_operation_2=0;
+            char * second_matrix_first_size;
+            char * second_matrix_second_size;
+            char * part2 = strtok(second_clean," ");
             char * part2_copy = strdup(second_clean);
-            char * part2_copy_2 = strdup(second_clean);
-            if(isDeclared(part2)==matrix|| isDeclared(part2)== vector || return_type_of_function(part2_copy)==1){
+            int return_type_2=return_type_of_function(part2_copy)==1;
+            
+            if(isDeclared(part2)==matrix|| isDeclared(part2)== vector || return_type_2==1){
                 if(is_matrix_operation==0){
                     exit_program();
                 }
+                is_matrix_operation_2=1;
+                second_matrix_first_size= first_size(part2);
+                second_matrix_second_size=second_size(part2);
+                
+
             }else{
-                if(isDeclared(part2)==scalar || return_type_of_function(part2_copy_2)== 2 || is_special_funciton(part2)== choose || is_special_funciton(part2)== sqrt ||  is_numeric_string(part2)){
+                if(isDeclared(part2)==scalar || return_type_2== 2  ||  is_numeric_string(part2)){
                     if(is_matrix_operation==1){
                         exit_program();
                     }
+                    is_matrix_operation_2=0;
                 }else{
                     exit_program();
                 }
             }
-            strcat(a,part2);
-            strcat(a,")");
+
+            if(is_matrix_operation==1){
+                if(is_matrix_operation_2==1){
+                    if(strcmp(first_matrix_first_size,second_matrix_first_size)!=0 || strcmp(first_matrix_second_size,second_matrix_second_size)!=0 ){
+                        exit_program();
+                    }
+                    strcat(a,"matrixSummation(");strcat(a,first_matrix_first_size);strcat(a,",");strcat(a,first_matrix_second_size);strcat(a,",*");strcat(a,part);
+                    strcat(a,",*");strcat(a,part2);strcat(a,")");
+                }else{
+                        printf("!!!!!!!!\n");
+                }
+            }else{
+                if(is_matrix_operation_2==1){
+                     strcat(a,"scalarSummation(");strcat(a,part);strcat(a,",");strcat(a,part2);strcat(a,")");
+                }else{
+                    printf("!!!!!!!!\n");
+                }
+            }
+
             return strdup(a) ;
         }else{
 
@@ -199,27 +230,27 @@ char* substraction(char *first,char* second){
     
     if(is_first_in_base==1){
         if(is_second_in_base==1){
+            char* first_matrix_first_size;
+            char* first_matrix_second_size;
             int is_matrix_operation=0;
             char *part = strtok(first_clean," ");
             char* part_copy = strdup(first_clean);
-            char* part_copy_2 = strdup(first_clean);
-            if(isDeclared(part)==matrix|| isDeclared(part)== vector || is_special_funciton(part)==tr || return_type_of_function(part_copy)==1){
-                strcat(a,"matrixSubstraction(*");
+            int return_type_1=return_type_of_function(part_copy)==1;
+            if(isDeclared(part)==matrix|| isDeclared(part)== vector ||  return_type_1==1){
                 is_matrix_operation=1;
+                first_matrix_first_size = first_size(part);
+                first_matrix_second_size = second_size(part);
             }else{
-                if(isDeclared(part)==scalar || return_type_of_function(part_copy_2)== 2 || is_special_funciton(part)== choose ||is_special_funciton(part)== sqrt ||is_numeric_string(part)){
-                    strcat(a,"scalarSubstraction(");
+                if(isDeclared(part)==scalar || return_type_1== 2 || is_numeric_string(part)){
+                    is_matrix_operation=0;
                 }else{
                     exit_program();
                 }
             }
             
-            strcat(a,part);  
-
-            strcat(a,",");
-            if(is_matrix_operation){
-                strcat(a,"*");
-            }
+            int is_matrix_operation_2=0;
+            char * second_matrix_first_size ;
+            char * second_matrix_second_size;
             char *part2 = strtok(second_clean," ");
             char * part2_copy = strdup(second_clean);
             char * part2_copy_2 = strdup(second_clean);
@@ -227,19 +258,39 @@ char* substraction(char *first,char* second){
                 if(is_matrix_operation==0){
                     exit_program();
                 }
+                is_matrix_operation_2=1;
             }else{
                 if(isDeclared(part2)==scalar || return_type_of_function(part2_copy_2)== 2 || is_special_funciton(part2)== choose || is_special_funciton(part2)== sqrt || is_numeric_string(part2)){
                     if(is_matrix_operation==1){
                         exit_program();
                     }
+                    second_matrix_first_size= first_size(part2);
+                    second_matrix_second_size=second_size(part2);
+                    is_matrix_operation_2=0;
                 }
                     exit_program();
         
             }
-            
-            strcat(a,part2);
-            strcat(a,")");
+
+            if(is_matrix_operation==1){
+                if(is_matrix_operation_2==1){
+                    if(strcmp(first_matrix_first_size,second_matrix_first_size)!=0 || strcmp(first_matrix_second_size,second_matrix_second_size)!=0 ){
+                        exit_program();
+                    }
+                    strcat(a,"matrixSubstraction(");strcat(a,first_matrix_first_size);strcat(a,",");strcat(a,first_matrix_second_size);strcat(a,",*");strcat(a,part);
+                    strcat(a,",*");strcat(a,part2);strcat(a,")");
+                }else{
+                        printf("!!!!!!!!\n");
+                }
+            }else{
+                if(is_matrix_operation_2==1){
+                     strcat(a,"scalarSubstraction(");strcat(a,part);strcat(a,",");strcat(a,part2);strcat(a,")");
+                }else{
+                    printf("!!!!!!!!\n");
+                }
+            }
             return strdup(a) ;
+        
         }else{
 
             return substraction(first_clean,expression_parser(second_clean));
@@ -318,9 +369,7 @@ char* multiplication(char *first,char* second){
                     }else if(return_type_2==1){
                         second_matrix_first_size= first_size(part2);
                         second_matrix_second_size=second_size(part2);
-                    }
-                
-                    
+                    }         
             }else{
                 if(isDeclared(part2)==scalar || return_type_2== 2 ||  is_numeric_string(part2)){
                     is_matrix_operation_2 = 0;
@@ -335,7 +384,7 @@ char* multiplication(char *first,char* second){
                     }
                     strcat(a,"matrixMultiplication(");strcat(a,first_matrix_first_size);strcat(a,",");strcat(a,second_matrix_second_size);strcat(a,",*");strcat(a,part);
                     strcat(a,",");strcat(a,first_matrix_first_size);strcat(a,",");strcat(a,first_matrix_second_size);strcat(a,",*");strcat(a,part2);
-                    strcat(a,",");strcat(a,second_matrix_first_size);strcat(a,",");strcat(a,first_matrix_second_size);strcat(a,")");
+                    strcat(a,",");strcat(a,second_matrix_first_size);strcat(a,",");strcat(a,second_matrix_second_size);strcat(a,")");
                 }else{
                          strcat(a,"scalarMatrixMultiplication(");strcat(a,first_size(part));strcat(a,",");strcat(a,second_size(part));strcat(a,",");strcat(a,part2);strcat(a,",*");strcat(a,part);strcat(a,")");
                 }
@@ -368,6 +417,7 @@ char* multiplication(char *first,char* second){
 
 // expression_parser is the entrance function. Other functions (summation,multiplication,substraction,expressionn_divider) wont call explixitly.
 char* expression_parser(char *line){
+    printf("%s\n",line);
     char  first_part[256];
     char  second_part[256];
     memset(first_part, 0, 256);
