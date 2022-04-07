@@ -1,8 +1,8 @@
 # this program computes fibonacci
 # numbers
 # variable definitions
-scalar i
 scalar n
+scalar i
 vector x[2]
 vector y[2]
 matrix A[2,2]
@@ -16,5 +16,7 @@ print(x)
 for(i in 1:n:1) {
 B = A*B
 y = B*x
+i=choose(3*5+(6-4)+2*(2),n,((((3*3)))),(2*4)-(5*n))
+print(i)
 print(y[1])
 }
