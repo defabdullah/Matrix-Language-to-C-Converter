@@ -29,7 +29,7 @@ void printScalarMultiplication(){
 }
 
 void printScalarMatrixMultiplication(){
-    fprintf(pOutputFile,"%s","double **scalarMatrixMultiplication(int row, int column,double scalar, double **matrix){\n\tdouble **newMatrix;\n\tnewMatrix=(double**)calloc(column,sizeof(double*));\n\tfor(int i=0;i<column;i++){\n\t\tnewMatrix[i]=(double*)calloc(row,sizeof(double));\n\t}\n\n\tfor(int i=0;i<column;i++){\n\t\tfor(int j=0;j<row;j++){\n\t\t\tnewMatrix[i][j]= scalar * *(*(matrix + (i*row+j)));\n\t\t}\n\t}\n\n\treturn newMatrix;\n}\n");
+    fprintf(pOutputFile,"%s","double **scalarMatrixMultiplication(int row, int column,double scalar, double *matrix){\n\tdouble **newMatrix;\n\tnewMatrix=(double**)calloc(column,sizeof(double*));\n\tfor(int i=0;i<column;i++){\n\t\tnewMatrix[i]=(double*)calloc(row,sizeof(double));\n\t}\n\n\tfor(int i=0;i<column;i++){\n\t\tfor(int j=0;j<row;j++){\n\t\t\tnewMatrix[i][j]= scalar * (*(matrix + (i*row+j)));\n\t\t}\n\t}\n\n\treturn newMatrix;\n}\n");
 }
 
 void printPrintScalar(){
