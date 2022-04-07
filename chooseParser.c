@@ -9,7 +9,6 @@ char *chooseParser(char *str){
     char *expressionTwo;
     char *expressionThree;
     char *expressionFour;
-
     while((token=strsep(&copy,","))!=NULL){
         if(tokenNum==1){
             expressionOne=strdup(parseParanthesis(token));
@@ -30,18 +29,26 @@ char *chooseParser(char *str){
             exit_program();
         }
 
+        tokenNum++;
+
     }
 
-    strcat(result," ( ");
-    strcat(result,expressionOne);
-    strcat(result," , ");
-    strcat(result,expressionTwo);
-    strcat(result," , ");
-    strcat(result,expressionThree);
-    strcat(result," , ");
-    strcat(result,expressionFour);
-    strcat(result," ) ");
+    strcat(chooseResult," ( ");
 
-    return result;
+
+    strcat(chooseResult,expressionOne);
+    strcat(chooseResult," , ");
+    strcat(chooseResult,expressionTwo);
+
+    strcat(chooseResult," , ");
+
+    strcat(chooseResult,expressionThree);
+
+    strcat(chooseResult," , ");
+
+    strcat(chooseResult,expressionFour);
+    strcat(chooseResult," ) ");
+
+    return chooseResult;
 
 }

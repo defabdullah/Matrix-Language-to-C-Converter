@@ -436,13 +436,13 @@ char* expression_parser(char *line){
                             strcat(exp,first_token);
                         }
                         if(choose_iterator_second==2){
-                            expOne=strdup(expression_parser(exp));
+                            expOne=strdup(exp);
 
                         }else if(choose_iterator_second==3){
-                            expTwo=strdup(expression_parser(exp));
+                            expTwo=strdup(exp);
                     
                         }else if(choose_iterator_second==4){
-                            expThree=strdup(expression_parser(exp));
+                            expThree=strdup(exp);
                         }
 
                     }else if(choose_iterator_second==5){
@@ -455,7 +455,7 @@ char* expression_parser(char *line){
                             }
                             strcat(exp,first_token);
                         }
-                        expFour=strdup(expression_parser(exp));
+                        expFour=strdup(exp);
                     }else{
                         exit_program();
                     }

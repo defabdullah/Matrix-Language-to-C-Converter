@@ -2,12 +2,12 @@
 
 //parse all expression without paranthesis and send them to expression handler function
 char *parseParanthesis(char *str){
-
     char *token;
     char *prev="";
     char *copy;
     char *tempCopy;
     copy=strdup(str);
+    
     //if there is no paranthesis send expression to expression function else paste it
     if(strstr(copy,"(")==NULL || strstr(copy,")")==NULL){
         return expression_parser(str);
@@ -29,8 +29,13 @@ char *parseParanthesis(char *str){
 
                 tempCopy=strdup(copy);
 
+                if(strcmp(prev,"choose")==0){
+                    for(int i=0;i<6;i++){
+                        token=strsep(&copy," ");
+                    }
+                }
+
                 if((token=strsep(&copy," "))!=NULL){
-                    //printf("%s\n",token);
                     if(strcmp((token=strsep(&copy," ")),")")!=0){
                         is_exp=0;
                     }
@@ -49,12 +54,12 @@ char *parseParanthesis(char *str){
         prev=strdup(token);
     }
 
-    if(is_exp==1){
-        //printf("ilk : %s\n",str);
-        return expression_parser(str);
-        //printf("ikinci : %s\n",str);
 
+    if(is_exp==1){
+        return expression_parser(str);
     }
+
+
 
     //take it's reverse
     reverseFull=strrev(str);
@@ -67,6 +72,7 @@ char *parseParanthesis(char *str){
 
     char *beforeParantReverse;
     char afterParantReverse[5000];
+
     while((token=strsep(&reverseCopy," "))!=NULL){
         if(strcmp(token,"")==0){
                 continue;
@@ -144,14 +150,13 @@ char *parseParanthesis(char *str){
     //if there is no paranthesis send expression to expression function else paste it
     char *tempInnerExpression;
     if(strstr(innerExpression," ( ")==NULL){
-        //printf("first: %s\n",innerExpression);
         if(is_choose==1){
+            
             tempInnerExpression=chooseParser(innerExpression);
         }
         else{
             tempInnerExpression=expression_parser(innerExpression);
         }
-        //printf("second: %s\n",tempInnerExpression);
     }
 
     //concatenate string after changing expression with old value
