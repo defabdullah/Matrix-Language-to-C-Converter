@@ -93,7 +93,7 @@ char* strrev (char *str) {
 }
 int is_matrix_function(char * token){
     token = trim(token);
-    if(isDeclared(token)==matrix || strcmp(token,"matrixMultiplication")==0 || strcmp(token,"matrixTranspose") ==0  || strcmp(token,"matrixSubstraction")==0 || strcmp(token,"matrixSummation")==0 || strcmp(token,"scalarMatrixMultiplication")==0 ){
+    if(isDeclared(token)==matrix || isDeclared(token)==vector || strcmp(token,"matrixMultiplication")==0 || strcmp(token,"matrixTranspose") ==0  || strcmp(token,"matrixSubstraction")==0 || strcmp(token,"matrixSummation")==0 || strcmp(token,"scalarMatrixMultiplication")==0 ){
         return 1;
     }else{
         return 0;
