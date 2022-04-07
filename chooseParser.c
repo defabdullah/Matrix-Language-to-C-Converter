@@ -3,7 +3,6 @@
 char *chooseParser(char *str){
     char *copy=strdup(str);
     char *token;
-    char result[5000];
 
     int tokenNum=1;
     char *expressionOne;

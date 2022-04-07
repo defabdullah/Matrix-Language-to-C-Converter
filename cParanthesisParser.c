@@ -168,7 +168,7 @@ char *parseParanthesis(char *str){
     if(token!= NULL && (strcmp(token,"tr")==0 || strcmp(token,"sqrt")==0 || strcmp(token,"choose")==0)){
         is_func=1;
         if(strcmp(token,"choose")==0){
-            is_choose==1;
+            is_choose=1;
         }
     }
 
@@ -194,7 +194,7 @@ char *parseParanthesis(char *str){
     char *tempInnerExpression;
     if(strstr(innerExpression," ( ")==NULL){
         //printf("first: %s\n",innerExpression);
-        if(is_choose=1){
+        if(is_choose==1){
             tempInnerExpression=chooseParser(innerExpression);
         }
         else{

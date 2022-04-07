@@ -86,6 +86,8 @@ char *withoutLastParanthesis;
 
 //choose parser
 char *chooseParser(char *str);
+char *result;
+
 
 
 //for parser
