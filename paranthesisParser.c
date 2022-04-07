@@ -49,7 +49,7 @@ char *remove_spaces(char *str)
 
 //parse all expression without paranthesis and send them to expression handler function
 char *parseParanthesis(char *str){
-
+    printf("%s\n",str);
     char *token;
     char *copy;
     copy=strdup(str);
@@ -74,6 +74,10 @@ char *parseParanthesis(char *str){
 
     //create reverse copy string
     char *reverseCopy=strndup(reverseFull,strlen(reverseFull));
+    char *beforeParant;
+    char *beforeParantReverse;
+    char *afterParant;
+    char *afterParantReverse;
 
     //merge all
     while((token=strsep(&reverseCopy," "))!=NULL){
@@ -95,6 +99,7 @@ char *parseParanthesis(char *str){
 
 
     char *temp=strdup(afterParant);
+    char *innerExpression;
     while((token=strsep(&temp," "))!=NULL){
         if(strcmp(token,")")==0){
             break;

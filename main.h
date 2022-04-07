@@ -84,7 +84,8 @@ char *reverseFull;
 char *withoutLastParanthesis;
 
 
-
+//choose parser
+char *chooseParser(char *str);
 
 
 //for parser

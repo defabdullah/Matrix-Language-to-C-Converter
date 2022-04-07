@@ -164,8 +164,12 @@ char *parseParanthesis(char *str){
 
     token=strrev(strtok(beforeParantReverse," "));
     int is_func=0;
+    int is_choose=0;
     if(token!= NULL && (strcmp(token,"tr")==0 || strcmp(token,"sqrt")==0 || strcmp(token,"choose")==0)){
         is_func=1;
+        if(strcmp(token,"choose")==0){
+            is_choose==1;
+        }
     }
 
     
@@ -190,19 +194,24 @@ char *parseParanthesis(char *str){
     char *tempInnerExpression;
     if(strstr(innerExpression," ( ")==NULL){
         //printf("first: %s\n",innerExpression);
-        tempInnerExpression=expression_parser(innerExpression);
+        if(is_choose=1){
+            tempInnerExpression=chooseParser(innerExpression);
+        }
+        else{
+            tempInnerExpression=expression_parser(innerExpression);
+        }
         //printf("second: %s\n",tempInnerExpression);
     }
 
     //concatenate string after changing expression with old value
     if(is_func==1){
-        strcat(beforeParant," ( ");
+        strcat(beforeParant," (");
     }
     strcat(beforeParant," ");
     strcat(beforeParant,tempInnerExpression);
     strcat(beforeParant," ");
     if(is_func==1){
-        strcat(beforeParant," ) ");
+        strcat(beforeParant,") ");
     }
 
 
