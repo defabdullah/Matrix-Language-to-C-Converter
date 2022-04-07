@@ -3,7 +3,7 @@
 
 
 
-double **matrixMultiplication( double **matrix1, int row1, int column1, double **matrix2, int row2, int column2){
+/*double **matrixMultiplication( double **matrix1, int row1, int column1, double **matrix2, int row2, int column2){
     double **newMatrix;
     newMatrix=(double**)calloc(row1,sizeof(double*));
     for(int i=0;i<row1;i++){
@@ -21,6 +21,21 @@ double **matrixMultiplication( double **matrix1, int row1, int column1, double *
     }
 
     return newMatrix;
+}*/
+double **matrixMultiplication( int a , int b,double *matrix1, int row1, int column1, double *matrix2, int row2, int column2){
+	double **newMatrix=(double**)calloc(row1,sizeof(double*));
+	for(int i=0;i<row1;i++){
+		newMatrix[i]=(double*)calloc(column2,sizeof(double));
+	}
+	for(int i=0;i<row1;i++){
+		for(int j=0;j<column2;j++){
+			newMatrix[i][j]=0;
+			for(int k=0;k<row2;k++){
+				newMatrix[i][j]+= *(matrix1 + (i*row1+k) ) *  *(matrix2+ (k*row2+j));
+			}
+		}
+	}
+	return newMatrix;
 }
 
 void printMatrix(int row,int column,double **matrix){
