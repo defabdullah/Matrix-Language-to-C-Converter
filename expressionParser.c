@@ -412,7 +412,7 @@ char* expression_parser(char *line){
     
     }else{
         char a [1024] = " ";
-        char *first_token = strtok(line," ");
+        char *first_token = strtok(strdup(line)," ");
         enum special_functions  function  =is_special_funciton(first_token);
         if(function!=none){
             int choose_iterator_second=1;
@@ -508,8 +508,81 @@ char* expression_parser(char *line){
             return strdup(a);
             
             }
+        }else{
+            int is_vector=0;
+            int is_matrix=0;
+            if(isDeclared(first_token)==vector){
+                is_vector=1;
+            }else if(isDeclared(first_token)==matrix){
+                is_matrix=1;
+            }
+            if(is_vector){
+                int iteration_number=1;
+                char * first_token_copy= strdup(first_token);
+                while((first_token=strtok(NULL, " ")) != NULL ){
+                    if(iteration_number==1){
+                        if(strcmp(first_token,"[")!=0){
+                            iteration_number=-1;
+                            break;
+                        }
+                    }else if(iteration_number==2){
+                        if(is_numeric_string(first_token)!=1){
+                            exit_program();
+                        }else{
+                            strcat(a,"getValue(*");strcat(a,first_token_copy);strcat(a,",");strcat(a,first_token);strcat(a,",");strcat(a,"1)");
+                        }
+                    }else if(iteration_number==3){
+                        if(strcmp(first_token,"]")!=0){
+                            exit_program();
+                        }
+                    }else{
+                        exit_program();
+                    }
+                    iteration_number++;
+                }
+                if(iteration_number!=1){
+                    return strdup(a);
+                }
+            }else if(is_matrix){
+                int iteration_number=1;
+                char * first_token_copy= strdup(first_token);
+                while((first_token=strtok(NULL, " ")) != NULL ){
+                    if(iteration_number==1){
+                        if(strcmp(first_token,"[")!=0){
+                            iteration_number=-1;
+                            break;
+                        }
+                    }else if(iteration_number==2){
+                        if(is_numeric_string(first_token)!=1){
+                            exit_program();
+                        }else{
+                            strcat(a,"getValue(*");strcat(a,first_token_copy);strcat(a,",");strcat(a,first_token);strcat(a,",");
+                        }
+                    }else if(iteration_number==3){
+                        if(strcmp(first_token,",")!=0){
+                            exit_program();
+                        }
+                    }else if(iteration_number==4){
+                        if(is_numeric_string(first_token)!=1){
+                            exit_program();
+                        }else{
+                            strcat(a,first_token);strcat(a,")");
+                        }
+                    }else if(iteration_number==5){
+                        if(strcmp(first_token,"]")!=0){
+                            exit_program();
+                        }
+                    }else{
+                        exit_program();
+                    }
+                    iteration_number++;
+                }
+                if(iteration_number!=1){
+                    return strdup(a);
+                }
+            }
+            
         }
-
         return line;
     }
 }
