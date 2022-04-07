@@ -61,6 +61,9 @@ extern char *matrixFirstSize(char *mat);
 extern char *matrixSecondSize(char *mat);
 extern char *vectorSize(char *mat);
 
+extern char * first_size(char * exp);
+extern char * second_size(char * exp);
+
 extern void exit_program();
 enum special_functions is_special_funciton(char * token);
 
@@ -84,6 +87,9 @@ char *reverseFull;
 char *withoutLastParanthesis;
 
 
+//choose parser
+char *chooseParser(char *str);
+char *result;
 
 
 

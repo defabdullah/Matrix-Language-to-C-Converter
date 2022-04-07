@@ -13,36 +13,6 @@ enum special_functions is_special_funciton(char * token){
     }
 }
 
-char * first_size(char * exp){
-    if(isDeclared(exp)==matrix){
-        return matrixFirstSize(exp);
-    }else if(isDeclared(exp)==vector){
-        return vectorSize(exp);
-    }else{
-        char * str = strdup(exp);
-        strsep(&str,"(");
-        char * ap= strdup(str);
-        char * result=strsep(&ap,",");
-        return result;
-    }
-}
-char * second_size(char * exp){
-    if(isDeclared(exp)==matrix){
-        return matrixSecondSize(exp);
-    }else if(isDeclared(exp)==vector){
-        return "1";
-    }else{
-        char * str = strdup(exp);
-        strsep(&str,"(");
-        char * ap= strdup(str);
-        strsep(&ap,",");
-        char * a= strdup(ap);
-        char * result = strsep(&a,",");
-        return result;
-    }
-}
-
-
 // takes expression string and divides it into two parts according to precedence.
 // returns the type of operator (+,-,*) 
 int expression_divider(char* line,char *first_part,char *second_part){
