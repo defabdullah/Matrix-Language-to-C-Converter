@@ -102,7 +102,7 @@ int is_matrix_function(char * token){
 
 int is_scalar_function(char* token){
     token = trim(token);
-    if(isDeclared(token)==scalar || strcmp(token,"scalarSubstraction")==0 || strcmp(token,"scalarSummation")==0 || strcmp(token,"scalarMultiplication")==0   || strcmp(token,"scalarTranspose")==0 || strcmp(token,"sqrt")==0 || strcmp(token,"sqrt")){        
+    if(isDeclared(token)==scalar || strcmp(token,"scalarSubstraction")==0 || strcmp(token,"scalarSummation")==0 || strcmp(token,"scalarMultiplication")==0   || strcmp(token,"scalarTranspose")==0 || strcmp(token,"sqrt")==0 || strcmp(token,"sqrt")==0 || strcmp(token,"getValue")==0){        
         return 1;
     }else{
         return 0;
@@ -158,8 +158,7 @@ char *vectorSize(char *vec){
 }
 
 char * first_size(char * exp){
-
-    if(isDeclared(exp)==matrix){
+    if(isDeclared(exp)==matrix){;
         return matrixFirstSize(exp);
     }else if(isDeclared(exp)==vector){
         return vectorSize(exp);
@@ -202,6 +201,7 @@ char *deleteParanthesis(char *str){
 }
 
 enum types isDeclared(char *str){
+    str = trim(str);
     int i;
     for(i=0;i<256;i++){
         if(scalarArray[i]==NULL && vectorArray[i]==NULL && matrixArray[i]==NULL ){
