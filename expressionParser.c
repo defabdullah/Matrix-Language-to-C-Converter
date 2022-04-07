@@ -45,51 +45,58 @@ char * second_size(char * exp){
 // takes expression string and divides it into two parts according to precedence.
 // returns the type of operator (+,-,*) 
 int expression_divider(char* line,char *first_part,char *second_part){
+    char * token;
     int first_index =0;
     int second_index=0;
     int is_found=0;
     int operator=0;
-    char * rev_line=strrev(line);
-    for(int i=0;i<strlen(rev_line);i++){
-        if((*(rev_line+i)=='+'|| *(rev_line+i)=='-') && is_found==0){
-            second_part[second_index]='\0';
+    char * rev_line=strrev(strdup(line));
+    char * rev_line_2=strrev(strdup(line));
+     while((token=strsep(&rev_line," "))!=NULL){
+         if(strcmp(token,"")==0){
+             continue;
+         }
+         if((strcmp(token,"+")==0 || strcmp(token,"-")==0)  && is_found==0){
             is_found=1;
-            if(*(rev_line+i)=='+'){
+            if(strcmp(token,"+")==0){
                 operator=1;
-            }else if(*(rev_line+i)=='-'){
-                operator=2;
+            }else if(strcmp(token,"-")==0){
+                 operator=2;
             }
-            
-        }else if(is_found==0){
-            second_part[second_index]=*(rev_line+i);
-            second_index++;
-        }else if(is_found==1){
-            first_part[first_index]=*(rev_line+i);
+         }else if(is_found==0){
+             strcat(second_part," ");
+             strcat(second_part,token);
+             second_index++;
+         }else if(is_found){
+            strcat(first_part," ");
+            strcat(first_part,token);
             first_index++;
-        }
-
-    }
+         }
+     }
+    
     second_index=0;
     if(is_found==0){
         memset(first_part, 0, 256);
         memset(second_part, 0, 256);
-        for(int i=0;i<strlen(rev_line);i++){
-            if(*(rev_line+i)=='*' && is_found==0){
-                second_part[second_index]='\0';
+        while((token=strsep(&rev_line_2," "))!=NULL){
+            if(strcmp(token,"")==0){
+                continue;
+            }
+            if(strcmp(token,"*")==0  && is_found==0){
                 is_found=1;
                 operator=3;
             }else if(is_found==0){
-                second_part[second_index]=*(rev_line+i);
+                strcat(second_part," ");
+                strcat(second_part,token);
                 second_index++;
-            }else if(is_found==1){
-                first_part[first_index]=*(rev_line+i);
+            }else if(is_found){
+                strcat(first_part," ");
+                strcat(first_part,token);
                 first_index++;
             }
-        }     
+        }
 
     }
-
-    first_part[first_index]='\0';
     return operator;
 
 }
@@ -361,7 +368,6 @@ char* multiplication(char *first,char* second){
 
 // expression_parser is the entrance function. Other functions (summation,multiplication,substraction,expressionn_divider) wont call explixitly.
 char* expression_parser(char *line){
-    printf("%s\n",line);
     char  first_part[256];
     char  second_part[256];
     memset(first_part, 0, 256);
@@ -485,11 +491,5 @@ char* expression_parser(char *line){
         }
         }
         return line;
-
-        
-        
     }
-
-
-
 }
