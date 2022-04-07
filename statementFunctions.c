@@ -37,9 +37,10 @@ void assignment_statement(char * statement,char* variable_name){
                 if(return_type_of_function(strdup(result))==2){
                     exit_program();
                 }
+                result=trim(result);
                 char* firstSize= first_size(result); 
-                char* SecondSize= second_size(result);
-                fprintf(pOutputFile,"%s%s%s%s%s%s%s%s%s","\tmatAssign(",firstSize,",",SecondSize, ",*" ,variable_name,",*",result,");\n");
+                char* secondSize= second_size(result);
+                fprintf(pOutputFile,"%s%s%s%s%s%s%s%s%s","\tmatAssign(",firstSize,",",secondSize, ",*" ,variable_name,",*",result,");\n");
 
             }else{
                 char * result= parseParanthesis(line);
@@ -106,7 +107,6 @@ void print_line(char * line){
     }
 
 }
-
 void matrix_initializer(char *line,char *variable_name){
     //fprintf(pOutputFile,"%s","char * token;\ntoken = strtok(line,\" \");\nint i = 0;\nwhile((token=strtok(NULL,\" \")!=NULL)){\n)");
     char * token;

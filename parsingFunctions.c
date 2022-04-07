@@ -93,7 +93,7 @@ char* strrev (char *str) {
 }
 int is_matrix_function(char * token){
     token = trim(token);
-    if(strcmp(token,"matrixMultiplication")==0 || strcmp(token,"matrixTranspose") ==0  || strcmp(token,"matrixSubstraction")==0 || strcmp(token,"matrixSummation")==0 || strcmp(token,"scalarMatrixMultiplication")==0 ){
+    if(isDeclared(token)==matrix || strcmp(token,"matrixMultiplication")==0 || strcmp(token,"matrixTranspose") ==0  || strcmp(token,"matrixSubstraction")==0 || strcmp(token,"matrixSummation")==0 || strcmp(token,"scalarMatrixMultiplication")==0 ){
         return 1;
     }else{
         return 0;
@@ -102,7 +102,7 @@ int is_matrix_function(char * token){
 
 int is_scalar_function(char* token){
     token = trim(token);
-    if(strcmp(token,"scalarSubstraction")==0 || strcmp(token,"scalarSummation")==0 || strcmp(token,"scalarMultiplication")==0   || strcmp(token,"scalarTranspose")==0 || strcmp(token,"sqrt")==0 || strcmp(token,"sqrt")){
+    if(isDeclared(token)==scalar || strcmp(token,"scalarSubstraction")==0 || strcmp(token,"scalarSummation")==0 || strcmp(token,"scalarMultiplication")==0   || strcmp(token,"scalarTranspose")==0 || strcmp(token,"sqrt")==0 || strcmp(token,"sqrt")){        
         return 1;
     }else{
         return 0;
@@ -111,10 +111,11 @@ int is_scalar_function(char* token){
 
 int return_type_of_function(char *token){
     char * token_copy = strdup(token);
-    char * first_token = strtok(token_copy,"("); 
+    char * first_token = strtok(token_copy,"(");
+
     if(is_matrix_function(first_token)==1){
         return 1;
-    }else if(is_scalar_function(first_token)){
+    }else if(is_scalar_function(first_token)==1){
         return 2;
     }
     return 0;
@@ -157,6 +158,7 @@ char *vectorSize(char *vec){
 }
 
 char * first_size(char * exp){
+
     if(isDeclared(exp)==matrix){
         return matrixFirstSize(exp);
     }else if(isDeclared(exp)==vector){
@@ -197,6 +199,25 @@ char *deleteParanthesis(char *str){
     reverse= strtok(reverseStr,"(");
 
     return strrev(reverse);
+}
+
+enum types isDeclared(char *str){
+    int i;
+    for(i=0;i<256;i++){
+        if(scalarArray[i]==NULL && vectorArray[i]==NULL && matrixArray[i]==NULL ){
+            return empty;
+        }
+        if(scalarArray[i]!= NULL && strcmp(scalarArray[i],str)==0){
+            return scalar;
+        }
+        else if(vectorArray[i]!= NULL && strcmp(vectorArray[i],str)==0){
+            return vector;
+        }
+        else if(matrixArray[i]!= NULL && strcmp(matrixArray[i],str)==0){
+            return matrix;
+        }
+    }
+    return empty;
 }
 
 void exit_program(){

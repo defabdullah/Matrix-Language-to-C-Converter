@@ -127,23 +127,3 @@ void matrix_line(char* line){
     matrixNumber++;
     fprintf(pOutputFile,"%s","\n");
 }
-
-enum types isDeclared(char *str){
-    int i;
-    for(i=0;i<256;i++){
-        if(scalarArray[i]==NULL && vectorArray[i]==NULL && matrixArray[i]==NULL ){
-            return empty;
-        }
-        if(scalarArray[i]!= NULL && strcmp(scalarArray[i],str)==0){
-            return scalar;
-        }
-        else if(vectorArray[i]!= NULL && strcmp(vectorArray[i],str)==0){
-            return vector;
-        }
-        else if(matrixArray[i]!= NULL && strcmp(matrixArray[i],str)==0){
-            return matrix;
-        }
-    }
-
-    return empty;
-}
