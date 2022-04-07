@@ -98,9 +98,9 @@ void print_line(char * line){
     char * print_variable_copy= strdup(print_variable);
     char * print_variable_copy_2= strdup(print_variable);
     if(isDeclared(print_variable)==matrix ||isDeclared(print_variable)==vector ||  is_special_funciton(print_variable)==tr || return_type_of_function(print_variable_copy)==1){
-        fprintf(pOutputFile,"%s","\tprintMatrix(*");fprintf(pOutputFile,"%s",print_variable);fprintf(pOutputFile,"%s",");\n");
+        fprintf(pOutputFile,"%s","\tprintMatrix(");fprintf(pOutputFile,"%s",first_size(print_variable));fprintf(pOutputFile,"%s%s",",",second_size(print_variable));fprintf(pOutputFile,"%s%s",",*",print_variable);fprintf(pOutputFile,"%s",");\n");
     }else if(isDeclared(print_variable)==scalar || return_type_of_function(print_variable_copy_2)==2 ){
-        fprintf(pOutputFile,"%s","\tprintScalar(");fprintf(pOutputFile,"%s",print_variable);fprintf(pOutputFile,"%s%s",",",first_size(print_variable));fprintf(pOutputFile,"%s%s",",",second_size(print_variable)); fprintf(pOutputFile,"%s",");\n");
+        fprintf(pOutputFile,"%s","\tprintScalar(");fprintf(pOutputFile,"%s",print_variable); fprintf(pOutputFile,"%s",");\n");
     }else{
         exit_program();
     }
