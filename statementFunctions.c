@@ -180,16 +180,19 @@ void print_line(char * line){
 
 }
 void matrix_initializer(char *line,char *variable_name){
+    printf("%s\n",line);
     //fprintf(pOutputFile,"%s","char * token;\ntoken = strtok(line,\" \");\nint i = 0;\nwhile((token=strtok(NULL,\" \")!=NULL)){\n)");
     char * token;
     char* line_copy;
-    line_copy= strdup(line);
-    int i=0;
+    line_copy= trim(strdup(line));
+    int i=1;
     token=strsep(&line_copy," ");
+    fprintf(pOutputFile,"%s%s%s%s%s","\t*(*",variable_name,")=",token,"; \n");
     while((token=strsep(&line_copy," "))!=NULL){
         if(strcmp(token,"")==0){
             continue;
         }
+        printf("%s\n",token);
         if(strcmp(token,"{")==0){
             continue;
         }

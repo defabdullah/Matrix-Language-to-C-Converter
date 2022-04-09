@@ -384,6 +384,7 @@ char* multiplication(char *first,char* second){
 
 // expression_parser is the entrance function. Other functions (summation,multiplication,substraction,expressionn_divider) wont call explixitly.
 char* expression_parser(char *line){
+    //printf("%s\n",line);
     char  first_part[256];
     char  second_part[256];
     memset(first_part, 0, 256);
@@ -464,27 +465,25 @@ char* expression_parser(char *line){
             int is_matrix_operation=0;
             int iteration=1;
             char * variable_name;
-            while( (first_token=strtok(NULL, " ")) != NULL ) {
-                if(iteration==1 &&  strcmp(first_token,"(")!=0){
+            char* token;
+            token=strsep(&line," ");
+            while( (token=strsep(&line," "))!=NULL ) {
+                if(strcmp(token,"")==0){
+                    continue;
+                }
+                if(iteration==1 &&  strcmp(token,"(")!=0){
                     exit_program();
                 }else if(iteration==2){
-                    if(isDeclared(first_token)==empty){
-                        if(function==sqrt || function == tr){
-                            if(is_numeric_string(first_token)==0){
-                                exit_program();
-                            }
-                            is_matrix_operation=0;
-                        }else{
-                                exit_program();
-                        }
-                    }else if(isDeclared(first_token)==matrix ||isDeclared(first_token)==vector ){
+                    if(isDeclared(token)==empty && return_type_of_function(strdup(token))==0){
+                        exit_program();
+                    }else if(isDeclared(token)==matrix ||isDeclared(token)==vector || return_type_of_function(strdup(token))==1){
                         if(function==sqrt){
                             exit_program();
                         }
                         is_matrix_operation=1;
                     }
-                    variable_name = first_token;
-                }else if(iteration==3 && strcmp(first_token,")")!=0){
+                    variable_name = token;
+                }else if(iteration==3 && strcmp(token,")")!=0){
                     exit_program();
                 }else if(iteration==4){
                     exit_program();
