@@ -44,7 +44,6 @@ int expression_divider(char* line,char *first_part,char *second_part){
             first_index++;
          }
      }
-    
     second_index=0;
     if(is_found==0){
         memset(first_part, 0, 256);
@@ -90,7 +89,6 @@ char* summation(char *first,char* second){
       is_second_in_base=0;
       break;
     }
-
     if(is_first_in_base==1){
         if(is_second_in_base==1){
             char* first_matrix_first_size;
@@ -98,8 +96,7 @@ char* summation(char *first,char* second){
             int is_matrix_operation=0;
             char *part = strtok(first_clean," ");
             char* part_copy = strdup(first_clean);
-            int return_type_1=return_type_of_function(part_copy)==1;
-            
+            int return_type_1=return_type_of_function(part_copy);
             
             if(isDeclared(part)==matrix|| isDeclared(part)== vector || return_type_1==1){
                 is_matrix_operation=1;
@@ -120,7 +117,7 @@ char* summation(char *first,char* second){
             char * second_matrix_second_size;
             char * part2 = strtok(second_clean," ");
             char * part2_copy = strdup(second_clean);
-            int return_type_2=return_type_of_function(part2_copy)==1;
+            int return_type_2=return_type_of_function(part2_copy);
             
             if(isDeclared(part2)==matrix|| isDeclared(part2)== vector || return_type_2==1){
                 if(is_matrix_operation==0){
@@ -141,7 +138,6 @@ char* summation(char *first,char* second){
                     exit_program();
                 }
             }
-
             if(is_matrix_operation==1){
                 if(is_matrix_operation_2==1){
                     if(strcmp(first_matrix_first_size,second_matrix_first_size)!=0 || strcmp(first_matrix_second_size,second_matrix_second_size)!=0 ){
@@ -162,7 +158,6 @@ char* summation(char *first,char* second){
 
             return strdup(a) ;
         }else{
-
             return summation(first_clean,expression_parser(second_clean));
         }
 
@@ -173,7 +168,8 @@ char* summation(char *first,char* second){
             char *f=  expression_parser(first_clean); 
             char *ff= strdup(f);
             char *s=  expression_parser(second_clean);
-            return summation(ff,s);
+            char *ss = strdup(s);
+            return summation(ff,ss);
         }
     }
 }
@@ -205,7 +201,7 @@ char* substraction(char *first,char* second){
             int is_matrix_operation=0;
             char *part = strtok(first_clean," ");
             char* part_copy = strdup(first_clean);
-            int return_type_1=return_type_of_function(part_copy)==1;
+            int return_type_1=return_type_of_function(part_copy);
             if(isDeclared(part)==matrix|| isDeclared(part)== vector ||  return_type_1==1){
                 is_matrix_operation=1;
                 first_matrix_first_size = first_size(part);
@@ -222,7 +218,7 @@ char* substraction(char *first,char* second){
             char * second_matrix_second_size;
             char *part2 = strtok(second_clean," ");
             char * part2_copy = strdup(second_clean);
-            int return_type_2=return_type_of_function(part2_copy)==1;
+            int return_type_2=return_type_of_function(part2_copy);
             if(isDeclared(part2)==matrix|| isDeclared(part2)== vector || return_type_2==1){
                 if(is_matrix_operation==0){
                     exit_program();
@@ -232,7 +228,6 @@ char* substraction(char *first,char* second){
                 second_matrix_second_size=second_size(part2);
             }else{
                 if(isDeclared(part2)==scalar || return_type_2 == 2 ||  is_numeric_string(part2)){
-                    printf("%d\n",is_matrix_operation);
                     if(is_matrix_operation==1){
                         exit_program();
                     }
@@ -244,7 +239,6 @@ char* substraction(char *first,char* second){
                     
         
             }
-            printf("%d\n",is_matrix_operation);
             if(is_matrix_operation==1){
                 if(is_matrix_operation_2==1){
                     if(strcmp(first_matrix_first_size,second_matrix_first_size)!=0 || strcmp(first_matrix_second_size,second_matrix_second_size)!=0 ){

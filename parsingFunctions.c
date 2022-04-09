@@ -77,6 +77,7 @@ int is_numeric_string(char *s){
 }
 
 char* strrev (char *str) {
+    str=trim(str);
     if (!str) { return NULL; }
 
     int len = strnlen(str, 100);
@@ -102,7 +103,7 @@ int is_matrix_function(char * token){
 
 int is_scalar_function(char* token){
     token = trim(token);
-    if(isDeclared(token)==scalar || strcmp(token,"scalarSubstraction")==0 || strcmp(token,"scalarSummation")==0 || strcmp(token,"scalarMultiplication")==0   || strcmp(token,"scalarTranspose")==0 || strcmp(token,"sqrt")==0 || strcmp(token,"sqrt")==0 || strcmp(token,"getValue")==0){        
+    if(isDeclared(token)==scalar || strcmp(token,"scalarSubstraction")==0 || strcmp(token,"scalarSummation")==0 || strcmp(token,"scalarMultiplication")==0   || strcmp(token,"scalarTranspose")==0 || strcmp(token,"choose")==0 || strcmp(token,"sqrt")==0 || strcmp(token,"getValue")==0){        
         return 1;
     }else{
         return 0;
@@ -112,7 +113,6 @@ int is_scalar_function(char* token){
 int return_type_of_function(char *token){
     char * token_copy = strdup(token);
     char * first_token = strtok(token_copy,"(");
-
     if(is_matrix_function(first_token)==1){
         return 1;
     }else if(is_scalar_function(first_token)==1){
