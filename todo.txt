@@ -1,0 +1,6 @@
+matrix assignment kontroller
+	* matrix vector kontrolu ( ne demek anlamadım )
+	
+choose
+	* segmentation fault
+
