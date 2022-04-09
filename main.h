@@ -80,13 +80,6 @@ extern void printDoubleForOpening(char* firstInitVariable, char* firstInitAssign
 extern char *parseParanthesis(char *str);
 extern char *deleteParanthesis(char *str);
 
-char afterParant[5000];
-char beforeParant[5000];
-char innerExpression[5000];
-char afterParantReverse[5000];
-char beforeParantReverse[5000];
-
-
 
 char *reverse;
 
