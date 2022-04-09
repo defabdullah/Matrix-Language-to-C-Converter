@@ -4,7 +4,7 @@ void assign_value_specified_index(char * line ,char* variable_name){
             int iteration_number=3;
             fprintf(pOutputFile,"%s","\t*(*");fprintf(pOutputFile,"%s",variable_name);
             char * token= strtok(line," ");
-             fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s",")");
+            fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s","-1");fprintf(pOutputFile,"%s",")");
             while((token=strtok(NULL, " ")) != NULL ){
                     if(iteration_number==3){
                       if(strcmp(token,"]")!=0){
@@ -31,7 +31,7 @@ void assign_value_specified_index(char * line ,char* variable_name){
                 int iteration_number=1;
                 fprintf(pOutputFile,"%s","\t*(*(");fprintf(pOutputFile,"%s",variable_name);
                 char * token= strtok(line," ");
-                fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s",")");
+                fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s","-1");fprintf(pOutputFile,"%s",")");
                 while((token=strtok(NULL, " ")) != NULL ){
                     if(iteration_number==3){
                         if(strcmp(token,"]")!=0){
@@ -44,10 +44,9 @@ void assign_value_specified_index(char * line ,char* variable_name){
                         }
                     }else if(iteration_number==2){
                         if(is_numeric_string(token)!=1){
-                            fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s",")");
                             exit_program();
                         }else{
-                            fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s",")");
+                            fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s","-1");fprintf(pOutputFile,"%s",")");
                         }
                     }else if(iteration_number==4){
                         if(strcmp(token,"=")!=0){

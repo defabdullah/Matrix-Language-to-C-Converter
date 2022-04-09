@@ -251,7 +251,7 @@ char* substraction(char *first,char* second){
                 }
             }else{
                 if(is_matrix_operation_2==0){
-                     strcat(a,"scalarSubstraction(");strcat(a,part);strcat(a,",");strcat(a,part2);strcat(a,")");
+                    strcat(a,"scalarSubstraction(");strcat(a,part);strcat(a,",");strcat(a,part2);strcat(a,")");
                 }else{
                     printf("!!!!!!!!\n");
                 }
@@ -526,7 +526,7 @@ char* expression_parser(char *line){
                         if(is_numeric_string(first_token)!=1){
                             exit_program();
                         }else{
-                            strcat(a,"getValue(");strcat(a,first_size(first_token_copy));strcat(a,",");strcat(a,second_size(first_token_copy));strcat(a,",*");strcat(a,first_token_copy);strcat(a,",");strcat(a,first_token);strcat(a,",");strcat(a,"1)");
+                            strcat(a,"getValue(");strcat(a,first_size(first_token_copy));strcat(a,",");strcat(a,second_size(first_token_copy));strcat(a,",*");strcat(a,first_token_copy);strcat(a,",");strcat(a,first_token);strcat(a,"-1");strcat(a,",");strcat(a,"0)");
                             //strcat(a,"getValue(*");strcat(a,first_token_copy);strcat(a,",");strcat(a,first_token);strcat(a,",");strcat(a,"1)");
                         }
                     }else if(iteration_number==3){
@@ -554,7 +554,7 @@ char* expression_parser(char *line){
                         if(is_numeric_string(first_token)!=1){
                             exit_program();
                         }else{
-                            strcat(a,"getValue(");strcat(a,first_size(first_token_copy));strcat(a,",");strcat(a,second_size(first_token_copy));strcat(a,",*");strcat(a,first_token_copy);strcat(a,",");strcat(a,first_token);strcat(a,",");
+                            strcat(a,"getValue(");strcat(a,first_size(first_token_copy));strcat(a,",");strcat(a,second_size(first_token_copy));strcat(a,",*");strcat(a,first_token_copy);strcat(a,",");strcat(a,first_token);strcat(a,"-1");strcat(a,",");
                             //strcat(a,"getValue(*");strcat(a,first_token_copy);strcat(a,",");strcat(a,first_token);strcat(a,",");
                         }
                     }else if(iteration_number==3){
@@ -565,7 +565,7 @@ char* expression_parser(char *line){
                         if(is_numeric_string(first_token)!=1){
                             exit_program();
                         }else{
-                            strcat(a,first_token);strcat(a,")");
+                            strcat(a,first_token);strcat(a,"-1");strcat(a,")");
                         }
                     }else if(iteration_number==5){
                         if(strcmp(first_token,"]")!=0){
