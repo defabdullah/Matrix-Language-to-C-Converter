@@ -3,4 +3,6 @@ matrix assignment kontroller
 	
 choose
 	* segmentation fault
+*içerideki fonksiyıonları kontrol et(matrxi multiplicationda hata var)
+*y[1] aslıjda y[0] içerideki fonksiyonlarda güncelleme gerektiriir( hepsine düz -1 çaktım)
 

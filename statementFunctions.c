@@ -4,7 +4,7 @@ void assign_value_specified_index(char * line ,char* variable_name){
             int iteration_number=3;
             fprintf(pOutputFile,"%s","\t*(*");fprintf(pOutputFile,"%s",variable_name);
             char * token= strtok(line," ");
-             fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s",")");
+            fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s","-1");fprintf(pOutputFile,"%s",")");
             while((token=strtok(NULL, " ")) != NULL ){
                     if(iteration_number==3){
                       if(strcmp(token,"]")!=0){
@@ -31,9 +31,8 @@ void assign_value_specified_index(char * line ,char* variable_name){
                 int iteration_number=1;
                 fprintf(pOutputFile,"%s","\t*(*(");fprintf(pOutputFile,"%s",variable_name);
                 char * token= strtok(line," ");
-                fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s",")");
+                fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s","-1");fprintf(pOutputFile,"%s",")");
                 while((token=strtok(NULL, " ")) != NULL ){
-                    printf("%s , %d\n",token,iteration_number);
                     if(iteration_number==3){
                         if(strcmp(token,"]")!=0){
                             exit_program();
@@ -45,10 +44,9 @@ void assign_value_specified_index(char * line ,char* variable_name){
                         }
                     }else if(iteration_number==2){
                         if(is_numeric_string(token)!=1){
-                            fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s",")");
                             exit_program();
                         }else{
-                            fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s",")");
+                            fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s","-1");fprintf(pOutputFile,"%s",")");
                         }
                     }else if(iteration_number==4){
                         if(strcmp(token,"=")!=0){
@@ -110,10 +108,6 @@ void assignment_statement(char * statement,char* variable_name){
                 char* secondSize= second_size(result);
                 char* variable_firstSize = first_size(variable_name);
                 char* variable_secondSize = second_size(variable_name);
-                printf("%s\n",firstSize);
-                printf("%s\n",variable_firstSize);
-                printf("%s\n",secondSize);
-                printf("%s\n",variable_secondSize);
                 if(strcmp(variable_firstSize,firstSize)!=0 || strcmp(variable_secondSize,secondSize)!=0){
                     exit_program();
                 }
