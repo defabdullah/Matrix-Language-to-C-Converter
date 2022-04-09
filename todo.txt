@@ -1,7 +1,6 @@
 matrix assignment kontroller
 	* matrix vector kontrolu ( ne demek anlamadım )
-	
-choose
-	* segmentation fault
 
 
+
+n_m '_' bunları boşluk olarak okuyuor

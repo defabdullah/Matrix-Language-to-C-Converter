@@ -147,20 +147,30 @@ void print_line(char * line){
             }
         }else if(token_number==2){
             char temp[256]= "";
-            while(strcmp(token,")")!=0 && line!=NULL){
-                if(token == NULL){
+            int is_finished=0;
+            strcat(temp,token);
+            strcat(temp," ");
+            printf("%s\n",token);
+            while( (token=strsep(&line," "))!=NULL){
+                if(strcmp(token,"")==0){
+                    continue;
+                }
+                if(strcmp(token,")")==0){
+                    is_finished=1;
+                }else if(is_finished==1){
                     exit_program();
                 }
-                strcat(temp,token);
-                strcat(temp," ");
-                token=strsep(&line," ");
+                if(is_finished==0){
+                    strcat(temp,token);
+                    strcat(temp," ");
+                }
             }
-            //strcat(temp,")");
-            print_variable=parseParanthesis(temp);
-
-            if(strcmp(token,")")!=0){
+            if(is_finished==0){
                 exit_program();
             }
+            print_variable=parseParanthesis(temp);
+
+
         }
         token_number++;
     }

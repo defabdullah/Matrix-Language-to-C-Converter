@@ -131,6 +131,9 @@ int main(int argc,char *argv[]){
                 if(type==empty){
                     exit_program();
                 }
+                if(pextendeds==NULL|| trim(pextendeds)==NULL){
+                    exit_program();
+                }
                 assignment_statement(trim(pextendeds),token);
                 break;
             }

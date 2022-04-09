@@ -384,7 +384,7 @@ char* multiplication(char *first,char* second){
 
 // expression_parser is the entrance function. Other functions (summation,multiplication,substraction,expressionn_divider) wont call explixitly.
 char* expression_parser(char *linee){
-    //printf("%s\n",linee);
+    printf("%s\n",linee);
     char * line=trim(linee);
     char  first_part[256];
     char  second_part[256];
@@ -520,7 +520,6 @@ char* expression_parser(char *linee){
                     if(iteration_number==1){
                         if(strcmp(first_token,"[")!=0){
                             iteration_number=-1;
-                             printf("+%s\n",line);
                             break;
                         }
                     }else if(iteration_number==2){
@@ -537,6 +536,10 @@ char* expression_parser(char *linee){
                         exit_program();
                     }
                     iteration_number++;
+                }
+                printf( "%d\n",iteration_number);
+                if(iteration_number!=-1 && iteration_number!=1 && iteration_number!=4){
+                    exit_program();
                 }
                 if(iteration_number!=-1 && iteration_number!=1){
                     return strdup(a);
@@ -576,13 +579,16 @@ char* expression_parser(char *linee){
                     }
                     iteration_number++;
                 }
+                if(iteration_number!=-1 && iteration_number!=1 && iteration_number!=6){
+                    exit_program();
+                }
                 if(iteration_number!=-1 && iteration_number!=1){
                     return strdup(a);
                 }
             }
             
         }
-        if(isDeclared(line)==empty && is_numeric_string(line)==0){
+        if(isDeclared(line)==empty && is_numeric_string(line)==0 && return_type_of_function(line)==0){
             exit_program();
         }
         return line;

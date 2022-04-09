@@ -46,12 +46,12 @@ int is_alphanumeric_string(char* s){
 }
 
 int is_valid_variable_name(char *str){
-    if(isdigit(str[0])){
+    if(isdigit(str[0]) || str[0]=='_'){
         return 0;
     }
     int i;
-    for(i=1;i<strlen(str);i++){
-        if(strcmp(&str[i],"_")==0 || is_alphanumeric(&str[i])==0){
+    for(i=0;i<strlen(str);i++){
+        if(strcmp(&str[i],"_")!=0 && is_alphanumeric(&str[i])==0){
             return 0;
         }
     }
