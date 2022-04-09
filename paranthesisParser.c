@@ -2,8 +2,6 @@
 
 //parse all expression without paranthesis and send them to expression handler function
 char *parseParanthesis(char *str){
-    
-    //printf("%s\n",str);
     char *token;
     char *prev="";
     char *copy;
@@ -11,57 +9,56 @@ char *parseParanthesis(char *str){
     char *tempToken;
     copy=strdup(str);
     
-    
     //if there is no paranthesis send expression to expression function else paste it
     if(strstr(copy,"(")==NULL || strstr(copy,")")==NULL){
-        //printf("%s\n",str);
         return expression_parser(str);
     }
 
     int is_exp=1;
-    
 
     while((token=strsep(&copy," "))!=NULL){
-
-
         if(strcmp(token,"")==0){
             continue;
         }
-
-
         if(strcmp(token,"(")==0){
-
-
             if(prev==NULL || strcmp(prev,"")==0){
-
                 is_exp=0;
                 prev=strdup(token);
                 continue;
             }
 
-
             else if(strcmp(prev,"sqrt")==0||strcmp(prev,"tr")==0||strcmp(prev,"choose")==0){
-
                 tempCopy=strdup(copy);
                 tempToken=strdup(token);
                 if(strcmp(prev,"choose")==0){
-                    
                     int is_choose_with_single_tokens=0;
-                    for(int i=0;i<7;i++){
-                        tempToken=strsep(&copy," ");
-                        if( i%2==1 && strcmp(tempToken,",")!=0 ){
+                    int iteration=1;
+                    while((tempToken=strsep(&copy," "))!=NULL){
+                        if(strcmp(tempToken,"")==0){
+                            continue;
+                        }
+
+                        if(iteration==8){
+                            if(strcmp(tempToken,")")!=0){
+                                is_choose_with_single_tokens=1;
+                            }
+                        }
+                        
+                        else if( (iteration==2 || iteration==4|| iteration==6)  && strcmp(tempToken,",")!=0 ){
                             is_choose_with_single_tokens=1;
                         }
+                        else if(iteration>8){
+                            is_choose_with_single_tokens=1;
+                            break;
+                        }
+                        iteration++;
                     }
-
-                    if(strcmp(tempToken=strsep(&copy," "),")")!=0){
-                        is_choose_with_single_tokens=1;
-                    }
-
+                        
+        
+                    
                     if(is_choose_with_single_tokens==1){
                         is_exp=0;
                     }
-
                 }
 
                 else if((tempToken=strsep(&copy," "))!=NULL){
@@ -74,7 +71,6 @@ char *parseParanthesis(char *str){
                 }
                 copy=strdup(tempCopy);
             }
-
             else{
                 is_exp=0;
             }
@@ -94,10 +90,6 @@ char *parseParanthesis(char *str){
     //create reverse  string
 
     char *reverseCopy=strrev(strdup(trim(str)));
-    for(int i=0;i<strlen(reverseCopy);i++){
-        printf("token: -%d-\n",reverseCopy[i]);
-    }
-    
 
     //merge all
     char *firstPrev;
@@ -107,10 +99,7 @@ char *parseParanthesis(char *str){
     char *beforeParantReverse;
     char afterParantReverse[5000];
     while((token=strsep(&reverseCopy," "))!=NULL){
-        printf("begin:   %s\n",reverseCopy);
         
-        //printf("-%s-\n",token);
-
         if(strcmp(token,"")==0){
                 continue;
         }
@@ -136,14 +125,11 @@ char *parseParanthesis(char *str){
 
             }
             else{
-                
                 beforeParantReverse=strdup(reverseCopy);
-
                 break;
             }
         }
         strcat(afterParantReverse," ");
-
         strcat(afterParantReverse,token);
         
         if(firstPrev!=NULL){
@@ -164,8 +150,9 @@ char *parseParanthesis(char *str){
     int is_choose=0;
     char *beforeParantReverseCopy=strdup(beforeParantReverse);
 
+
     if(strcmp(beforeParantReverseCopy,"")!=0){
-        
+        token=strrev(strtok(beforeParantReverseCopy," "));
 
         if(token!= NULL && (strcmp(token,"tr")==0 || strcmp(token,"sqrt")==0 || strcmp(token,"choose")==0)){
             is_func=1;
@@ -197,7 +184,6 @@ char *parseParanthesis(char *str){
     }
 
 
-    //memset(afterParant,0,strlen(afterParant));
 
     //if there is no paranthesis send expression to expression function else paste it
 
@@ -205,38 +191,35 @@ char *parseParanthesis(char *str){
     if(strstr(innerExpression," ( ")==NULL){
 
         if(is_choose==1){
-
             tempInnerExpression=chooseParser(innerExpression);
         }
         else{
             tempInnerExpression=expression_parser(innerExpression);
         }
     }
-    memset(innerExpression,0,strlen(innerExpression));
 
     //concatenate string after changing expression with old value
-    if(is_func==1){
+    if(is_func==1 && is_choose==0){
         strcat(beforeParant," (");
     }
     strcat(beforeParant," ");
     strcat(beforeParant,tempInnerExpression);
     strcat(beforeParant," ");
-    if(is_func==1){
+    if(is_func==1 && is_choose==0){
         strcat(beforeParant,") ");
     }
 
-    if(temp!=NULL){
-        strcat(beforeParant,temp);
+    if(afterParant!=NULL){
+        strcat(beforeParant,afterParant);
     }
-    //if there is no paranthesis send expression to expression function else paste it
 
+    //if there is no paranthesis send expression to expression function else paste it
     copy=strdup(beforeParant);
+
     while((token=strsep(&copy," "))!=NULL){
         if(strcmp(token,"(")== 0 ||strcmp(token,")")==0){
             return parseParanthesis(beforeParant);
         }
     }
-
     return expression_parser(beforeParant);
-   
 }

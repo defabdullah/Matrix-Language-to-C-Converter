@@ -83,18 +83,20 @@ char* strrev (char *str) {
     str=trim(str);
     if (!str) { return NULL; }
 
-    int len = strnlen(str, 5000);
-    char*  reverse = malloc( sizeof(char) * len );
+    int len = strlen(str);
+    char tempReverse[len];
 
     int i;
     for (i = 0; i < len; i++) {
-        reverse[i] = str[len - (i+1)];
+        tempReverse[i] = str[len - (i+1)];
     }
 
-    reverse[i] = 0;
-
+    tempReverse[i] = '\0';
+    reverse=strdup(tempReverse);
+    
     return reverse;
 }
+
 int is_matrix_function(char * token){
     token = trim(token);
     if(isDeclared(token)==matrix || isDeclared(token)==vector || strcmp(token,"matrixMultiplication")==0 || strcmp(token,"matrixTranspose") ==0  || strcmp(token,"matrixSubstraction")==0 || strcmp(token,"matrixSummation")==0 || strcmp(token,"scalarMatrixMultiplication")==0 ){

@@ -1,6 +1,7 @@
 #include "main.h"
 
 char *chooseParser(char *str){
+
     char *copy=strdup(str);
     char *token;
 
@@ -10,6 +11,7 @@ char *chooseParser(char *str){
     char *expressionThree;
     char *expressionFour;
     char exp[5000];
+
     while((token=strsep(&copy," "))!=NULL){
         if(strcmp(token,"")==0){
             continue;
@@ -17,6 +19,7 @@ char *chooseParser(char *str){
 
         else if(strcmp(token,",")!=0){
             strcat(exp,token);
+            strcat(exp," ");
         }
 
         else{
@@ -58,7 +61,6 @@ char *chooseParser(char *str){
 
     strcat(chooseResult,expressionFour);
     strcat(chooseResult," ) ");
-
     return chooseResult;
 
 }
