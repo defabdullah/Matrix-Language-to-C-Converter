@@ -383,8 +383,9 @@ char* multiplication(char *first,char* second){
 
 
 // expression_parser is the entrance function. Other functions (summation,multiplication,substraction,expressionn_divider) wont call explixitly.
-char* expression_parser(char *line){
-    //printf("%s\n",line);
+char* expression_parser(char *linee){
+    //printf("%s\n",linee);
+    char * line=trim(linee);
     char  first_part[256];
     char  second_part[256];
     memset(first_part, 0, 256);
@@ -512,13 +513,14 @@ char* expression_parser(char *line){
             }else if(isDeclared(first_token)==matrix){
                 is_matrix=1;
             }
-            if(is_vector){
+            if(is_vector){       
                 int iteration_number=1;
                 char * first_token_copy= strdup(first_token);
                 while((first_token=strtok(NULL, " ")) != NULL ){
                     if(iteration_number==1){
                         if(strcmp(first_token,"[")!=0){
                             iteration_number=-1;
+                             printf("+%s\n",line);
                             break;
                         }
                     }else if(iteration_number==2){
@@ -536,11 +538,11 @@ char* expression_parser(char *line){
                     }
                     iteration_number++;
                 }
-                if(iteration_number!=1){
+                if(iteration_number!=-1 && iteration_number!=1){
                     return strdup(a);
                 }
+            
             }else if(is_matrix){
-                
                 int iteration_number=1;
                 char * first_token_copy= strdup(first_token);
                 while((first_token=strtok(NULL, " ")) != NULL ){
@@ -574,11 +576,14 @@ char* expression_parser(char *line){
                     }
                     iteration_number++;
                 }
-                if(iteration_number!=1){
+                if(iteration_number!=-1 && iteration_number!=1){
                     return strdup(a);
                 }
             }
             
+        }
+        if(isDeclared(line)==empty && is_numeric_string(line)==0){
+            exit_program();
         }
         return line;
     }
