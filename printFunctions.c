@@ -18,11 +18,11 @@ void printScalarSummation(){
 }
 
 void printMatrixSubstraction(){
-    fprintf(pOutputFile,"%s","double **matrixSubstraction( int row, int column, double **matrix1, double **matrix2 ){\n\tdouble **newMatrix;\n\tnewMatrix=(double**)calloc(row,sizeof(double*));\n\tfor(int i=0;i<row;i++){\n\t\tnewMatrix[i]=(double*)calloc(column,sizeof(double));\n\t}\n\tfor(int i=0;i<row * column;i++){\n\t\t*(*newMatrix + i) = *(matrix1 + i)-*(matrix2 + i);\n\t}\n\treturn newMatrix;\n}\n");
+    fprintf(pOutputFile,"%s","double **matrixSubstraction( int row, int column, double **matrix1, double **matrix2 ){\n\tdouble * newMatrix=(double*)calloc(row*column,sizeof(double*));\n\tfor(int i=0;i<row * column;i++){\n\t\t*(newMatrix + i) = *(matrix1 + i)-*(matrix2 + i);\n\t}double** resMatrix=&newMatrix;\n\treturn resMatrix;\n}\n");
 }
 
 void printMatrixSummation(){
-    fprintf(pOutputFile,"%s","double **matrixSummation( int row, int column, double *matrix1, double *matrix2){\n\tdouble **newMatrix;\n\tnewMatrix=(double**)calloc(row,sizeof(double*));\n\tfor(int i=0;i<row;i++){\n\t\tnewMatrix[i]=(double*)calloc(column,sizeof(double));\n\t}\n\tfor(int i=0;i<row * column;i++){\n\t\t*(*newMatrix + i) = *(matrix1 + i)+*(matrix2 + i);\n\t}\n\treturn newMatrix;\n}\n");
+    fprintf(pOutputFile,"%s","double **matrixSummation( int row, int column, double *matrix1, double *matrix2){\n\tdouble * newMatrix=(double*)calloc(row*column,sizeof(double*));\n\tfor(int i=0;i<row * column;i++){\n\t\t*(newMatrix + i) = *(matrix1 + i)+*(matrix2 + i);\n\t}\n\tdouble** resMatrix=&newMatrix;\n\treturn resMatrix;\n}\n");
 }
 void printScalarMultiplication(){
     fprintf(pOutputFile,"%s","double scalarMultiplication(double num1,double num2){\n\treturn num1*num2;\n}\n");
