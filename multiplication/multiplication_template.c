@@ -5,7 +5,7 @@ double scalarMultiplication(double num1,double num2){
     return num1*num2;
 }
 
-double **scalarMatrixMultiplication(int row,int column,double scalar, double **matrix){
+/*double **scalarMatrixMultiplication(int row,int column,double scalar, double **matrix){
     double **newMatrix;
     newMatrix=(double**)calloc(column,sizeof(double*));
     for(int i=0;i<column;i++){
@@ -19,7 +19,18 @@ double **scalarMatrixMultiplication(int row,int column,double scalar, double **m
     }
 
     return newMatrix;
+}*/
+double **scalarMatrixMultiplication(int row, int column,double scalar, double *matrix){
+	double *newMatrix=(double*)calloc(column,sizeof(double*));
+	for(int i=0;i<column;i++){
+		for(int j=0;j<row;j++){
+		*(newMatrix+(i*column+j))= scalar * (*(matrix + (i*row+j)));
+		}
+	}
+    double ** resMatrix=&newMatrix;
+	return resMatrix;
 }
+
 
 void printMatrix(int row,int column,double **matrix){
     for(int i=0;i<row;i++){
