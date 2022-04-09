@@ -37,7 +37,7 @@ void printPrintScalar(){
 }
 
 void printMatrixTranspose(){
-    fprintf(pOutputFile,"%s","\ndouble **matrixTranspose(int column,int row,double *matrix){\n\tdouble **newMatrix;\n\tnewMatrix=(double**)calloc(column,sizeof(double*));\n\tfor(int i=0;i<column;i++){\n\t\tnewMatrix[i]=(double*)calloc(row,sizeof(double));\n\t}\n\tfor(int i=0;i<column;i++){\n\t\tfor(int j=0;j<row;j++){\n\t\t\tnewMatrix[i][j]= *(matrix + (j*column + i));\n\t\t}\n\t}\n\treturn newMatrix;\n}\n");
+    fprintf(pOutputFile,"%s","\ndouble **matrixTranspose(int column,int row,double *matrix){\n\tdouble *newMatrix=(double*)calloc(column,sizeof(double*));\n\tfor(int i=0;i<column;i++){\n\t\tfor(int j=0;j<row;j++){\n\t\t\t*(newMatrix+(i*column+j))= *(matrix + (j*column + i));\n\t\t}\n\t}\n\tdouble ** resMatrix=&newMatrix;\n\treturn resMatrix;\n}\n");
 }
 
 void printScalarTranspose(){

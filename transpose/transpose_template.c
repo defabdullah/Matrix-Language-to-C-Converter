@@ -19,7 +19,7 @@ double scalarTranspose(double num1){
     }
     return newMatrix;
 }*/
-double **matrixTranspose(int row,int column,double *matrix){
+/*double **matrixTranspose(int row,int column,double *matrix){
 	double **newMatrix;
 	newMatrix=(double**)calloc(column,sizeof(double*));
 	for(int i=0;i<column;i++){
@@ -31,6 +31,16 @@ double **matrixTranspose(int row,int column,double *matrix){
 		}
 	}
 	return newMatrix;
+}*/
+double **matrixTranspose(int column,int row,double *matrix){
+	double *newMatrix=(double*)calloc(column,sizeof(double*));
+	for(int i=0;i<column;i++){
+		for(int j=0;j<row;j++){
+			*(newMatrix+(i*column+j))= *(matrix + (j*column + i));
+		}
+	}
+	double ** resMatrix=&newMatrix;
+	return resMatrix;
 }
 
 /*void printMatrix(int row,int column,double **matrix){
