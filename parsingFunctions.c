@@ -77,10 +77,13 @@ int is_numeric_string(char *s){
 }
 
 char* strrev (char *str) {
+    if(strcmp(str,"")==0){
+        return str;
+    }
     str=trim(str);
     if (!str) { return NULL; }
 
-    int len = strnlen(str, 100);
+    int len = strnlen(str, 5000);
     char*  reverse = malloc( sizeof(char) * len );
 
     int i;
@@ -194,10 +197,10 @@ char * second_size(char * exp){
 char *deleteParanthesis(char *str){
     
     //delete last parant.
-    withoutLastParanthesis=strtok(str,")");
+    char *withoutLastParanthesis=strtok(str,")");
 
     //take it's reverse
-    reverseStr=strrev(withoutLastParanthesis);
+    char *reverseStr=strrev(withoutLastParanthesis);
 
     //delete open paranth.
     reverse= strtok(reverseStr,"(");
