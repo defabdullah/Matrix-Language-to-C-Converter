@@ -185,20 +185,36 @@ void matrix_initializer(char *line,char *variable_name){
     char* line_copy;
     line_copy= trim(strdup(line));
     int i=1;
+    int is_finish=0;
     token=strsep(&line_copy," ");
+    if(is_numeric_string(token)==0){
+        exit_program();
+    }
     fprintf(pOutputFile,"%s%s%s%s%s","\t*(*",variable_name,")=",token,"; \n");
     while((token=strsep(&line_copy," "))!=NULL){
         if(strcmp(token,"")==0){
             continue;
         }
-        if(strcmp(token,"{")==0){
+        if(strcmp(token,"}")==0){
+            is_finish=1;
             continue;
         }
-        if(strcmp(token,"}")==0){
-            break;
+        if(is_finish==1){
+            exit_program();
+        }else if(is_numeric_string(token)==0){
+            exit_program();
         }
+
         fprintf(pOutputFile,"%s%s%s%d%s%s%s","\t*(*",variable_name,"+",i,")=",token,"; \n");
         i++;
+    }
+    if(!is_finish){
+        exit_program();
+    }
+    int firstSize = atoi(first_size(variable_name));
+    int secondSize = atoi(second_size(variable_name));
+    if(i!=firstSize*secondSize){
+        exit_program();
     }
    
 }
