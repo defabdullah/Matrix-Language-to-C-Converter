@@ -41,9 +41,9 @@ double **matrixMultiplication( int a , int b,double *matrix1, int row1, int colu
 	double *newMatrix=(double*)calloc(row1*column2,sizeof(double*));
 	for(int i=0;i<row1;i++){
 		for(int j=0;j<column2;j++){
-			*(newMatrix+ (i*row1+j))=0;
+			*(newMatrix+ (i*column2+j))=0;
 			for(int k=0;k<row2;k++){
-				*(newMatrix+ (i*row1+j)) += *(matrix1 + (i*row1+k) ) *  *(matrix2+ (k*row2+j));
+				*(newMatrix+ (i*column2+j)) += *(matrix1 + (i*column1+k) ) *  *(matrix2+ (j*column2+k));
 			}
 		}
 	}

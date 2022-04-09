@@ -65,7 +65,7 @@ void printAssignMat(){
 }
 
 void printMatrixMultiplication(){
-    fprintf(pOutputFile,"%s","double **matrixMultiplication( int a , int b,double *matrix1, int row1, int column1, double *matrix2, int row2, int column2){\n\tdouble *newMatrix=(double*)calloc(row1*column2,sizeof(double*));\n\tfor(int i=0;i<row1;i++){\n\t\tfor(int j=0;j<column2;j++){\n\t\t\t*(newMatrix+ (i*row1+j))=0;\n\t\t\tfor(int k=0;k<row2;k++){\n\t\t\t\t*(newMatrix+ (i*row1+j)) += *(matrix1 + (i*row1+k) ) *  *(matrix2+ (k*row2+j));\n\t\t\t}\n\t\t}\n\t}\n\tdouble ** resMatrix= &newMatrix;\n\treturn resMatrix;\n}\n");
+    fprintf(pOutputFile,"%s","double **matrixMultiplication( int a , int b,double *matrix1, int row1, int column1, double *matrix2, int row2, int column2){\n\tdouble *newMatrix=(double*)calloc(row1*column2,sizeof(double*));\n\tfor(int i=0;i<row1;i++){\n\t\tfor(int j=0;j<column2;j++){\n\t\t\t*(newMatrix+ (i*column2+j))=0;\n\t\t\tfor(int k=0;k<row2;k++){\n\t\t\t\t*(newMatrix+ (i*column2+j)) += *(matrix1 + (i*column1+k) ) *  *(matrix2+ (k*column2+j));\n\t\t\t}\n\t\t}\n\t}\n\tdouble ** resMatrix= &newMatrix;\n\treturn resMatrix;\n}\n");
 }
 
 void printGetValue(){
