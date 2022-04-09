@@ -84,6 +84,7 @@ char afterParant[5000];
 char beforeParant[5000];
 char innerExpression[5000];
 char afterParantReverse[5000];
+char beforeParantReverse[5000];
 
 
 
