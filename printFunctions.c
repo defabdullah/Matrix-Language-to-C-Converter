@@ -2,11 +2,11 @@
 
 
 void printSingleForOpening(char* firstInitVariable, char* firstInitAssignment, char* firstCondition, char* firstAddition){
-    fprintf(pOutputFile,"\tfor (int %s=%s;%s<%s;%s+=%s){\n",firstInitVariable,firstInitAssignment,firstInitVariable,firstCondition,firstInitVariable,firstAddition);
+    fprintf(pOutputFile,"\tfor (int %s=%s;%s<=%s;%s+=%s){\n",firstInitVariable,firstInitAssignment,firstInitVariable,firstCondition,firstInitVariable,firstAddition);
 }
 
 void printDoubleForOpening(char* firstInitVariable, char* firstInitAssignment, char* firstCondition, char* firstAddition, char* secondInitVariable, char* secondInitAssignment, char* secondCondition, char* secondAddition){
-    fprintf(pOutputFile,"\tint %s,%s;\n\tfor (%s=%s;%s<%s;%s+=%s){\n\t\tfor(%s=%s;%s<%s;%s+=%s){\n",firstInitVariable,secondInitVariable,firstInitVariable,firstInitAssignment,firstInitVariable,firstCondition,firstInitVariable,firstAddition,secondInitVariable,secondInitAssignment,secondInitVariable,secondCondition,secondInitVariable,secondAddition);
+    fprintf(pOutputFile,"\tint %s,%s;\n\tfor (%s=%s;%s<=%s;%s+=%s){\n\t\tfor(%s=%s;%s<=%s;%s+=%s){\n",firstInitVariable,secondInitVariable,firstInitVariable,firstInitAssignment,firstInitVariable,firstCondition,firstInitVariable,firstAddition,secondInitVariable,secondInitAssignment,secondInitVariable,secondCondition,secondInitVariable,secondAddition);
 }
 
 void printScalarSubstraction(){
@@ -18,7 +18,7 @@ void printScalarSummation(){
 }
 
 void printMatrixSubstraction(){
-    fprintf(pOutputFile,"%s","double **matrixSubstraction( int row, int column, double **matrix1, double **matrix2 ){\n\tdouble * newMatrix=(double*)calloc(row*column,sizeof(double*));\n\tfor(int i=0;i<row * column;i++){\n\t\t*(newMatrix + i) = *(matrix1 + i)-*(matrix2 + i);\n\t}double** resMatrix=&newMatrix;\n\treturn resMatrix;\n}\n");
+    fprintf(pOutputFile,"%s","double **matrixSubstraction( int row, int column, double *matrix1, double *matrix2 ){\n\tdouble * newMatrix=(double*)calloc(row*column,sizeof(double*));\n\tfor(int i=0;i<row * column;i++){\n\t\t*(newMatrix + i) = *(matrix1 + i)-*(matrix2 + i);\n\t}double** resMatrix=&newMatrix;\n\treturn resMatrix;\n}\n");
 }
 
 void printMatrixSummation(){
@@ -33,7 +33,7 @@ void printScalarMatrixMultiplication(){
 }
 
 void printPrintScalar(){
-    fprintf(pOutputFile,"%s","\nvoid printScalar(double value){\n\tif( (int) value ==value){\n\t\tprintf(\"%d\\n\",(int) value);\n\t}else{\n\t\tprintf(\"%0.7f\\n\", value);\n\t} \n}");
+    fprintf(pOutputFile,"%s","\nvoid printScalar(double value){\n\tif( (int) value ==value){\n\t\tprintf(\"%d\\n\",(int) value);\n\t}else{\n\t\tprintf(\"%0.6f\\n\", value);\n\t} \n}");
 }
 
 void printMatrixTranspose(){
@@ -73,7 +73,7 @@ void printGetValue(){
 }
 
 void print_usual(){
-    fprintf(pOutputFile, "%s","#include <stdio.h>\n#include <string.h>\n#include <ctype.h>\n#include <stdlib.h>\n\n");
+    fprintf(pOutputFile, "%s","#include <stdio.h>\n#include <string.h>\n#include <ctype.h>\n#include <stdlib.h>\n#include <math.h>\n\n");
     fprintf(pOutputFile,"%s","\nvoid printsep(){ \n\tprintf(\"------------\\n\"); \n}\n");
     printScalarSubstraction();
     printScalarSummation();
