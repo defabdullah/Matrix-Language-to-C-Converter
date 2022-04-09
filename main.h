@@ -90,26 +90,9 @@ char chooseResult[5000];
 
 
 
-//for parser
-char *temp;
-
-char *initVariables;
- 
-char *firstInitVariable;
-char *firstParameters;
-char *firstInitAssignment;
-char *firstCondition;
-char *firstAddition;
-
-char *secondInitVariable;
-char *secondParameters;
-char *secondInitAssignment;
-char *secondCondition;
-char *secondAddition;
- 
+//for parser 
 extern void parseSingleFor(char *str);
 extern void parseDoubleFor(char *str);
 
-void tokenControl(char *str,char *correctToken);
 
 #endif

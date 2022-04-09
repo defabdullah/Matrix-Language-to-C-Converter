@@ -2,16 +2,12 @@
 
 //parse all expression without paranthesis and send them to expression handler function
 char *parseParanthesis(char *str){
-
     char *token;
     char *prev="";
     char *copy;
     char *tempCopy;
     char *tempToken;
-    copy=strdup(str);
-
-
-
+    copy=strdup(str);    
     
     //if there is no paranthesis send expression to expression function else paste it
     if(strstr(copy,"(")==NULL || strstr(copy,")")==NULL){
@@ -37,7 +33,7 @@ char *parseParanthesis(char *str){
 
                 tempToken=strdup(token);
                 copy=trim(copy);
-    
+
 
                 if(strcmp(prev,"choose")==0){
                     int is_choose_with_single_tokens=0;
