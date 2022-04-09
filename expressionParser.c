@@ -522,7 +522,7 @@ char* expression_parser(char *line){
                             break;
                         }
                     }else if(iteration_number==2){
-                        if(is_numeric_string(first_token)!=1){
+                        if(is_numeric_string(first_token)!=1 && isDeclared(first_token)!=scalar){
                             exit_program();
                         }else{
                             strcat(a,"getValue(");strcat(a,first_size(first_token_copy));strcat(a,",");strcat(a,second_size(first_token_copy));strcat(a,",*");strcat(a,first_token_copy);strcat(a,",");strcat(a,first_token);strcat(a,"-1");strcat(a,",");strcat(a,"0)");
@@ -540,6 +540,7 @@ char* expression_parser(char *line){
                     return strdup(a);
                 }
             }else if(is_matrix){
+                
                 int iteration_number=1;
                 char * first_token_copy= strdup(first_token);
                 while((first_token=strtok(NULL, " ")) != NULL ){
@@ -549,7 +550,7 @@ char* expression_parser(char *line){
                             break;
                         }
                     }else if(iteration_number==2){
-                        if(is_numeric_string(first_token)!=1){
+                        if(is_numeric_string(first_token)!=1 && isDeclared(first_token)!=scalar){
                             exit_program();
                         }else{
                             strcat(a,"getValue(");strcat(a,first_size(first_token_copy));strcat(a,",");strcat(a,second_size(first_token_copy));strcat(a,",*");strcat(a,first_token_copy);strcat(a,",");strcat(a,first_token);strcat(a,"-1");strcat(a,",");
@@ -559,7 +560,7 @@ char* expression_parser(char *line){
                             exit_program();
                         }
                     }else if(iteration_number==4){
-                        if(is_numeric_string(first_token)!=1){
+                        if(is_numeric_string(first_token)!=1 && isDeclared(first_token)!=scalar){
                             exit_program();
                         }else{
                             strcat(a,first_token);strcat(a,"-1");strcat(a,")");

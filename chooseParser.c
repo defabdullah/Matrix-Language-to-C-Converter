@@ -11,18 +11,25 @@ char *chooseParser(char *str){
     char *expressionThree;
     char *expressionFour;
     char exp[5000];
-
+    int is_inbracket =0;
     while((token=strsep(&copy," "))!=NULL){
         if(strcmp(token,"")==0){
             continue;
         }
-
-        else if(strcmp(token,",")!=0){
+        if(strcmp(token,"[")==0){
+            is_inbracket=1;
+        }else if(strcmp(token,"]")==0){
+            is_inbracket=0;
+        }
+        if(strcmp(token,",")!=0 || is_inbracket==1){
             strcat(exp,token);
             strcat(exp," ");
+            continue;
+        }
+        if(is_inbracket==1){
+            continue;
         }
 
-        else{
 
             if(tokenNum==1){
                 expressionOne=strdup(parseParanthesis(exp));
@@ -42,7 +49,6 @@ char *chooseParser(char *str){
             }
             tokenNum++;
             memset(exp,0,5000);
-        }
     }
 
     expressionFour=strdup(parseParanthesis(exp));

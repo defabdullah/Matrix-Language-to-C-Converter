@@ -6,7 +6,7 @@ void printSingleForOpening(char* firstInitVariable, char* firstInitAssignment, c
 }
 
 void printDoubleForOpening(char* firstInitVariable, char* firstInitAssignment, char* firstCondition, char* firstAddition, char* secondInitVariable, char* secondInitAssignment, char* secondCondition, char* secondAddition){
-    fprintf(pOutputFile,"\tint %s,%s;\n\tfor (%s=%s;%s<=%s;%s+=%s){\n\t\tfor(%s=%s;%s<=%s;%s+=%s){\n",firstInitVariable,secondInitVariable,firstInitVariable,firstInitAssignment,firstInitVariable,firstCondition,firstInitVariable,firstAddition,secondInitVariable,secondInitAssignment,secondInitVariable,secondCondition,secondInitVariable,secondAddition);
+    fprintf(pOutputFile,"\tfor (int %s=%s;%s<=%s;%s+=%s){\n\t\tfor( int %s=%s;%s<=%s;%s+=%s){\n",firstInitVariable,firstInitAssignment,firstInitVariable,firstCondition,firstInitVariable,firstAddition,secondInitVariable,secondInitAssignment,secondInitVariable,secondCondition,secondInitVariable,secondAddition);
 }
 
 void printScalarSubstraction(){
