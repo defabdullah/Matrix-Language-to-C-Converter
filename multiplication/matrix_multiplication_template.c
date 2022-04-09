@@ -22,7 +22,7 @@
 
     return newMatrix;
 }*/
-double **matrixMultiplication( int a , int b,double *matrix1, int row1, int column1, double *matrix2, int row2, int column2){
+/*double **matrixMultiplication( int a , int b,double *matrix1, int row1, int column1, double *matrix2, int row2, int column2){
 	double **newMatrix=(double**)calloc(row1,sizeof(double*));
 	for(int i=0;i<row1;i++){
 		newMatrix[i]=(double*)calloc(column2,sizeof(double));
@@ -36,8 +36,20 @@ double **matrixMultiplication( int a , int b,double *matrix1, int row1, int colu
 		}
 	}
 	return newMatrix;
+}*/
+double **matrixMultiplication( int a , int b,double *matrix1, int row1, int column1, double *matrix2, int row2, int column2){
+	double *newMatrix=(double*)calloc(row1*column2,sizeof(double*));
+	for(int i=0;i<row1;i++){
+		for(int j=0;j<column2;j++){
+			*(newMatrix+ (i*row1+j))=0;
+			for(int k=0;k<row2;k++){
+				*(newMatrix+ (i*row1+j)) += *(matrix1 + (i*row1+k) ) *  *(matrix2+ (k*row2+j));
+			}
+		}
+	}
+	double ** resMatrix= &newMatrix;
+	return resMatrix;
 }
-
 void printMatrix(int row,int column,double **matrix){
     for(int i=0;i<row;i++){
         for(int j=0;j<column;j++){
