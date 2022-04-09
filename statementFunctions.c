@@ -1,6 +1,74 @@
 #include "main.h"
-void assign_value_specified_index(char * line){
-    fprintf(pOutputFile,"%s\n", line);
+void assign_value_specified_index(char * line ,char* variable_name){
+        if(isDeclared(variable_name)==vector){
+            int iteration_number=3;
+            fprintf(pOutputFile,"%s","\t*(*");fprintf(pOutputFile,"%s",variable_name);
+            char * token= strtok(line," ");
+             fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s",")");
+            while((token=strtok(NULL, " ")) != NULL ){
+                    if(iteration_number==3){
+                      if(strcmp(token,"]")!=0){
+                            exit_program();
+                        }
+                    }else if(iteration_number==4){
+                      if(strcmp(token,"=")!=0){
+                            exit_program();
+                        }
+                    }else if(iteration_number==5){
+                      if(is_numeric_string(token)!=1){
+                            exit_program();
+                        }
+                        fprintf(pOutputFile,"%s","=");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s",";\n");
+                    }else{
+                        exit_program();
+                    }
+                    iteration_number++;
+                    }
+                if(iteration_number==1){
+                    exit_program();
+                }
+            }else if(isDeclared(variable_name)==matrix){
+                int iteration_number=1;
+                fprintf(pOutputFile,"%s","\t*(*(");fprintf(pOutputFile,"%s",variable_name);
+                char * token= strtok(line," ");
+                fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s",")");
+                while((token=strtok(NULL, " ")) != NULL ){
+                    printf("%s , %d\n",token,iteration_number);
+                    if(iteration_number==3){
+                        if(strcmp(token,"]")!=0){
+                            exit_program();
+                            break;
+                        }
+                    }else if(iteration_number==1){
+                        if(strcmp(token,",")!=0){
+                            exit_program();
+                        }
+                    }else if(iteration_number==2){
+                        if(is_numeric_string(token)!=1){
+                            fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s",")");
+                            exit_program();
+                        }else{
+                            fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s",")");
+                        }
+                    }else if(iteration_number==4){
+                        if(strcmp(token,"=")!=0){
+                            exit_program();
+                        }
+                    }else if(iteration_number==5){
+                        if(is_numeric_string(token)!=1){
+                            exit_program();
+                        }else{
+                            fprintf(pOutputFile,"%s","=");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s",";\n");
+                        }
+                    }else{
+                        exit_program();
+                    }
+                    iteration_number++;
+                }
+                if(iteration_number==1){
+                    exit_program();
+                }
+            }
 
 }
 
@@ -17,7 +85,7 @@ void assignment_statement(char * statement,char* variable_name){
                 if(strcmp(token,"[")!=0){
                     exit_program();
                 }else{
-                    assign_value_specified_index(statement);
+                    assign_value_specified_index(trim(strdup(statement)),strdup(variable_name));
                     break;
                 }
 
@@ -33,13 +101,23 @@ void assignment_statement(char * statement,char* variable_name){
             }
            
             if(isDeclared(variable_name)==matrix || isDeclared(variable_name)==vector){
+               
                 char * result=parseParanthesis(line);
                 if(return_type_of_function(strdup(result))==2){
                     exit_program();
                 }
-                result=trim(result);
-                char* firstSize= first_size(result); 
+                char* firstSize= first_size(result);
                 char* secondSize= second_size(result);
+                char* variable_firstSize = first_size(variable_name);
+                char* variable_secondSize = second_size(variable_name);
+                printf("%s\n",firstSize);
+                printf("%s\n",variable_firstSize);
+                printf("%s\n",secondSize);
+                printf("%s\n",variable_secondSize);
+                if(strcmp(variable_firstSize,firstSize)!=0 || strcmp(variable_secondSize,secondSize)!=0){
+                    exit_program();
+                }
+                
                 fprintf(pOutputFile,"%s%s%s%s%s%s%s%s%s","\tmatAssign(",firstSize,",",secondSize, ",*" ,variable_name,",*",result,");\n");
 
             }else{

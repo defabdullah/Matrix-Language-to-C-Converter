@@ -153,7 +153,7 @@ char* summation(char *first,char* second){
                         printf("!!!!!!!!\n");
                 }
             }else{
-                if(is_matrix_operation_2==1){
+                if(is_matrix_operation_2==0){
                      strcat(a,"scalarSummation(");strcat(a,part);strcat(a,",");strcat(a,part2);strcat(a,")");
                 }else{
                     printf("!!!!!!!!\n");
@@ -217,31 +217,34 @@ char* substraction(char *first,char* second){
                     exit_program();
                 }
             }
-            
             int is_matrix_operation_2=0;
             char * second_matrix_first_size ;
             char * second_matrix_second_size;
             char *part2 = strtok(second_clean," ");
             char * part2_copy = strdup(second_clean);
-            char * part2_copy_2 = strdup(second_clean);
-            if(isDeclared(part2)==matrix|| isDeclared(part2)== vector || return_type_of_function(part2_copy)==1){
+            int return_type_2=return_type_of_function(part2_copy)==1;
+            if(isDeclared(part2)==matrix|| isDeclared(part2)== vector || return_type_2==1){
                 if(is_matrix_operation==0){
                     exit_program();
                 }
                 is_matrix_operation_2=1;
+                second_matrix_first_size= first_size(part2);
+                second_matrix_second_size=second_size(part2);
             }else{
-                if(isDeclared(part2)==scalar || return_type_of_function(part2_copy_2)== 2 || is_special_funciton(part2)== choose || is_special_funciton(part2)== sqrt || is_numeric_string(part2)){
+                if(isDeclared(part2)==scalar || return_type_2 == 2 ||  is_numeric_string(part2)){
+                    printf("%d\n",is_matrix_operation);
                     if(is_matrix_operation==1){
                         exit_program();
                     }
-                    second_matrix_first_size= first_size(part2);
-                    second_matrix_second_size=second_size(part2);
+
                     is_matrix_operation_2=0;
-                }
+                }else{
                     exit_program();
+                }
+                    
         
             }
-
+            printf("%d\n",is_matrix_operation);
             if(is_matrix_operation==1){
                 if(is_matrix_operation_2==1){
                     if(strcmp(first_matrix_first_size,second_matrix_first_size)!=0 || strcmp(first_matrix_second_size,second_matrix_second_size)!=0 ){
@@ -253,7 +256,7 @@ char* substraction(char *first,char* second){
                         printf("!!!!!!!!\n");
                 }
             }else{
-                if(is_matrix_operation_2==1){
+                if(is_matrix_operation_2==0){
                      strcat(a,"scalarSubstraction(");strcat(a,part);strcat(a,",");strcat(a,part2);strcat(a,")");
                 }else{
                     printf("!!!!!!!!\n");
@@ -529,7 +532,8 @@ char* expression_parser(char *line){
                         if(is_numeric_string(first_token)!=1){
                             exit_program();
                         }else{
-                            strcat(a,"getValue(*");strcat(a,first_token_copy);strcat(a,",");strcat(a,first_token);strcat(a,",");strcat(a,"1)");
+                            strcat(a,"getValue(");strcat(a,first_size(first_token_copy));strcat(a,",");strcat(a,second_size(first_token_copy));strcat(a,",*");strcat(a,first_token_copy);strcat(a,",");strcat(a,first_token);strcat(a,",");strcat(a,"1)");
+                            //strcat(a,"getValue(*");strcat(a,first_token_copy);strcat(a,",");strcat(a,first_token);strcat(a,",");strcat(a,"1)");
                         }
                     }else if(iteration_number==3){
                         if(strcmp(first_token,"]")!=0){
@@ -556,7 +560,8 @@ char* expression_parser(char *line){
                         if(is_numeric_string(first_token)!=1){
                             exit_program();
                         }else{
-                            strcat(a,"getValue(*");strcat(a,first_token_copy);strcat(a,",");strcat(a,first_token);strcat(a,",");
+                            strcat(a,"getValue(");strcat(a,first_size(first_token_copy));strcat(a,",");strcat(a,second_size(first_token_copy));strcat(a,",*");strcat(a,first_token_copy);strcat(a,",");strcat(a,first_token);strcat(a,",");
+                            //strcat(a,"getValue(*");strcat(a,first_token_copy);strcat(a,",");strcat(a,first_token);strcat(a,",");
                         }
                     }else if(iteration_number==3){
                         if(strcmp(first_token,",")!=0){

@@ -122,6 +122,7 @@ int return_type_of_function(char *token){
 }
 
 char *matrixFirstSize(char *mat){
+    mat = trim(mat);
     for(int i=0;i<256;i++){
         if(matrixArray[i]==NULL  || strcmp(matrixArray[i],"")==0){
             break;
@@ -158,7 +159,8 @@ char *vectorSize(char *vec){
 }
 
 char * first_size(char * exp){
-    if(isDeclared(exp)==matrix){;
+    exp=trim(exp);
+    if(isDeclared(exp)==matrix){
         return matrixFirstSize(exp);
     }else if(isDeclared(exp)==vector){
         return vectorSize(exp);
@@ -169,8 +171,10 @@ char * first_size(char * exp){
         char * result=strsep(&ap,",");
         return result;
     }
+    return " ";
 }
 char * second_size(char * exp){
+    exp=trim(exp);
     if(isDeclared(exp)==matrix){
         return matrixSecondSize(exp);
     }else if(isDeclared(exp)==vector){
@@ -184,6 +188,7 @@ char * second_size(char * exp){
         char * result = strsep(&a,",");
         return result;
     }
+    return " ";
 }
 
 char *deleteParanthesis(char *str){
