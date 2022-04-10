@@ -445,7 +445,7 @@ char* expression_parser(char *linee){
         exit_program();
     }
     if(is_numeric_string(line)){
-        char result[256];
+        char result[256]="";
         if(line[0]=='+'||line[0]=='-'){
             char * ntoken;
             while((ntoken=strsep(&line," "))!=NULL){

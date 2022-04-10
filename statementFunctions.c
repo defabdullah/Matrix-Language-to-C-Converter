@@ -78,16 +78,17 @@ void assign_value_specified_index(char * line ,char* variable_name){
                 if(iteration_number==3){
                     exit_program();
                 }
-            }else if(isDeclared(variable_name)==matrix){
-                int iteration_number=1;
-                fprintf(pOutputFile,"%s","\t*(*(");fprintf(pOutputFile,"%s",variable_name);
-                char * token= strtok(line," ");
-                if((is_numeric_string(token)!=1 && isDeclared(token)!=scalar)){
-                            exit_program();
-                }
-                fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s","-1");fprintf(pOutputFile,"%s",")");
-                //traverse token checks string is valid for that form [ scalar , scalar ] = scalar
-                while((token=strtok(NULL, " ")) != NULL ){
+        }else if(isDeclared(variable_name)==matrix){
+            int iteration_number=1;
+            fprintf(pOutputFile,"%s","\t*(*(");fprintf(pOutputFile,"%s",variable_name);
+            char * token= strtok(line," ");
+            if((is_numeric_string(token)!=1 && isDeclared(token)!=scalar)){
+                         exit_program();
+            }
+            fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s","-1");fprintf(pOutputFile,"%s",")");
+            //traverse token checks string is valid for that form [ scalar , scalar ] = scalar
+            char res[256]="";
+            while((token=strtok(NULL, " ")) != NULL ){
                     if(iteration_number==3){
                         if(strcmp(token,"]")!=0){
                             exit_program();
@@ -107,20 +108,22 @@ void assign_value_specified_index(char * line ,char* variable_name){
                         if(strcmp(token,"=")!=0){
                             exit_program();
                         }
-                    }else if(iteration_number==5){
-                        if(is_numeric_string(token)!=1 && isDeclared(token)!=scalar && return_type_of_function(token)!=2){
+                    }else {
+                        strcat(res,token);
+                        strcat(res," ");
+                        /*if(is_numeric_string(token)!=1 && isDeclared(token)!=scalar && return_type_of_function(token)!=2){
                             exit_program();
                         }else{
                             fprintf(pOutputFile,"%s","=");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s",";\n");
-                        }
-                    }else{
-                        exit_program();
+                        }*/
                     }
                     iteration_number++;
                 }
                 if(iteration_number==1){
                     exit_program();
                 }
+                printf("%s\n",res);
+                fprintf(pOutputFile,"%s","=");fprintf(pOutputFile,"%s",parseParanthesis(res));fprintf(pOutputFile,"%s",";\n");
             }
 
 }
