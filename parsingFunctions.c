@@ -73,6 +73,8 @@ int is_numeric_string(char *s){
         if(!isdigit(s[i])){
             if('.'==s[i]){
                 remaining_comma--;
+            }else{
+                return 0;
             }
             if(remaining_comma<0){
                 return 0;
@@ -123,8 +125,10 @@ int is_scalar_function(char* token){
 }
 
 int return_type_of_function(char *token){
-    char * token_copy = strdup(token);
-    char * first_token = strtok(token_copy,"(");
+    char * token_copy = strdup(trim(token));
+    //char * first_token = strtok(token_copy,"(");
+    char * first_token=strsep(&token_copy,"(");
+    printf("%s\n",first_token);
     if(is_matrix_function(first_token)==1){
         return 1;
     }else if(is_scalar_function(first_token)==1){
