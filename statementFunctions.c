@@ -43,89 +43,116 @@ void matrix_initializer(char *line,char *variable_name){
     }
    
 }
-
-//assigns value giving specific index. ex. y[ 1 ]= 3.
 void assign_value_specified_index(char * line ,char* variable_name){
-        //if variable is vector then it moves on. It checks if line has a valid form, if so assigin giving value to index.  
-        if(isDeclared(variable_name)==vector){
-            int iteration_number=3;
-            fprintf(pOutputFile,"%s","\t*(*");fprintf(pOutputFile,"%s",variable_name);
-            char * token= strtok(line," ");
-            if((is_numeric_string(token)!=1 && isDeclared(token)!=scalar)){
-                        exit_program();
+    //if variable is vector then it moves on. It checks if line has a valid form, if so assigin giving value to index.  
+    if(isDeclared(variable_name)==vector){
+        int iteration_number=3;
+        fprintf(pOutputFile,"%s","\t*(*");fprintf(pOutputFile,"%s",variable_name);
+        char *token;
+        //traverse token checks string is valid for that form [ scalar  ] = scalar
+        while((token=strsep(&line, " ")) != NULL){
+            if(strcmp(token,"")==0){
+                continue;
             }
-            fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s","-1");fprintf(pOutputFile,"%s",")");
-            //traverse token checks string is valid for that form [ scalar  ] = scalar
-            while((token=strtok(NULL, " ")) != NULL ){
-                    if(iteration_number==3){
-                      if(strcmp(token,"]")!=0){
-                            exit_program();
-                        }
-                    }else if(iteration_number==4){
-                      if(strcmp(token,"=")!=0){
-                            exit_program();
-                        }
-                    }else if(iteration_number==5){
-                      if(is_numeric_string(token)!=1 && isDeclared(token)!=scalar && return_type_of_function(token)!=2){
-                            exit_program();
-                        }
-                        fprintf(pOutputFile,"%s","=");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s",";\n");
-                    }else{
-                        exit_program();
+            if(iteration_number==1){
+                char tempVectorExpression[5000];
+                memset(tempVectorExpression,0,5000);
+                strcat(tempVectorExpression,token);
+                while((token=strsep(&line, " ")) != NULL){
+                    if(strcmp(token,"")==0){
+                        continue;
                     }
-                    iteration_number++;
+                    if(strcmp(token,"]")==0){
+                        fprintf(pOutputFile,"%s","+(int)");fprintf(pOutputFile,"%s",parseParanthesis(tempVectorExpression));fprintf(pOutputFile,"%s","-1");fprintf(pOutputFile,"%s",")");
+                        break;
                     }
-                if(iteration_number==3){
+                    strcat(tempVectorExpression," ");
+                    strcat(tempVectorExpression,token);
+                }
+            }
+            else if(iteration_number==2){
+                if(strcmp(token,"=")!=0){
                     exit_program();
                 }
-        }else if(isDeclared(variable_name)==matrix){
-            int iteration_number=1;
-            fprintf(pOutputFile,"%s","\t*(*(");fprintf(pOutputFile,"%s",variable_name);
-            char * token= strtok(line," ");
-            if((is_numeric_string(token)!=1 && isDeclared(token)!=scalar)){
-                         exit_program();
+                fprintf(pOutputFile,"%s","=");fprintf(pOutputFile,"%s",parseParanthesis(line));fprintf(pOutputFile,"%s",";\n");
+                break;
             }
-            fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s","-1");fprintf(pOutputFile,"%s",")");
-            //traverse token checks string is valid for that form [ scalar , scalar ] = scalar
-            char res[256]="";
-            while((token=strtok(NULL, " ")) != NULL ){
-                    if(iteration_number==3){
-                        if(strcmp(token,"]")!=0){
-                            exit_program();
-                            break;
-                        }
-                    }else if(iteration_number==1){
-                        if(strcmp(token,",")!=0){
-                            exit_program();
-                        }
-                    }else if(iteration_number==2){
-                        if((is_numeric_string(token)!=1 && isDeclared(token)!=scalar)){
-                            exit_program();
-                        }else{
-                            fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s","-1");fprintf(pOutputFile,"%s",")");
-                        }
-                    }else if(iteration_number==4){
-                        if(strcmp(token,"=")!=0){
-                            exit_program();
-                        }
-                    }else {
-                        strcat(res,token);
-                        strcat(res," ");
-                        /*if(is_numeric_string(token)!=1 && isDeclared(token)!=scalar && return_type_of_function(token)!=2){
-                            exit_program();
-                        }else{
-                            fprintf(pOutputFile,"%s","=");fprintf(pOutputFile,"%s",token);fprintf(pOutputFile,"%s",";\n");
-                        }*/
-                    }
-                    iteration_number++;
-                }
-                if(iteration_number==1){
-                    exit_program();
-                }
-                printf("%s\n",res);
-                fprintf(pOutputFile,"%s","=");fprintf(pOutputFile,"%s",parseParanthesis(res));fprintf(pOutputFile,"%s",";\n");
+            iteration_number++;
+            if(token==NULL){
+                exit_program();
             }
+        }
+    }
+    else if(isDeclared(variable_name)==matrix){
+        int iteration_number=1;
+        fprintf(pOutputFile,"%s","\t*(*(");fprintf(pOutputFile,"%s",variable_name);
+        char * token;
 
+        //traverse token checks string is valid for that form [ scalar , scalar ] = scalar
+        while((token=strsep(&line, " "))!=NULL){
+            if(strcmp(token,"")==0){
+                continue;
+            }
+            //printf("it:%d tok:%s\n",iteration_number,token);
+
+            if(iteration_number==1){
+                char tempFirstMatrixExpression[5000];
+                memset(tempFirstMatrixExpression,0,5000);
+                strcat(tempFirstMatrixExpression,token);
+                int parantStack=0;
+                while((token=strsep(&line, " ")) != NULL){
+                    if(strcmp(token,"")==0){
+                        continue;
+                    }
+                    if(strcmp(token,"(")==0){
+                        parantStack++;
+                    }
+                    if(strcmp(token,")")==0){
+                        parantStack--;
+                    }
+                    if(strcmp(token,",")==0 && parantStack==0){
+                        printf("%s\n",tempFirstMatrixExpression);
+                        fprintf(pOutputFile,"%s","+(int)");fprintf(pOutputFile,"%s",parseParanthesis(tempFirstMatrixExpression));fprintf(pOutputFile,"%s","-1");fprintf(pOutputFile,"%s",")");                                             
+                        break;
+                    }
+                    strcat(tempFirstMatrixExpression," ");
+                    strcat(tempFirstMatrixExpression,token);
+                }
+            }else if(iteration_number==2){
+                char tempSecondMatrixExpression[5000];
+                memset(tempSecondMatrixExpression,0,5000);
+                strcat(tempSecondMatrixExpression,token);
+                int parantStack=0;
+                while((token=strsep(&line, " ")) != NULL){
+                    if(strcmp(token,"")==0){
+                        continue;
+                    }
+                    if(strcmp(token,"]")==0 && parantStack==0){
+                        fprintf(pOutputFile,"%s","+(int)");fprintf(pOutputFile,"%s",parseParanthesis(tempSecondMatrixExpression));fprintf(pOutputFile,"%s","-1");fprintf(pOutputFile,"%s",")");
+                        break;
+                    }
+                    if(strcmp(token,"[")==0){
+                        parantStack++;
+                    }
+                    if(strcmp(token,"]")==0){
+                        parantStack--;
+                    }
+                    strcat(tempSecondMatrixExpression," ");
+                    strcat(tempSecondMatrixExpression,token);
+                }
+            }else if(iteration_number==3){
+                if(strcmp(token,"=")!=0){
+                    exit_program();
+                }
+                fprintf(pOutputFile,"%s","=");fprintf(pOutputFile,"%s",parseParanthesis(line));fprintf(pOutputFile,"%s",";\n");
+                break;
+            }
+            iteration_number++;
+            if(token==NULL){
+                exit_program();
+            }
+        }        
+    }
 }
 //Handle statements which has that form variable = expression. 
 //Sends expression to parseParanthesis function and checks variable is Declared 

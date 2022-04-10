@@ -85,6 +85,8 @@ char *parseParanthesis(char *str){
     if(is_exp==1){
         return expression_parser(str);
     }
+
+
     
     //create reverse  string
     char *reverseCopy=strrev(strdup(trim(str)));
@@ -131,18 +133,28 @@ char *parseParanthesis(char *str){
             firstPrev=strdup(token);
         }
     }
+
     
 
     //take expression before and after beginning of expression
     char *beforeParant=" ";
     char *afterParant=" ";
-    beforeParant=strdup(strrev(beforeParantReverse));
-    afterParant=strdup(strrev(afterParantReverse)); //include expression
+
+    if(beforeParantReverse!=NULL){
+        beforeParant=strdup(strrev(beforeParantReverse));
+    }
+    if(afterParantReverse!=NULL){
+        afterParant=strdup(strrev(afterParantReverse)); //include expression
+    }
 
     memset(afterParantReverse,0,5000);
     int is_func=0;
     int is_choose=0;
-    char *beforeParantReverseCopy=strdup(beforeParantReverse);
+    char *beforeParantReverseCopy="";
+    if(beforeParantReverse!=NULL){
+        beforeParantReverseCopy=strdup(beforeParantReverse);
+
+    }
 
     //it controls expression is parameter of function
     //if so it adds paranthesis to beginning of expression
@@ -185,30 +197,38 @@ char *parseParanthesis(char *str){
             tempInnerExpression=chooseParser(innerExpression);
         }
         else{
+
             tempInnerExpression=expression_parser(innerExpression);
+
+
         }
     }
 
     //concatenate string after changing expression with old value
+    char result[5000];
+    strcpy(result,beforeParant);
     if(is_func==1 && is_choose==0){
-        strcat(beforeParant," (");
+        strcat(result," (");
     }
-    strcat(beforeParant," ");
-    strcat(beforeParant,tempInnerExpression);
-    strcat(beforeParant," ");
+    strcat(result," ");
+
+    strcat(result,tempInnerExpression);
+    strcat(result," ");
+
     if(is_func==1 && is_choose==0){
-        strcat(beforeParant,") ");
+        strcat(result,") ");
     }
     if(afterParant!=NULL){
-        strcat(beforeParant,afterParant);
+        strcat(result,afterParant);
     }
 
     //if there is no paranthesis send expression to expression function else paste it
-    copy=strdup(beforeParant);
+    copy=strdup(result);
     while((token=strsep(&copy," "))!=NULL){
         if(strcmp(token,"(")== 0 ||strcmp(token,")")==0){
-            return parseParanthesis(beforeParant);
+
+            return parseParanthesis(result);
         }
     }
-    return expression_parser(beforeParant);
+    return expression_parser(result);
 }

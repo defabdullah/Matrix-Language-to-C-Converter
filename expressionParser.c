@@ -310,7 +310,6 @@ char* substraction(char *first,char* second){
 
 // takes two string first and second. If both of them are in base form (base form means one token),multiplies them
 char* multiplication(char *first,char* second){
-
     char a[2048]="";
     char* ftoken;
     char* stoken;
@@ -436,16 +435,16 @@ char* multiplication(char *first,char* second){
 
 // expression_parser is the entrance function. Other functions (summation,multiplication,substraction,expressionn_divider) wont call explixitly.
 char* expression_parser(char *linee){
+    //printf("%s\n",linee);
     if(linee==NULL){
         exit_program();
     }
-    //printf("%s\n",linee);
     char * line=trim(linee);
     if(strcmp(line,"")==0 || line==NULL){
         exit_program();
     }
     if(is_numeric_string(line)){
-        char result[256]="";
+        char result[2560]="";
         if(line[0]=='+'||line[0]=='-'){
             char * ntoken;
             while((ntoken=strsep(&line," "))!=NULL){
@@ -554,7 +553,8 @@ char* expression_parser(char *linee){
                 strcat(a,"choose("); strcat(a,expOne); strcat(a,","); strcat(a,expTwo);strcat(a,","); strcat(a,expThree); strcat(a,","); strcat(a,expFour);strcat(a,")");
                 return strdup(a);
             }else {
-            // if special function is tr or choose, line comes to this block
+                //printf("%s\n",line);
+            // if special function is tr or sqrt, line comes to this block
                 int is_matrix_operation=0;
                 int iteration=1;
                 char * variable_name;
@@ -603,6 +603,7 @@ char* expression_parser(char *linee){
             
             }
         }else{
+            //printf("%s\n",line);
             //if it is not a special functions, comes here. this else block checks if it has for "matrix[scalar,scalar]" or "vector[scalar]".   
             int is_vector=0;
             int is_matrix=0;
@@ -611,27 +612,37 @@ char* expression_parser(char *linee){
             }else if(isDeclared(first_token)==matrix){
                 is_matrix=1;
             }
-            if(is_vector){       
-                int iteration_number=1;
-                char * first_token_copy= strdup(first_token);
-                while((first_token=strtok(NULL, " ")) != NULL ){
+            int iteration_number=1;
+            char * first_token_copy= strdup(first_token);
+            strsep(&line," ");
+
+            if(is_vector){           
+                while((first_token=strsep(&line, " ")) != NULL ){
                     if(iteration_number==1){
                         if(strcmp(first_token,"[")!=0){
                             iteration_number=-1;
                             break;
                         }
                     }else if(iteration_number==2){
-                        if(is_numeric_string(first_token)!=1 && isDeclared(first_token)!=scalar){
-                            exit_program();
-                        }else{
-                            strcat(a,"getValue(");strcat(a,first_size(first_token_copy));strcat(a,",");strcat(a,second_size(first_token_copy));strcat(a,",*");strcat(a,first_token_copy);strcat(a,",");strcat(a,first_token);strcat(a,"-1");strcat(a,",");strcat(a,"0)");
+                        char tempVectorExpression[5000];
+                        int parantStack=0;
+                        while((first_token=strsep(&line, " ")) != NULL){
+                            if(strcmp(first_token,"")==0){
+                                continue;
+                            }
+                            if(strcmp(first_token,"]")==0 && parantStack==0){
+                                fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",parseParanthesis(tempVectorExpression));fprintf(pOutputFile,"%s","-1");fprintf(pOutputFile,"%s",")");
+                                break;
+                            }
+                            if(strcmp(first_token,"[")==0){
+                                parantStack++;
+                            }
+                            if(strcmp(first_token,"]")==0){
+                                parantStack--;
+                            }
+                            strcat(tempVectorExpression,first_token);
                         }
-                    }else if(iteration_number==3){
-                        if(strcmp(first_token,"]")!=0){
-                            exit_program();
-                        }
-                    }else{
-                        exit_program();
+                        strcat(a,"getValue(");strcat(a,first_size(first_token_copy));strcat(a,",");strcat(a,second_size(first_token_copy));strcat(a,",*");strcat(a,first_token_copy);strcat(a,",");strcat(a,parseParanthesis(first_token));strcat(a,"-1");strcat(a,",");strcat(a,"0)");
                     }
                     iteration_number++;
                 }
@@ -643,35 +654,59 @@ char* expression_parser(char *linee){
                 }
             
             }else if(is_matrix){
-                int iteration_number=1;
-                char * first_token_copy= strdup(first_token);
-                while((first_token=strtok(NULL, " ")) != NULL ){
+                //printf("%s\n",line);
+                while((first_token=strsep(&line, " ")) != NULL ){
+                    //printf("%d tok: %s",iteration_number,first_token);
                     if(iteration_number==1){
                         if(strcmp(first_token,"[")!=0){
                             iteration_number=-1;
                             break;
                         }
                     }else if(iteration_number==2){
-                        if(is_numeric_string(first_token)!=1 && isDeclared(first_token)!=scalar){
-                            exit_program();
-                        }else{
-                            strcat(a,"getValue(");strcat(a,first_size(first_token_copy));strcat(a,",");strcat(a,second_size(first_token_copy));strcat(a,",*");strcat(a,first_token_copy);strcat(a,",");strcat(a,first_token);strcat(a,"-1");strcat(a,",");
+                        char tempFirstMatrixExpression[5000];
+                        memset(tempFirstMatrixExpression,0,5000);
+                        int parantStack=0;
+                        while((first_token=strsep(&line, " ")) != NULL){
+                            if(strcmp(first_token,"")==0){
+                                continue;
+                            }
+                            if(strcmp(first_token,",")==0 && parantStack==0){
+                                fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",parseParanthesis(tempFirstMatrixExpression));fprintf(pOutputFile,"%s","-1");fprintf(pOutputFile,"%s",")");
+                                break;
+                            }
+                            if(strcmp(first_token,"(")==0){
+                                parantStack++;
+                            }
+                            if(strcmp(first_token,")")==0){
+                                parantStack--;
+                            }
+                            strcat(tempFirstMatrixExpression,first_token);
                         }
+                        strcat(a,"getValue(");strcat(a,first_size(first_token_copy));strcat(a,",");strcat(a,second_size(first_token_copy));strcat(a,",*");strcat(a,first_token_copy);strcat(a,",");strcat(a,parseParanthesis(tempFirstMatrixExpression));strcat(a,"-1");strcat(a,",");
                     }else if(iteration_number==3){
-                        if(strcmp(first_token,",")!=0){
-                            exit_program();
+                        char tempSecondMatrixExpression[5000];
+                        memset(tempSecondMatrixExpression,0,5000);
+                        int parantStack=0;
+                        while((first_token=strsep(&line, " ")) != NULL){
+                            if(strcmp(first_token,"")==0){
+                                continue;
+                            }
+                            if(strcmp(first_token,"]")==0 && parantStack==0){
+                                fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",parseParanthesis(tempSecondMatrixExpression));fprintf(pOutputFile,"%s","-1");fprintf(pOutputFile,"%s",")");
+                                break;
+                            }
+                            if(strcmp(first_token,"[")==0){
+                                parantStack++;
+                            }
+                            if(strcmp(first_token,"]")==0){
+                                parantStack--;
+                            }
+                            strcat(tempSecondMatrixExpression,first_token);
                         }
-                    }else if(iteration_number==4){
-                        if(is_numeric_string(first_token)!=1 && isDeclared(first_token)!=scalar){
-                            exit_program();
-                        }else{
-                            strcat(a,first_token);strcat(a,"-1");strcat(a,")");
-                        }
-                    }else if(iteration_number==5){
-                        if(strcmp(first_token,"]")!=0){
-                            exit_program();
-                        }
-                    }else{
+                        strcat(a,"getValue(");strcat(a,first_size(first_token_copy));strcat(a,",");strcat(a,second_size(first_token_copy));strcat(a,",*");strcat(a,first_token_copy);strcat(a,",");strcat(a,parseParanthesis(tempSecondMatrixExpression));strcat(a,"-1");strcat(a,")");
+                   
+                    }
+                    else{
                         exit_program();
                     }
                     iteration_number++;
@@ -685,10 +720,12 @@ char* expression_parser(char *linee){
             }
             
         }
+
         // if line is not one of them above, it should be one token (base case). 
-        if(isDeclared(line)==empty && is_numeric_string(line)==0 && return_type_of_function(line)==0){
+        if(isDeclared(linee)==empty && is_numeric_string(linee)==0 && return_type_of_function(linee)==0){
             exit_program();
         }
-        return line;
+
+        return linee;
     }
 }
