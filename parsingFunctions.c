@@ -128,7 +128,6 @@ int return_type_of_function(char *token){
     char * token_copy = strdup(trim(token));
     //char * first_token = strtok(token_copy,"(");
     char * first_token=strsep(&token_copy,"(");
-    printf("%s\n",first_token);
     if(is_matrix_function(first_token)==1){
         return 1;
     }else if(is_scalar_function(first_token)==1){

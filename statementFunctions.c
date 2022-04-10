@@ -216,7 +216,6 @@ void print_line(char * line){
             int is_finished=0;
             strcat(temp,token);
             strcat(temp," ");
-            printf("%s\n",token);
             while( (token=strsep(&line," "))!=NULL){
                 if(strcmp(token,"")==0){
                     continue;

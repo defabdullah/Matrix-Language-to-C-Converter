@@ -435,8 +435,14 @@ char* multiplication(char *first,char* second){
 
 // expression_parser is the entrance function. Other functions (summation,multiplication,substraction,expressionn_divider) wont call explixitly.
 char* expression_parser(char *linee){
+    if(linee==NULL){
+        exit_program();
+    }
     //printf("%s\n",linee);
     char * line=trim(linee);
+    if(strcmp(line,"")==0 || line==NULL){
+        exit_program();
+    }
     char  first_part[256];
     char  second_part[256];
     memset(first_part, 0, 256);
@@ -490,6 +496,12 @@ char* expression_parser(char *linee){
                             }
                             strcat(exp,first_token);
                         }
+                        if(exp==NULL){
+                            exit_program();
+                        }
+                        if( isDeclared(exp)!=scalar && is_numeric_string(exp)==0 && return_type_of_function(exp)!=2){
+                            exit_program();
+                        }
                         if(choose_iterator_second==2){
                             expOne=strdup(exp);
 
@@ -510,6 +522,12 @@ char* expression_parser(char *linee){
                             }
                             strcat(exp,first_token);
                         }
+                        if(exp==NULL){
+                            exit_program();
+                        }
+                       if( isDeclared(exp)!=scalar && is_numeric_string(exp)==0 && return_type_of_function(exp)!=2){
+                            exit_program();
+                        }
                         expFour=strdup(exp);
                     }else{
                         exit_program();
@@ -527,7 +545,6 @@ char* expression_parser(char *linee){
                 token=strsep(&line," ");
                 //traverse all line token by token and checks if it has a valid form
                 while( (token=strsep(&line," "))!=NULL ) {
-                    printf("%s\n",token);
                     if(strcmp(token,"")==0){
                         continue;
                     }
@@ -550,6 +567,10 @@ char* expression_parser(char *linee){
                     }
                     iteration++;
 
+                }
+                printf("%d\n",iteration);
+                if(iteration!=0 && iteration!=4){
+                    exit_program();
                 }
                 //if function is tr or sqrt 
                 if(function==tr){
@@ -598,7 +619,6 @@ char* expression_parser(char *linee){
                     }
                     iteration_number++;
                 }
-                printf( "%d\n",iteration_number);
                 if(iteration_number!=-1 && iteration_number!=1 && iteration_number!=4){
                     exit_program();
                 }
