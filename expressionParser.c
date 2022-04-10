@@ -23,12 +23,19 @@ int expression_divider(char* line,char *first_part,char *second_part){
     int operator=0;
     char * rev_line=strrev(strdup(line));
     char * rev_line_2=strrev(strdup(line));
+    int parant_stack=0;
     //searchs for "+" or "-". If one of them exists divides expression into two part
      while((token=strsep(&rev_line," "))!=NULL){
          if(strcmp(token,"")==0){
              continue;
          }
-         if((strcmp(token,"+")==0 || strcmp(token,"-")==0)  && is_found==0){
+         if(strcmp(token,"]")==0){
+             parant_stack++;
+         }
+         if(strcmp(token,"[")==0){
+             parant_stack--;
+         }
+         if((strcmp(token,"+")==0 || strcmp(token,"-")==0)  && is_found==0 && parant_stack==0){
             is_found=1;
             if(strcmp(token,"+")==0){
                 operator=1;
@@ -46,6 +53,7 @@ int expression_divider(char* line,char *first_part,char *second_part){
          }
      }
     second_index=0;
+    parant_stack=0;
     // if there is no "+" or "-" searches for "*"
     if(is_found==0){
         memset(first_part, 0, 256);
@@ -54,7 +62,14 @@ int expression_divider(char* line,char *first_part,char *second_part){
             if(strcmp(token,"")==0){
                 continue;
             }
-            if(strcmp(token,"*")==0  && is_found==0){
+            if(strcmp(token,"]")==0){
+                parant_stack++;
+            }
+            if(strcmp(token,"[")==0){
+                parant_stack--;
+            
+            }
+            if(strcmp(token,"*")==0  && is_found==0 && parant_stack==0 ){
                 is_found=1;
                 operator=3;
             }else if(is_found==0){
@@ -435,7 +450,6 @@ char* multiplication(char *first,char* second){
 
 // expression_parser is the entrance function. Other functions (summation,multiplication,substraction,expressionn_divider) wont call explixitly.
 char* expression_parser(char *linee){
-    //printf("%s\n",linee);
     if(linee==NULL){
         exit_program();
     }
@@ -483,6 +497,7 @@ char* expression_parser(char *linee){
         return  multiplication(strrev(first_part),strrev(second_part));
     
     }else{
+
         // if there is no "+","-","*", then line comes this code block. 
         char a [1024] = " ";
         char *first_token = strtok(strdup(line)," ");
@@ -553,8 +568,8 @@ char* expression_parser(char *linee){
                 strcat(a,"choose("); strcat(a,expOne); strcat(a,","); strcat(a,expTwo);strcat(a,","); strcat(a,expThree); strcat(a,","); strcat(a,expFour);strcat(a,")");
                 return strdup(a);
             }else {
-                //printf("%s\n",line);
             // if special function is tr or sqrt, line comes to this block
+
                 int is_matrix_operation=0;
                 int iteration=1;
                 char * variable_name;
@@ -562,9 +577,11 @@ char* expression_parser(char *linee){
                 token=strsep(&line," ");
                 //traverse all line token by token and checks if it has a valid form
                 while( (token=strsep(&line," "))!=NULL ) {
+
                     if(strcmp(token,"")==0){
                         continue;
                     }
+
                     if(iteration==1 &&  strcmp(token,"(")!=0){
                         exit_program();
                     }else if(iteration==2){
@@ -585,9 +602,11 @@ char* expression_parser(char *linee){
                     iteration++;
 
                 }
+
                 if(iteration!=0 && iteration!=4){
                     exit_program();
                 }
+
                 //if function is tr or sqrt 
                 if(function==tr){
                     if(is_matrix_operation==1){
@@ -599,11 +618,11 @@ char* expression_parser(char *linee){
                 }else if(function==sqrt){
                     strcat(a,"sqrt("); strcat(a,variable_name); strcat(a,")");
                 }
+                
                 return strdup(a);
             
             }
         }else{
-            //printf("%s\n",line);
             //if it is not a special functions, comes here. this else block checks if it has for "matrix[scalar,scalar]" or "vector[scalar]".   
             int is_vector=0;
             int is_matrix=0;
@@ -616,7 +635,8 @@ char* expression_parser(char *linee){
             char * first_token_copy= strdup(first_token);
             strsep(&line," ");
 
-            if(is_vector){           
+            if(is_vector){     
+
                 while((first_token=strsep(&line, " ")) != NULL ){
                     if(iteration_number==1){
                         if(strcmp(first_token,"[")!=0){
@@ -625,13 +645,16 @@ char* expression_parser(char *linee){
                         }
                     }else if(iteration_number==2){
                         char tempVectorExpression[5000];
+                        memset(tempVectorExpression,0,5000);
+                        strcat(tempVectorExpression,first_token);
                         int parantStack=0;
+
                         while((first_token=strsep(&line, " ")) != NULL){
                             if(strcmp(first_token,"")==0){
                                 continue;
                             }
                             if(strcmp(first_token,"]")==0 && parantStack==0){
-                                fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",parseParanthesis(tempVectorExpression));fprintf(pOutputFile,"%s","-1");fprintf(pOutputFile,"%s",")");
+
                                 break;
                             }
                             if(strcmp(first_token,"[")==0){
@@ -640,13 +663,17 @@ char* expression_parser(char *linee){
                             if(strcmp(first_token,"]")==0){
                                 parantStack--;
                             }
+                            strcat(tempVectorExpression," ");
                             strcat(tempVectorExpression,first_token);
                         }
-                        strcat(a,"getValue(");strcat(a,first_size(first_token_copy));strcat(a,",");strcat(a,second_size(first_token_copy));strcat(a,",*");strcat(a,first_token_copy);strcat(a,",");strcat(a,parseParanthesis(first_token));strcat(a,"-1");strcat(a,",");strcat(a,"0)");
+
+                        strcat(a,"getValue(");strcat(a,first_size(first_token_copy));strcat(a,",");strcat(a,second_size(first_token_copy));strcat(a,",*");strcat(a,first_token_copy);strcat(a,",");strcat(a,parseParanthesis(tempVectorExpression));strcat(a,"-1");strcat(a,",");strcat(a,"0)");
+
                     }
                     iteration_number++;
                 }
-                if(iteration_number!=-1 && iteration_number!=1 && iteration_number!=4){
+
+                if(iteration_number!=-1 && iteration_number!=1 && iteration_number!=3){
                     exit_program();
                 }
                 if(iteration_number!=-1 && iteration_number!=1){
@@ -654,9 +681,7 @@ char* expression_parser(char *linee){
                 }
             
             }else if(is_matrix){
-                //printf("%s\n",line);
                 while((first_token=strsep(&line, " ")) != NULL ){
-                    //printf("%d tok: %s",iteration_number,first_token);
                     if(iteration_number==1){
                         if(strcmp(first_token,"[")!=0){
                             iteration_number=-1;
@@ -665,13 +690,13 @@ char* expression_parser(char *linee){
                     }else if(iteration_number==2){
                         char tempFirstMatrixExpression[5000];
                         memset(tempFirstMatrixExpression,0,5000);
+                        strcat(tempFirstMatrixExpression,first_token);
                         int parantStack=0;
                         while((first_token=strsep(&line, " ")) != NULL){
                             if(strcmp(first_token,"")==0){
                                 continue;
                             }
                             if(strcmp(first_token,",")==0 && parantStack==0){
-                                fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",parseParanthesis(tempFirstMatrixExpression));fprintf(pOutputFile,"%s","-1");fprintf(pOutputFile,"%s",")");
                                 break;
                             }
                             if(strcmp(first_token,"(")==0){
@@ -680,19 +705,20 @@ char* expression_parser(char *linee){
                             if(strcmp(first_token,")")==0){
                                 parantStack--;
                             }
+                            strcat(tempFirstMatrixExpression," ");
                             strcat(tempFirstMatrixExpression,first_token);
                         }
                         strcat(a,"getValue(");strcat(a,first_size(first_token_copy));strcat(a,",");strcat(a,second_size(first_token_copy));strcat(a,",*");strcat(a,first_token_copy);strcat(a,",");strcat(a,parseParanthesis(tempFirstMatrixExpression));strcat(a,"-1");strcat(a,",");
                     }else if(iteration_number==3){
                         char tempSecondMatrixExpression[5000];
                         memset(tempSecondMatrixExpression,0,5000);
+                        strcat(tempSecondMatrixExpression,first_token);
                         int parantStack=0;
                         while((first_token=strsep(&line, " ")) != NULL){
                             if(strcmp(first_token,"")==0){
                                 continue;
                             }
                             if(strcmp(first_token,"]")==0 && parantStack==0){
-                                fprintf(pOutputFile,"%s","+");fprintf(pOutputFile,"%s",parseParanthesis(tempSecondMatrixExpression));fprintf(pOutputFile,"%s","-1");fprintf(pOutputFile,"%s",")");
                                 break;
                             }
                             if(strcmp(first_token,"[")==0){
@@ -701,17 +727,15 @@ char* expression_parser(char *linee){
                             if(strcmp(first_token,"]")==0){
                                 parantStack--;
                             }
+                            strcat(tempSecondMatrixExpression," ");
                             strcat(tempSecondMatrixExpression,first_token);
                         }
-                        strcat(a,"getValue(");strcat(a,first_size(first_token_copy));strcat(a,",");strcat(a,second_size(first_token_copy));strcat(a,",*");strcat(a,first_token_copy);strcat(a,",");strcat(a,parseParanthesis(tempSecondMatrixExpression));strcat(a,"-1");strcat(a,")");
+                       strcat(a,parseParanthesis(tempSecondMatrixExpression));strcat(a,"-1");strcat(a,")");
                    
-                    }
-                    else{
-                        exit_program();
                     }
                     iteration_number++;
                 }
-                if(iteration_number!=-1 && iteration_number!=1 && iteration_number!=6){
+                if(iteration_number!=-1 && iteration_number!=1 && iteration_number!=4){
                     exit_program();
                 }
                 if(iteration_number!=-1 && iteration_number!=1){

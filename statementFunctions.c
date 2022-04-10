@@ -1,7 +1,6 @@
 #include "main.h"
 //initialize the matrix which has form { 1 1  12  5}.
 void matrix_initializer(char *line,char *variable_name){
-    //fprintf(pOutputFile,"%s","char * token;\ntoken = strtok(line,\" \");\nint i = 0;\nwhile((token=strtok(NULL,\" \")!=NULL)){\n)");
     char * token;
     char* line_copy;
     line_copy= trim(strdup(line));
@@ -93,8 +92,6 @@ void assign_value_specified_index(char * line ,char* variable_name){
             if(strcmp(token,"")==0){
                 continue;
             }
-            //printf("it:%d tok:%s\n",iteration_number,token);
-
             if(iteration_number==1){
                 char tempFirstMatrixExpression[5000];
                 memset(tempFirstMatrixExpression,0,5000);
@@ -111,7 +108,6 @@ void assign_value_specified_index(char * line ,char* variable_name){
                         parantStack--;
                     }
                     if(strcmp(token,",")==0 && parantStack==0){
-                        printf("%s\n",tempFirstMatrixExpression);
                         fprintf(pOutputFile,"%s","+(int)");fprintf(pOutputFile,"%s",parseParanthesis(tempFirstMatrixExpression));fprintf(pOutputFile,"%s","-1");fprintf(pOutputFile,"%s",")");                                             
                         break;
                     }
