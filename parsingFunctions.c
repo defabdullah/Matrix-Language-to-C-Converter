@@ -68,13 +68,20 @@ int has_new_line(char* s){
 }
 
 int is_numeric_string(char *s){
+    int remaining_comma=1;
     for(int i =0; i<strlen(s);i++){
         if(!isdigit(s[i])){
-            return 0;
+            if('.'==s[i]){
+                remaining_comma--;
+            }
+            if(remaining_comma<0){
+                return 0;
+            }
         }
     }
     return 1;
 }
+
 
 char* strrev (char *str) {
     if(strcmp(str,"")==0){

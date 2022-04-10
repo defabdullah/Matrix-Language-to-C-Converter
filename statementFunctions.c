@@ -1,4 +1,44 @@
 #include "main.h"
+void matrix_initializer(char *line,char *variable_name){
+    //fprintf(pOutputFile,"%s","char * token;\ntoken = strtok(line,\" \");\nint i = 0;\nwhile((token=strtok(NULL,\" \")!=NULL)){\n)");
+    char * token;
+    char* line_copy;
+    line_copy= trim(strdup(line));
+    int i=1;
+    int is_finish=0;
+    token=strsep(&line_copy," ");
+    if(is_numeric_string(token)==0){
+        exit_program();
+    }
+    fprintf(pOutputFile,"%s%s%s%s%s","\t*(*",variable_name,")=",token,"; \n");
+    while((token=strsep(&line_copy," "))!=NULL){
+        if(strcmp(token,"")==0){
+            continue;
+        }
+        if(strcmp(token,"}")==0){
+            is_finish=1;
+            continue;
+        }
+        if(is_finish==1){
+            exit_program();
+        }else if(is_numeric_string(token)==0){
+            exit_program();
+        }
+
+        fprintf(pOutputFile,"%s%s%s%d%s%s%s","\t*(*",variable_name,"+",i,")=",token,"; \n");
+        i++;
+    }
+    if(!is_finish){
+        exit_program();
+    }
+    int firstSize = atoi(first_size(variable_name));
+    int secondSize = atoi(second_size(variable_name));
+    if(i!=firstSize*secondSize){
+        exit_program();
+    }
+   
+}
+
 void assign_value_specified_index(char * line ,char* variable_name){
         if(isDeclared(variable_name)==vector){
             int iteration_number=3;
@@ -189,43 +229,3 @@ void print_line(char * line){
     }
 
 }
-void matrix_initializer(char *line,char *variable_name){
-    //fprintf(pOutputFile,"%s","char * token;\ntoken = strtok(line,\" \");\nint i = 0;\nwhile((token=strtok(NULL,\" \")!=NULL)){\n)");
-    char * token;
-    char* line_copy;
-    line_copy= trim(strdup(line));
-    int i=1;
-    int is_finish=0;
-    token=strsep(&line_copy," ");
-    if(is_numeric_string(token)==0){
-        exit_program();
-    }
-    fprintf(pOutputFile,"%s%s%s%s%s","\t*(*",variable_name,")=",token,"; \n");
-    while((token=strsep(&line_copy," "))!=NULL){
-        if(strcmp(token,"")==0){
-            continue;
-        }
-        if(strcmp(token,"}")==0){
-            is_finish=1;
-            continue;
-        }
-        if(is_finish==1){
-            exit_program();
-        }else if(is_numeric_string(token)==0){
-            exit_program();
-        }
-
-        fprintf(pOutputFile,"%s%s%s%d%s%s%s","\t*(*",variable_name,"+",i,")=",token,"; \n");
-        i++;
-    }
-    if(!is_finish){
-        exit_program();
-    }
-    int firstSize = atoi(first_size(variable_name));
-    int secondSize = atoi(second_size(variable_name));
-    if(i!=firstSize*secondSize){
-        exit_program();
-    }
-   
-}
-
