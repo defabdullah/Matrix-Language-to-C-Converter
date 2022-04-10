@@ -1,16 +1,24 @@
 #include "main.h"
 
+/*
+Main file of the project.
+reads the .mat file and sends to related function
+*/
+
+
 int main(int argc,char *argv[]){
 
     char line[256];
     pOutputFile=fopen("file.c","w");
     print_usual();
+    //if there is no given filename
     if (argc != 2) {
         printf("Give filename as command line argument\n") ;
         pInputFile = fopen("trial.txt", "r");
         return 1;
     }
     pInputFile = fopen(argv[1], "r");
+    //if file couldn't open
     if(pInputFile == NULL) {
         printf("Cannot open %s\n","trial.txt");
         return 1;
@@ -22,7 +30,7 @@ int main(int argc,char *argv[]){
     scalarNumber=0;
     vectorNumber=0;
     matrixNumber=0;
-
+    //reads the file line by line
     while( fgets(line,256,pInputFile) != NULL ) {
         lineNumber++;
         // checks if line starts with '#' or line is an empty line, if so continues with next line
@@ -142,6 +150,7 @@ int main(int argc,char *argv[]){
         memset(extended, 0, 256);
     }
     printCloseBracket();
+    //closes files
     fclose(pOutputFile);
     fclose(pInputFile);
     return(0);

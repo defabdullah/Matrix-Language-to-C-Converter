@@ -1,8 +1,13 @@
 #include "main.h"
-//
+/* 
+This file contains functions related declarations. 
+*/
+
+// handles scalar declaration. ex: Scalar variableName;
 void scalar_line(char* line){
     char * token;
     int token_number=1;
+    //traverse all line and if variable name is valid adds variable name to scalarArray and prints to other c file
     while ((token=strsep(&line," "))!=NULL ){
         if(strcmp(token,"")==0){
                 continue;
@@ -22,11 +27,12 @@ void scalar_line(char* line){
     }
 }
 
-
+// handles scalar declaration. ex: vector variableName[3] );
 void vector_line(char* line){
     fprintf(pOutputFile,"%s","\tdouble ");
     char * token;
     int token_number=1;
+    //traverse all line and if variable name and syntax is valid adds variable name to vectorArray and prints to other c file
     while ((token=strsep(&line," "))!=NULL ){
         if(strcmp(token,"")==0 ){
                 continue;
@@ -69,10 +75,13 @@ void vector_line(char* line){
 
 }
 
+
+// handles matrix declaration. ex: matrix variableName[3][2] );
 void matrix_line(char* line){
     fprintf(pOutputFile,"%s","\tdouble ");
     char * token;
     int token_number=1;
+     //traverse all line and if variable name and syntax is valid adds variable name to vectorArray and prints to other c file
     while ((token=strsep(&line," "))!=NULL ){
         if(strcmp(token,"")==0 ){
                 continue;
