@@ -68,8 +68,27 @@ int has_new_line(char* s){
 }
 
 int is_numeric_string(char *s){
+    int a=0;
+    int flag1=0;
+    int flag2=0;
+    if(s[0]=='-'|| s[0]=='+'){
+        flag1=1;
+        for(int j =1; j<strlen(s);j++){
+            if(isspace(s[j])){
+                continue;
+            }else{
+                flag2=1;
+                a=j;
+                break;
+            }
+        }
+    }
+    if(flag1==1&&flag2==0){
+        exit_program();
+    }
+
     int remaining_comma=1;
-    for(int i =0; i<strlen(s);i++){
+    for(int i =a; i<strlen(s);i++){
         if(!isdigit(s[i])){
             if('.'==s[i]){
                 remaining_comma--;

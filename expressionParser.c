@@ -310,6 +310,7 @@ char* substraction(char *first,char* second){
 
 // takes two string first and second. If both of them are in base form (base form means one token),multiplies them
 char* multiplication(char *first,char* second){
+
     char a[2048]="";
     char* ftoken;
     char* stoken;
@@ -443,6 +444,22 @@ char* expression_parser(char *linee){
     if(strcmp(line,"")==0 || line==NULL){
         exit_program();
     }
+    if(is_numeric_string(line)){
+        char result[256];
+        if(line[0]=='+'||line[0]=='-'){
+            char * ntoken;
+            while((ntoken=strsep(&line," "))!=NULL){
+                if(strcmp(ntoken,"")==0){
+                    continue;
+                }
+                strcat(result,ntoken);
+            }
+            return strdup(result);
+        }else{
+            return line;
+        }
+        
+    }
     char  first_part[256];
     char  second_part[256];
     memset(first_part, 0, 256);
@@ -568,7 +585,6 @@ char* expression_parser(char *linee){
                     iteration++;
 
                 }
-                printf("%d\n",iteration);
                 if(iteration!=0 && iteration!=4){
                     exit_program();
                 }
