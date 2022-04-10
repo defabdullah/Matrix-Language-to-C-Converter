@@ -1,11 +1,13 @@
 #include "main.h"
 
-void tokenControl(char *str,char *correctToken){
-    if(strcmp(str,correctToken)!=0){
+//control is token is correct if not it gives error
+void tokenControl(char *token,char *correctToken){
+    if(strcmp(token,correctToken)!=0){
         exit_program();
     }
 }
 
+//parse single for and prints them
 void parseSingleFor(char *str){
     char *firstInitVariable;
     char *firstInitAssignment;
@@ -13,11 +15,17 @@ void parseSingleFor(char *str){
     char *firstAddition;
     char *temp=strtok(strrev(str)," ");
 
+    //control open bracket
+
     tokenControl(strtok(temp," "),"{");
 
+    // clear all outer paranthesis
     str=deleteParanthesis(str);
+
     int iteration=1;
     char *token;
+    //iterates through tokens and assigns or control them according to their order and sends them to print single for function
+    //sends to expression to paranthesis parser to place correct functions
     while((token=strsep(&str," "))!=NULL){
         if(strcmp(token,"")==0){
             continue;
@@ -55,6 +63,7 @@ void parseSingleFor(char *str){
     
 }
 
+//parse double for and prints them
 void parseDoubleFor(char *str){
     char *firstInitVariable;
     char *firstInitAssignment;
@@ -66,11 +75,17 @@ void parseDoubleFor(char *str){
     char *secondAddition;
     char *temp=strtok(strrev(str)," ");
     
+    //control open bracket
     tokenControl(temp,"{");
+
+    // clear all outer paranthesis
     str=deleteParanthesis(str);
 
     int iteration=1;
     char *token;
+
+    //iterates through tokens and assigns or control them according to their order and sends them to print double for function
+    //sends to expression to paranthesis parser to place correct functions
     while((token=strsep(&str," "))!=NULL){
         if(strcmp(token,"")==0){
             continue;
