@@ -2,8 +2,6 @@
 
 //parse all expression without paranthesis and send them to expression handler function
 char *parseParanthesis(char *str){
-    printf("copy: %s\n",str);
-
     char *token;
     char *prev="";
     char *copy;

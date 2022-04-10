@@ -29,14 +29,14 @@ int vectorNumber;
 int matrixNumber;
 
 //arrays which stores variables according to their types
-char *scalarArray[256];
-char *vectorArray[256];
-char *matrixArray[256];
+char *scalarArray[500];
+char *vectorArray[500];
+char *matrixArray[500];
 
 //arrays which stores size of 2 size of matrixes and size of vectors
-char *matrix_row_sizes[256];
-char *matrix_column_sizes[256];
-char *vector_sizes[256];
+char *matrix_row_sizes[500];
+char *matrix_column_sizes[500];
+char *vector_sizes[500];
 
 
 //declaration functions

@@ -14,13 +14,13 @@ int main(int argc,char *argv[]){
     //if there is no given filename
     if (argc != 2) {
         printf("Give filename as command line argument\n") ;
-        pInputFile = fopen("trial.txt", "r");
+        pInputFile = fopen(argv[1], "r");
         return 1;
     }
     pInputFile = fopen(argv[1], "r");
     //if file couldn't open
     if(pInputFile == NULL) {
-        printf("Cannot open %s\n","trial.txt");
+        printf("Cannot open %s\n",argv[1]);
         return 1;
     }
 

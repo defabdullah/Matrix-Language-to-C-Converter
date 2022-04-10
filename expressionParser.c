@@ -56,8 +56,8 @@ int expression_divider(char* line,char *first_part,char *second_part){
     parant_stack=0;
     // if there is no "+" or "-" searches for "*"
     if(is_found==0){
-        memset(first_part, 0, 256);
-        memset(second_part, 0, 256);
+        memset(first_part, 0, 5000);
+        memset(second_part, 0, 5000);
         while((token=strsep(&rev_line_2," "))!=NULL){
             if(strcmp(token,"")==0){
                 continue;
@@ -96,7 +96,7 @@ summation, substraction and multiplication do almost same thing for different op
 
 // takes two string first and second. If both of them are in base form (base form means one token),sums up them
 char* summation(char *first,char* second){
-    char a[2048]="";
+    char a[5048]="";
     char* ftoken;
     char* stoken;
     char * first_clean = strdup(first);
@@ -473,10 +473,10 @@ char* expression_parser(char *linee){
         }
         
     }
-    char  first_part[256];
-    char  second_part[256];
-    memset(first_part, 0, 256);
-    memset(second_part, 0, 256);
+    char  first_part[5000];
+    char  second_part[5000];
+    memset(first_part, 0, 5000);
+    memset(second_part, 0, 5000);
     
     /* sends expression to expression_divider function and gets the output int the following form <first_part> <operator_type> <second_part>  
        if  operator type is
@@ -518,8 +518,8 @@ char* expression_parser(char *linee){
                         if(strcmp(first_token,"(")!=0)
                             exit_program();
                     }else if(choose_iterator_second==2 || choose_iterator_second==3 || choose_iterator_second==4){
-                        char  exp[256] ;
-                        memset(exp,0,256);
+                        char  exp[5000] ;
+                        memset(exp,0,5000);
                         strcat(exp,first_token);
                         while( (first_token=strtok(NULL, " "))!= NULL ) {
                             if(strcmp(first_token,",")==0){
@@ -544,8 +544,8 @@ char* expression_parser(char *linee){
                         }
 
                     }else if(choose_iterator_second==5){
-                        char  exp[256] ;
-                        memset(exp,0,256);
+                        char  exp[5000] ;
+                        memset(exp,0,5000);
                         strcat(exp,first_token);
                         while( (first_token=strtok(NULL, " "))!= NULL ) {
                             if(strcmp(first_token,")")==0){

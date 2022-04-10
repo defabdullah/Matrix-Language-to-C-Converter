@@ -32,7 +32,6 @@ char *chooseParser(char *str){
         }else if(strcmp(token,")")==0){
             parantStack--;
         }
-        printf("tok: %s\n",token);
         //until comma it merges token to form whole expression
         if(strcmp(token,",")!=0 || chooseStack!=0 || parantStack!=0){
             strcat(exp,token);
