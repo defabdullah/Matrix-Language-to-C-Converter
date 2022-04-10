@@ -1,11 +1,18 @@
 #include "main.h"
 
+
+/*
+This file contains some helper string parsing functions
+*/
+
+//left split
 char *ltrim(char *s)
 {
     while(isspace(*s)) s++;
     return s;
 }
 
+//right split
 char *rtrim(char *s)
 {
     char* back = s + strlen(s);
@@ -14,11 +21,13 @@ char *rtrim(char *s)
     return s;
 }
 
+// both end split
 char *trim(char *s)
 {
     return rtrim(ltrim(s)); 
 }
 
+// returns 1 if char s is alpha_numeric, otherwise returns 0;
 int is_alphanumeric(char* s){
 
     if((*s>='A' && *s<='Z') || (*s>='0' && *s <= '9') || (*s>='a' && *s<='z')){
@@ -27,6 +36,7 @@ int is_alphanumeric(char* s){
     else
         return 0;
 }
+// returns 1 if char s is alpha_numeric or comma, otherwise returns 0;
 int is_alphanumeric_or_comma(char* s){
 
     if(is_alphanumeric(s) || (*s=='.')){
@@ -36,6 +46,7 @@ int is_alphanumeric_or_comma(char* s){
         return 0;
 }
 
+// returns 1 if string s is alpha_numeric, otherwise returns 0;
 int is_alphanumeric_string(char* s){
     for(int i =0; i<strlen(s);i++){
         if(!is_alphanumeric(&s[i])){
@@ -45,6 +56,7 @@ int is_alphanumeric_string(char* s){
     return 1;
 }
 
+// returns 1 if it is valid variable name, otherwise returns 0.
 int is_valid_variable_name(char *str){
     if(isdigit(str[0]) || str[0]=='_'){
         return 0;
@@ -58,6 +70,8 @@ int is_valid_variable_name(char *str){
 
     return 1;
 }
+
+// returns 1 if it has new line, otherwise returns 0.
 int has_new_line(char* s){
     for(int i =0; i<strlen(s);i++){
         if((*s>=0 && *s<=32)){
@@ -67,6 +81,7 @@ int has_new_line(char* s){
     return 0;
 }
 
+// returns 1 if it is a valid number. ex: 59, +10 , -7, 7,8 etc. Otherwise returns 0.
 int is_numeric_string(char *s){
     int a=0;
     int flag1=0;
@@ -103,7 +118,7 @@ int is_numeric_string(char *s){
     return 1;
 }
 
-
+// reverse the string
 char* strrev (char *str) {
     if(strcmp(str,"")==0){
         return str;
@@ -125,6 +140,7 @@ char* strrev (char *str) {
     return reverse;
 }
 
+//returns 1 if it is matrix function
 int is_matrix_function(char * token){
     token = trim(token);
     if(isDeclared(token)==matrix || isDeclared(token)==vector || strcmp(token,"matrixMultiplication")==0 || strcmp(token,"matrixTranspose") ==0  || strcmp(token,"matrixSubstraction")==0 || strcmp(token,"matrixSummation")==0 || strcmp(token,"scalarMatrixMultiplication")==0 ){
@@ -133,7 +149,7 @@ int is_matrix_function(char * token){
         return 0;
     }
 }
-
+//returns 1 if it is scalar function
 int is_scalar_function(char* token){
     token = trim(token);
     if(isDeclared(token)==scalar || strcmp(token,"scalarSubstraction")==0 || strcmp(token,"scalarSummation")==0 || strcmp(token,"scalarMultiplication")==0   || strcmp(token,"scalarTranspose")==0 || strcmp(token,"choose")==0 || strcmp(token,"sqrt")==0 || strcmp(token,"getValue")==0){        
@@ -143,6 +159,7 @@ int is_scalar_function(char* token){
     }
 }
 
+//returns 1 if it is matrix function, returns 2 if it is scalar function, Otherwise returns 0;
 int return_type_of_function(char *token){
     char * token_copy = strdup(trim(token));
     //char * first_token = strtok(token_copy,"(");
@@ -155,6 +172,7 @@ int return_type_of_function(char *token){
     return 0;
 }
 
+//returns row number of matrix
 char *matrixFirstSize(char *mat){
     mat = trim(mat);
     for(int i=0;i<256;i++){
@@ -167,7 +185,7 @@ char *matrixFirstSize(char *mat){
     }
     return "0";
 }
-
+//returns column number of matrix
 char *matrixSecondSize(char *mat){
     for(int i=0;i<256;i++){
         if(matrixArray[i]==NULL  || strcmp(matrixArray[i],"")==0){
@@ -179,7 +197,7 @@ char *matrixSecondSize(char *mat){
     }
     return "0";
 }
-
+//returns row number of vector
 char *vectorSize(char *vec){
     for(int i=0;i<256;i++){
         if(vectorArray[i]==NULL  || strcmp(vectorArray[i],"")==0){
@@ -191,7 +209,7 @@ char *vectorSize(char *vec){
     }
     return "0";
 }
-
+//returns row number of matrix or vector expression
 char * first_size(char * exp){
     exp=trim(exp);
     if(isDeclared(exp)==matrix){
@@ -207,6 +225,7 @@ char * first_size(char * exp){
     }
     return " ";
 }
+//returns column number of matrix or vector expression
 char * second_size(char * exp){
     exp=trim(exp);
     if(isDeclared(exp)==matrix){
@@ -225,6 +244,7 @@ char * second_size(char * exp){
     return " ";
 }
 
+//deletes paranthesis of str 
 char *deleteParanthesis(char *str){
     
     //delete last parant.
@@ -239,6 +259,7 @@ char *deleteParanthesis(char *str){
     return strrev(reverse);
 }
 
+//checks if a str is declared variable name or not. returns type of the variable. 
 enum types isDeclared(char *str){
     str = trim(str);
     int i;
@@ -259,6 +280,7 @@ enum types isDeclared(char *str){
     return empty;
 }
 
+//termiantes the program prints Error Line X
 void exit_program(){
     printf("Error (Line %d)",lineNumber);
     exit(1);
