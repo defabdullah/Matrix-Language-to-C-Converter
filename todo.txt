@@ -4,3 +4,8 @@ matrix assignment kontroller
 
 
 n_m '_' bunları boşluk olarak okuyuor
+
+comments
+declaration parser
+main.c
+parsing functions

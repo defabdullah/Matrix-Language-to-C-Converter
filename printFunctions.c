@@ -44,7 +44,7 @@ void printPrintScalar(){
 }
 
 void printPrintMatrix(){
-    fprintf(pOutputFile,"%s","\nvoid printMatrix(int row,int column,double *matrix){ \n\tfor(int i=0;i<row * column;i++){\n\t\tprintScalar(*(matrix + i));\n\t}\n}\n");
+    fprintf(pOutputFile,"%s","\nvoid printMatrix(int row,int column,double *matrix){ \n\tfor(int i=0;i<row * column;i++){\n\t\tif(i\%column==0 && i!=0){\n\t\t\tprintf(\"\\n\");\n\t\t}\n\t\tif( (int) *(matrix + i) ==*(matrix + i)){\n\t\t\tprintf(\"%d \",(int) *(matrix + i));\n\t\t}else{\n\t\t\tprintf(\"%0.6f \", *(matrix + i));\n\t\t}\n\t}\n\tprintf(\"\\n\");\n}\n");
 }
 
 //print transpose functions
