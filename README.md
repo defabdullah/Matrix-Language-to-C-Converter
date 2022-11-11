@@ -1,4 +1,4 @@
-# C-Code-Interpreter
+# Matrix-Language-to-C-Converter
 This project translates .mat files(which is custom language used for this project) to c files. There are 9 c files one header file in the project. These
 are
 
